@@ -1,14 +1,56 @@
-# volumes:
+volumes:
+  postgres-data:
+    external: true
+  pg-admin:
+    external: true
 services:
-  fastapi:
+  postgres:
     build:
-      context: sample_service
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8000:8000
+      context: ./relational-data
+      dockerfile: ./Dockerfile.dev
     volumes:
-      - ./sample_service:/app
-      
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: lyrdle-ai
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: goodnightworld
+    ports:
+      - 15432:5432
+  pg-admin:
+    image: dpage/pgadmin4
+    volumes:
+      - pg-admin:/var/lib/pgadmin
+    ports:
+      - 8082:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: goodnightworld
+      PGADMIN_DISABLE_POSTFIX: 1
+  users:
+    build:
+      context: ./users
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./users:/app
+    environment:
+      DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrdle-ai
+      WAIT_HOSTS: postgres:5432
+      # SIGNING_KEY: pass
+  lyrics:
+    build:
+      context: ./lyrics
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./lyrics:/app
+    environment:
+      DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrdle-ai
+      WAIT_HOSTS: postgres:5432
+      # SIGNING_KEY: pass
+
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
@@ -23,4 +65,3 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
-            
