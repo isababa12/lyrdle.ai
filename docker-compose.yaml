@@ -1,27 +1,21 @@
-# volumes:
+volumes:
+  postgres-data:
+    external: true
+  pg-admin:
+    external: true
 services:
-  fastapi:
-    build:
-      context: sample_service
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8000:8000
-    volumes:
-      postgres-data:
-        external: true
-      pg-admin:
-        external: true
   postgres:
     build:
-        context: ./relational-data
-        dockerfile: ./Dockerfile.dev
+      context: ./relational-data
+      dockerfile: ./Dockerfile.dev
     volumes:
-        - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
-        - POSTGRES_MULTIPLE_DATABASES=
-        - POSTGRES_PASSWORD=test-databases
+      POSTGRES_MULTIPLE_DATABASES: lyrdle-ai
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: goodnightworld
     ports:
-        - 15432:5432
+      - 15432:5432
   pg-admin:
     image: dpage/pgadmin4
     volumes:
@@ -30,19 +24,32 @@ services:
       - 8082:80
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_PASSWORD: goodnightworld
       PGADMIN_DISABLE_POSTFIX: 1
   users:
     build:
-        context: ./users
-        dockerfile: ./Dockerfile.dev
+      context: ./users
+      dockerfile: ./Dockerfile.dev
     ports:
-        - "8080:8080"
+      - "8000:8000"
     volumes:
-        - ./users:/app
+      - ./users:/app
     environment:
-        DATABASE_URL: postgresql://user-name:password@postgres/db-name
-        WAIT_HOSTS: postgres:5432
+      DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrdle-ai
+      WAIT_HOSTS: postgres:5432
+      # SIGNING_KEY: pass
+  lyrics:
+    build:
+      context: ./lyrics
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./lyrics:/app
+    environment:
+      DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrdle-ai
+      WAIT_HOSTS: postgres:5432
+      # SIGNING_KEY: pass
 
   ghi:
     image: node:lts-bullseye
