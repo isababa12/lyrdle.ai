@@ -1,4 +1,16 @@
-# Example Journal Entry
+# Journal Entries - Stephanie Hestilow
+
+
+
+## Jan 10, 2021
+
+Today, I worked on:
+
+* Creating our migrations files for users and lyrics services
+* Troubleshooting Docker with the team, helping to get everyone set up on their separate machines
+* Created first test branch and merged to main --> had a bit of a hiccup with pipelines but was able to resolve after validating account
+* Began working on queries for lyrics service, created pool.py as well as in / out BaseModel classes for lyrics, likes and comments
+
 
 ## Jan 9, 2021
 
