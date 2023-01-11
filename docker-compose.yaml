@@ -45,7 +45,11 @@ services:
     ports:
       - "8010:8000"
     volumes:
-      - ./sample_service:/app
+      - ./lyrics:/app
+    environment:
+      DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrics
+      WAIT_HOSTS: postgres:5432
+      # SIGNING_KEY: pass
 
   ghi:
     image: node:lts-bullseye
