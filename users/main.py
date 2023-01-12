@@ -1,8 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+# from authenticator import authenticator
+from routers import users
+
 import os
 
 app = FastAPI()
+
+app.include_router(users.router)
+# app.include_router(authenticator.router)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -13,17 +20,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/api/launch-details")
-def launch_details():
-    return {
-        "launch_details": {
-            "year": 2023,
-            "month": -2,
-            "day": "11",
-            "hour": 19,
-            "min": 0,
-            "tz:": "PST"
-        }
-    }
