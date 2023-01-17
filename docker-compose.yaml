@@ -37,7 +37,7 @@ services:
     environment:
       DATABASE_URL: postgresql://admin:goodnightworld@postgres/users
       WAIT_HOSTS: postgres:5432
-      # SIGNING_KEY: pass
+      SIGNING_KEY: zyJhbGciOiJIUzI1NiIsInR5zCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkzIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxzRJSMeKKF2QT4fwpMeJf36POk6yJV_zdQssw5c
   lyrics:
     build:
       context: ./lyrics
@@ -49,7 +49,7 @@ services:
     environment:
       DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrics
       WAIT_HOSTS: postgres:5432
-      # SIGNING_KEY: pass
+      SIGNING_KEY: zyJhbGciOiJIUzI1NiIsInR5zCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkzIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxzRJSMeKKF2QT4fwpMeJf36POk6yJV_zdQssw5c
 
   ghi:
     image: node:lts-bullseye
@@ -65,4 +65,3 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
-

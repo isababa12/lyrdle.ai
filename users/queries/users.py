@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Optional, Union
+from jwtdown_fastapi.authentication import Token
 from queries.pool import pool
 
 
@@ -11,16 +12,25 @@ class UserIn(BaseModel):
 
 class UserOut(BaseModel):
     id: int
+    email: str
     username: str
+    hashed_password: str
 
 class Error(BaseModel):
     message: str
 
-# class UserOutWithPassword(UserOut):
-#     hashed_password:str
+class HttpError(BaseModel):
+    detail: str
 
-# class HttpError(BaseModel):
-#     detail: str
+class UserForm(BaseModel):
+    username: str
+    password: str
+
+class AccountToken(Token):
+    user: UserOut
+
+# class UserOutWithPassword(UserOut):
+#     hashed_password: str
 
 # class DuplicateUserError(ValueError):
 #     pass
@@ -30,12 +40,13 @@ class UserQueries:
     def get_all_users(self) -> Union[List[UserOut], Error]:
         with pool.connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("""
-                    SELECT id, username, email, created_at,
-                    username_last_modified, password_last_modified
+                cur.execute(
+                    """
+                    SELECT id, email, username, hashed_password
                     FROM users
                     ORDER BY username;
-                """)
+                    """
+                )
                 results = []
                 for row in cur.fetchall():
                     record = {}
@@ -44,29 +55,63 @@ class UserQueries:
                     results.append(record)
                 return results
 
-    def create_user(self,user:UserIn) -> UserOut:
+
+    def get_one_user_username(self, username: str) -> Union[UserOut, Error]:
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                result = cur.execute(
+                    """
+                    SELECT users.id,
+                    users.email,
+                    users.username,
+                    users.hashed_password
+                    FROM users
+                    WHERE users.username = %s
+                    """,
+                    [username],
+                )
+
+                record = result.fetchone()
+                # print(record)
+                if record is None:
+                    return None
+                return UserOut(
+                    id=record[0],
+                    email=record[1],
+                    username=record[2],
+                    hashed_password=record[3]
+                )
+
+
+    def create_user(self, user: UserIn, hashed_password: str) -> UserOut:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute("""
+                    result = cur.execute(
+                        """
                         INSERT INTO users
-                            (email, username, password)
+                            (email, username, password, hashed_password)
                         VALUES
-                            (%s, %s, %s)
+                            (%s, %s, %s, %s)
                         RETURNING id;
                         """,
                         [
                             user.email,
                             user.username,
-                            user.password
+                            user.password,
+                            hashed_password
                         ]
                     )
                     id = result.fetchone()[0]
-                    return self.user_in_to_out(id,user)
-
+                    return UserOut(
+                        id=id,
+                        email=user.email,
+                        username=user.username,
+                        hashed_password=hashed_password
+                    )
         except Exception:
             return{"message": "create did not work"}
 
-    def user_in_to_out(self,id: int, user:UserIn):
-        old_data = user.dict()
-        return UserOut(id=id, **old_data)
+    # def user_in_to_out(self,id: int, user:UserIn):
+    #     old_data = user.dict()
+    #     return UserOut(id=id, **old_data)
