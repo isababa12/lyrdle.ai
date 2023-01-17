@@ -37,7 +37,8 @@ services:
     environment:
       DATABASE_URL: postgresql://admin:goodnightworld@postgres/users
       WAIT_HOSTS: postgres:5432
-      SIGNING_KEY: zyJhbGciOiJIUzI1NiIsInR5zCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkzIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxzRJSMeKKF2QT4fwpMeJf36POk6yJV_zdQssw5c
+      SIGNING_KEY: ${SIGNING_KEY}
+
   lyrics:
     build:
       context: ./lyrics
@@ -49,7 +50,7 @@ services:
     environment:
       DATABASE_URL: postgresql://admin:goodnightworld@postgres/lyrics
       WAIT_HOSTS: postgres:5432
-      SIGNING_KEY: zyJhbGciOiJIUzI1NiIsInR5zCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkzIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxzRJSMeKKF2QT4fwpMeJf36POk6yJV_zdQssw5c
+      SIGNING_KEY: ${SIGNING_KEY}
 
   ghi:
     image: node:lts-bullseye

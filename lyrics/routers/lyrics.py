@@ -10,14 +10,30 @@ from queries.lyrics import (
 router = APIRouter()
 
 
-# Get all lyrics
+
+@router.post("/api/lyrics", response_model=Union[LyricsOut, Error])
+def create_lyrics(
+    input: LyricsIn,
+    repo: LyricsQueries = Depends(),
+):
+    # GET CURRENT USER
+    user_id = 0
+
+    ai_prompt = f"This is a test prompt, including User Input: {input.user_input}, Artist Name: {input.artist_name}, Song Name: {input.song_name}"
+
+    # INTEGRATE 3RD PARTY API HERE
+    user_output = "Sample hardcoded user output"
+
+    return repo.create(input, user_id, ai_prompt, user_output)
+
+
 @router.get("/api/lyrics", response_model=Union[List[LyricsOut], Error])
 def get_all_lyrics(
     repo: LyricsQueries = Depends(),
 ):
     return repo.get_all()
 
-# Get one lyrics by lyrics id
+
 @router.get("/api/lyrics/{lyrics_id}", response_model=Optional[LyricsOut])
 def get_one_lyrics_by_id(
     lyrics_id: int,

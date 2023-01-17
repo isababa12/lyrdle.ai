@@ -5,20 +5,20 @@ from queries.pool import pool
 
 
 class LyricsIn(BaseModel):
-    user_id: int
+    # user_id: int
     user_input: str
     artist_name: str
     song_name: str
-    ai_prompt: str
-    user_output: str
+    # ai_prompt: str
+    # user_output: str
 
 class LyricsOut(BaseModel):
     id: int
     user_id: int
     user_input: str
-    ai_prompt: str
     artist_name: str
     song_name: str
+    ai_prompt: str
     user_output: str
     # posted: bool
     # created_at: datetime
@@ -29,9 +29,40 @@ class Error(BaseModel):
 
 
 class LyricsQueries:
-    # def create
 
-    # Get all
+    def create(self,
+        input: LyricsIn,
+        user_id: int,
+        ai_prompt: str,
+        user_output: str,
+    ) -> LyricsOut:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    result = cur.execute(
+                        """
+                        INSERT INTO lyrics
+                            (user_id, user_input,  artist_name, song_name, ai_prompt, user_output)
+                        VALUES
+                            (%s, %s, %s, %s, %s, %s)
+                        RETURNING id;
+                        """,
+                        [
+                            user_id,
+                            input.user_input,
+                            input.artist_name,
+                            input.song_name,
+                            ai_prompt,
+                            user_output
+                        ]
+                    )
+                    id = result.fetchone()[0]
+                    old_data = input.dict()
+                    return LyricsOut(id=id, user_id=user_id, ai_prompt=ai_prompt, user_output=user_output, **old_data)
+        except Exception:
+            return {"message": "create did not work"}
+
+
     def get_all(self) -> Union[List[LyricsOut], Error]:
         try:
             with pool.connection() as conn:
