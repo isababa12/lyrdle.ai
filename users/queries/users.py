@@ -16,6 +16,12 @@ class UserOut(BaseModel):
     username: str
     hashed_password: str
 
+class UserOutNoHashPass(BaseModel):
+    id: int
+    email: str
+    username: str
+    password: str
+
 class Error(BaseModel):
     message: str
 
@@ -36,6 +42,53 @@ class AccountToken(Token):
 #     pass
 
 class UserQueries:
+
+    def delete(self, user_id: int) -> bool:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        DELETE FROM users
+                        WHERE id = %s
+                        """,
+                        [user_id]
+                    )
+                    # old_data = user.dict()
+                    # return UserOutNoHashPass(id=user_id, **old_data)
+                    return True
+
+        except Exception as e:
+            print(e)
+            return{"message": "Unable to update User"}
+
+    def update(self, user_id: int, user: UserIn) -> Union[UserOutNoHashPass, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE users
+                        SET email = %s
+                         , username = %s
+                         , password = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            user.email,
+                            user.username,
+                            user.password,
+                            user_id
+                        ]
+                    )
+                    # old_data = user.dict()
+                    # return UserOutNoHashPass(id=user_id, **old_data)
+                    return self.user_in_to_out(user_id, user)
+
+        except Exception as e:
+            print(e)
+            return{"message": "Unable to update User"}
+
 
     def get_all_users(self) -> Union[List[UserOut], Error]:
         with pool.connection() as conn:
@@ -112,6 +165,6 @@ class UserQueries:
         except Exception:
             return{"message": "create did not work"}
 
-    # def user_in_to_out(self,id: int, user:UserIn):
-    #     old_data = user.dict()
-    #     return UserOut(id=id, **old_data)
+    def user_in_to_out(self,id: int, user:UserIn):
+        old_data = user.dict()
+        return UserOutNoHashPass(id=id, **old_data)
