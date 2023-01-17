@@ -80,7 +80,7 @@ def update_user(
     return repo.update(user_id, user)
 
 @router.delete("/api/users/{user_id}", response_model=bool)
-def delete_vacation(
+def delete_user(
     user_id: int,
     repo: UserQueries = Depends(),
 ) -> bool:
