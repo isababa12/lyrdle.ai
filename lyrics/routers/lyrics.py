@@ -3,6 +3,7 @@ from typing import List, Optional, Union
 from queries.lyrics import (
     Error,
     LyricsIn,
+    LyricsPosted,
     LyricsOut,
     LyricsQueries
 )
@@ -44,6 +45,14 @@ def get_one_lyrics_by_id(
     if lyrics is None:
         response.status_code = 404
     return lyrics
+
+@router.put("/api/lyrics/{lyrics_id}", response_model=Union[LyricsPosted, Error])
+def update_posted(
+    lyrics_id: int,
+    posted: bool,
+    repo: LyricsQueries = Depends(),
+) -> LyricsOut:
+    return repo.update_posted(lyrics_id, posted)
 
 # # Get all lyrics for a specific user (for profile page)
 # # PLACEHOLDER - Need to implement auth

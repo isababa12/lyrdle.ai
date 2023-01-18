@@ -7,7 +7,6 @@ from fastapi import (
 from queries.users import (
     UserIn,
     UserOut,
-    UserOutNoHashPass,
     UserQueries,
     Error,
     HttpError,
@@ -71,13 +70,14 @@ def get_user_by_username(
 ):
     return queries.get_one_user_username(username)
 
-@router.put("/api/users/{user_id}", response_model=Union[UserOutNoHashPass, Error])
+@router.put("/api/users/{user_id}", response_model=Union[UserOut, Error])
 def update_user(
     user_id: int,
     user: UserIn,
     repo: UserQueries = Depends(),
-) -> Union[UserOutNoHashPass, Error]:
-    return repo.update(user_id, user)
+) -> Union[UserOut, Error]:
+    hashed_password = authenticator.hash_password(user.password)
+    return repo.update(user_id, hashed_password, user)
 
 @router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(
