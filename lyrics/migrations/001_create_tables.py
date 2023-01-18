@@ -5,11 +5,11 @@ steps = [
         CREATE TABLE lyrics (
             id SERIAL PRIMARY KEY NOT NULL,
             user_id INTEGER NOT NULL,
-            user_input TEXT NOT NULL,
-            ai_prompt TEXT NOT NULL,
+            user_input VARCHAR(8000) NOT NULL,
+            ai_prompt VARCHAR(8000) NOT NULL,
             artist_name VARCHAR(70),
             song_name VARCHAR(200),
-            user_output TEXT NOT NULL,
+            user_output VARCHAR(8000) NOT NULL,
             posted BOOLEAN DEFAULT false,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             posted_at TIMESTAMP
@@ -25,7 +25,7 @@ steps = [
         """
         CREATE TABLE comments (
             id SERIAL PRIMARY KEY NOT NULL,
-            comment_content TEXT NOT NULL,
+            comment_content VARCHAR(8000) NOT NULL,
             user_id INTEGER NOT NULL,
             lyrics_id INTEGER REFERENCES lyrics(id),
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
