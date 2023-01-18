@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from typing import List, Optional, Union
 from authenticator import authenticator
+import openai
+import os
 from queries.lyrics import (
     Error,
     LyricsIn,
@@ -42,11 +44,21 @@ def create_lyrics_user_id(
 ):
     if account and user_id == account["id"]:
 
-        # Create the AI prompt
+        # Define the prompt for text-davinci-003 model
         ai_prompt = f"Act as if you are {input.artist_name} and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}"
 
+        # Set up the OpenAI API client
+        openai.api_key = os.environ["OPEN_AI_KEY"]
+
+        # use openai.Completion.create method
+        response = openai.Completion.create(model="text-davinci-003", prompt=ai_prompt, max_tokens=300, temperature=0)
+
+        # Extract generated text from API response and clean up
+        generated_text = response["choices"][0]["text"]
+        print("GENERATED TEXT: ", generated_text)
+
         # Use 3rd party API to generate the output
-        user_output = "Sample AI-generated user output"
+        user_output = generated_text
 
         # Call the 'create' queries method
         return repo.create(input, user_id, ai_prompt, user_output)
