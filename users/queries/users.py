@@ -16,12 +16,6 @@ class UserOut(BaseModel):
     username: str
     hashed_password: str
 
-class UserOutNoHashPass(BaseModel):
-    id: int
-    email: str
-    username: str
-    password: str
-
 class Error(BaseModel):
     message: str
 
@@ -60,9 +54,9 @@ class UserQueries:
 
         except Exception as e:
             print(e)
-            return{"message": "Unable to update User"}
+            return{"message": "Unable to delete User"}
 
-    def update(self, user_id: int, user: UserIn) -> Union[UserOutNoHashPass, Error]:
+    def update(self, user_id: int, hashed_password: str, user: UserIn) -> Union[UserOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -72,18 +66,25 @@ class UserQueries:
                         SET email = %s
                          , username = %s
                          , password = %s
+                         , hashed_password = %s
                         WHERE id = %s
                         """,
                         [
                             user.email,
                             user.username,
                             user.password,
+                            hashed_password,
                             user_id
                         ]
                     )
                     # old_data = user.dict()
                     # return UserOutNoHashPass(id=user_id, **old_data)
-                    return self.user_in_to_out(user_id, user)
+                    return UserOut(
+                        id=user_id,
+                        email=user.email,
+                        username=user.username,
+                        hashed_password=hashed_password
+                        )
 
         except Exception as e:
             print(e)
@@ -167,4 +168,4 @@ class UserQueries:
 
     def user_in_to_out(self,id: int, user:UserIn):
         old_data = user.dict()
-        return UserOutNoHashPass(id=id, **old_data)
+        return UserOut(id=id, **old_data)

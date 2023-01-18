@@ -20,15 +20,38 @@ class LyricsOut(BaseModel):
     song_name: str
     ai_prompt: str
     user_output: str
-    # posted: bool
+    posted: bool
     # created_at: datetime
     # posted_at: Optional[datetime]
+
+class LyricsPosted(BaseModel):
+    posted:bool
 
 class Error(BaseModel):
     message: str
 
 
 class LyricsQueries:
+
+    def update_posted(self, lyrics_id: int, posted: bool) -> LyricsPosted:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE lyrics
+                        SET posted = %s
+                        WHERE id = %s
+                        """,
+                        [
+                            posted,
+                            lyrics_id
+                        ]
+                    )
+                return LyricsPosted(posted=posted)
+        except Exception as e:
+            print(e)
+            return {"message": "Unable to post Lyrics"}
 
     def create(self,
         input: LyricsIn,
