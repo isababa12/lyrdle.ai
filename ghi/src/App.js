@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Construct from './Construct.js'
-import ErrorNotification from './ErrorNotification';
+// import Construct from './Construct.js'
+// import ErrorNotification from './ErrorNotification';
 import './App.css';
 import Navbar from './components/Navbar.js';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,8 +9,8 @@ import Profile from "./pages/Profile";
 import Create from "./pages/Create";
 
 function App() {
-  const [launch_info, setLaunchInfo] = useState([]);
-  const [error, setError] = useState(null);
+  // const [launch_info, setLaunchInfo] = useState([]);
+  // const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getData() {
