@@ -20,6 +20,13 @@ function App() {
   //     let response = await fetch(url);
   //     console.log("------- hello? -------");
   //     let data = await response.json();
+  // useEffect(() => {
+  //   async function getData() {
+  //     let url = `${process.env.REACT_APP_SAMPLE_SERVICE_API_HOST}/api/launch-details`;
+  //     console.log('fastapi url: ', url);
+  //     let response = await fetch(url);
+  //     console.log("------- hello? -------");
+  //     let data = await response.json();
 
   //     if (response.ok) {        console.log("got launch data!");
   //       setLaunchInfo(data.launch_details);
@@ -32,16 +39,19 @@ function App() {
   // }, [])
 
 
-   return (
-     <Router>
-       <Navbar />
-       <Routes>
-         <Route path="/" exact component={Home} />
-         <Route path="/Registration" element={<Registration />}></Route>
-         <Route path="/login" element={<Login />}></Route>
-       </Routes>
-     </Router>
-   );
+   
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/Registration" element={<Registration />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

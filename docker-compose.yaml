@@ -38,7 +38,6 @@ services:
       DATABASE_URL: postgresql://admin:goodnightworld@postgres/users
       WAIT_HOSTS: postgres:5432
       SIGNING_KEY: ${SIGNING_KEY}
-
   lyrics:
     build:
       context: ./lyrics
