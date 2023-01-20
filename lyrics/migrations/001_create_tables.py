@@ -40,11 +40,25 @@ steps = [
     [
         # "Up" SQL statement - Likes Table
         """
-        CREATE TABLE likes (
+        CREATE TABLE lyrics_likes (
             id SERIAL PRIMARY KEY NOT NULL,
             user_id INTEGER NOT NULL,
-            lyrics_id INTEGER REFERENCES lyrics(id),
-            comment_id INTEGER REFERENCES comments(id),
+            lyrics_id INTEGER NOT NULL REFERENCES lyrics(id),
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+        """,
+        # "Down" SQL statement - Likes Table
+        """
+        DROP TABLE likes;
+        """
+    ],
+    [
+        # "Up" SQL statement - Likes Table
+        """
+        CREATE TABLE comment_likes (
+            id SERIAL PRIMARY KEY NOT NULL,
+            user_id INTEGER NOT NULL,
+            comment_id INTEGER NOT NULL REFERENCES comments(id),
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """,

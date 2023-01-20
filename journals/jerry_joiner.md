@@ -1,38 +1,19 @@
-# Example Journal Entry
+# Jerry Joiner Journal
 
-## July 9, 2021
-
-Today, I worked on:
-
-* Getting a customer's data for the account page
-  with Asa
-
-Asa and I wrote some SQL. We tested it out with
-Insomnia and the UI. We had to coordinate with
-Petra who was working on the GHI with Azami.
-
-Today, I found the F2/Rename symbol functionality
-in Visual Studio Code! It allows me to rename a
-variable without causing bugs. I am going to be
-using this a lot!
-
-## July 7, 2021
+## January 12th, 2023
 
 Today, I worked on:
 
-* Signing up a customer with Petra
+- Authentication, merging files in Git and making the `create_user` API endpoints
 
-Petra and I had a hard time figuring out the logic
-for what happens when a customer signs up. We
-finally came to the conclusion that not only did we
-have to create the `User` record, but we also needed
-to create associated preference records **and** had
-to log them in.
+Went through and debugged code from the group regarding our `create_user` function. It turns out we were trying to input the values for `created_at` and our modified columns when those didn't exist yet. So we commented out that code and the endpoints worked.
 
-Today, database transactions finally clicked. It
-happened while we were trying to insert the
-preferences for the customer. We had a bug in the
-code, so the `User` record got created, but none
-of the preferences. All of the inserts should
-succeed or fail together. So, we used a transaction
-to do that.
+As well I handled merge conflicts for the group when pushing to main. We're getting a better sense of how the merging works within VSCode are pretty comfortable with it.
+
+## January 17th, 2023
+
+Today, I worked on:
+
+- The API endpoints for Likes
+
+I created all of the endpoints for likes today, which included getting a list of all likes, an individual one, editing a like, deleting one, and creating one. As well, I created the routers so that we can use FastAPI's debugging tools and so they'd be routed appropriately.
