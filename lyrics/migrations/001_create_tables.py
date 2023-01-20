@@ -27,7 +27,7 @@ steps = [
             id SERIAL PRIMARY KEY NOT NULL,
             comment_content VARCHAR(8000) NOT NULL,
             user_id INTEGER NOT NULL,
-            lyrics_id INTEGER REFERENCES lyrics(id),
+            lyrics_id INTEGER REFERENCES lyrics(id) ON DELETE CASCADE,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             modified_at TIMESTAMP
         );
@@ -43,7 +43,7 @@ steps = [
         CREATE TABLE lyrics_likes (
             id SERIAL PRIMARY KEY NOT NULL,
             user_id INTEGER NOT NULL,
-            lyrics_id INTEGER NOT NULL REFERENCES lyrics(id),
+            lyrics_id INTEGER NOT NULL REFERENCES lyrics(id) ON DELETE CASCADE,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """,
@@ -58,7 +58,7 @@ steps = [
         CREATE TABLE comment_likes (
             id SERIAL PRIMARY KEY NOT NULL,
             user_id INTEGER NOT NULL,
-            comment_id INTEGER NOT NULL REFERENCES comments(id),
+            comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
         """,

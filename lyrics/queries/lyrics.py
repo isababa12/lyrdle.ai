@@ -30,8 +30,9 @@ class LyricsCreateOut(BaseModel):
     ai_prompt: str
     user_output: str
 
-class LyricsStatus(BaseModel):
-    posted:bool
+class LyricsUpdateOut(BaseModel):
+    id: int
+    posted: bool
 
 class Error(BaseModel):
     message: str
@@ -88,9 +89,9 @@ class LyricsQueries:
     def get_all(self, user_id: int = None) -> Union[List[LyricsOut], Error]:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as db:
+                with conn.cursor() as cur:
                     if user_id is None:
-                        result = db.execute(
+                        result = cur.execute(
                             """
                             SELECT id
                                 , user_id
@@ -107,7 +108,7 @@ class LyricsQueries:
                             """
                         )
                     else:
-                        result = db.execute(
+                        result = cur.execute(
                             """
                             SELECT id
                                 , user_id
@@ -138,8 +139,8 @@ class LyricsQueries:
     def get_one(self, lyrics_id: int) -> Optional[LyricsOut]:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as db:
-                    result = db.execute(
+                with conn.cursor() as cur:
+                    result = cur.execute(
                         """
                         SELECT id
                             , user_id
@@ -158,21 +159,23 @@ class LyricsQueries:
                     )
                     record = result.fetchone()
                     if record is None:
+                        print("No records available.")
                         return None
-                    return self.record_to_lyrics_out(record)
+                    else:
+                        return self.record_to_lyrics_out(record)
         except Exception as e:
             print(e)
             return {"message": "Could not get that lyrics item"}
 
     # Change "posted" status for one lyrics
-    def update_status(self, lyrics_id: int, posted: bool) -> LyricsStatus:
+    def update_status(self, lyrics_id: int, posted: bool) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
                         UPDATE lyrics
-                        SET posted = %s
+                        SET posted = %s, posted_at = CURRENT_TIMESTAMP
                         WHERE id = %s
                         """,
                         [
@@ -180,10 +183,39 @@ class LyricsQueries:
                             lyrics_id
                         ]
                     )
-                return LyricsStatus(posted=posted)
+                    updated_row_count = cur.rowcount
+                    if updated_row_count > 0:
+                        print("Updated rows: ", updated_row_count)
+                        return True
+                    else:
+                        print("Nothing to update.")
+                        return False
         except Exception as e:
             print(e)
-            return {"message": "Unable to post Lyrics"}
+            return False
+
+
+    def delete(self, lyrics_id: int) -> Union[Error, bool]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM lyrics
+                        WHERE id = %s
+                        """,
+                        [lyrics_id]
+                    )
+                    deleted_row_count = db.rowcount
+                    if deleted_row_count > 0:
+                        print("Delete successful.")
+                        return True
+                    else:
+                        print("Nothing to delete.")
+                        return False
+        except Exception as e:
+            print(e)
+            return Error(message="Could not delete lyrics")
 
 
     def record_to_lyrics_out(self, record):
