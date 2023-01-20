@@ -159,8 +159,10 @@ class LyricsQueries:
                     )
                     record = result.fetchone()
                     if record is None:
+                        print("No records available.")
                         return None
-                    return self.record_to_lyrics_out(record)
+                    else:
+                        return self.record_to_lyrics_out(record)
         except Exception as e:
             print(e)
             return {"message": "Could not get that lyrics item"}
@@ -181,15 +183,39 @@ class LyricsQueries:
                             lyrics_id
                         ]
                     )
-                    rows_updated = cur.rowcount
-                    print(rows_updated)
-                    if rows_updated > 0:
+                    updated_row_count = cur.rowcount
+                    if updated_row_count > 0:
+                        print("Updated rows: ", updated_row_count)
                         return True
                     else:
+                        print("Nothing to update.")
                         return False
         except Exception as e:
             print(e)
             return False
+
+
+    def delete(self, lyrics_id: int) -> Union[Error, bool]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM lyrics
+                        WHERE id = %s
+                        """,
+                        [lyrics_id]
+                    )
+                    deleted_row_count = db.rowcount
+                    if deleted_row_count > 0:
+                        print("Delete successful.")
+                        return True
+                    else:
+                        print("Nothing to delete.")
+                        return False
+        except Exception as e:
+            print(e)
+            return Error(message="Could not delete lyrics")
 
 
     def record_to_lyrics_out(self, record):

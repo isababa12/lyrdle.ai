@@ -1,6 +1,11 @@
 # Journal Entries - Stephanie Hestilow
 
-
+## Jan 19, 2021
+Today, I worked on:
+* Complete backend revamp - debugged some issues in the queries files, finished working on likes endpoints, created all comments endpoints
+* Tested / retested all backend endpoints including auth integration
+* Updated migrations files to add "on delete cascade" to references
+* Started frontend homepage - passing the baton to Jerry to finish up
 
 ## Jan 15, 2021
 Today, I worked on:
