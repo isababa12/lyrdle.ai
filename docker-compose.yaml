@@ -65,6 +65,5 @@ services:
       NODE_ENV: development
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
-      REACT_APP_SAMPLE_SERVICE_API_HOST: http://localhost:8000
       REACT_APP_USERS_API_HOST: http://localhost:8000
       REACT_APP_LYRICS_API_HOST: http://localhost:8010

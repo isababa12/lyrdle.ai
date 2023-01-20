@@ -6,7 +6,7 @@ import os
 from queries.lyrics import (
     Error,
     LyricsIn,
-    LyricsStatus,
+    LyricsUpdateOut,
     LyricsOut,
     LyricsCreateOut,
     LyricsQueries
@@ -99,7 +99,7 @@ def get_all_lyrics_user_id(
 
 
 # LOGIN REQUIRED - UPDATE LYRICS POSTED STATUS
-@router.put("/api/users/{user_id}/lyrics/{lyrics_id}", response_model=Union[LyricsStatus, Error])
+@router.put("/api/users/{user_id}/lyrics/{lyrics_id}", response_model=bool)
 def update_lyrics_posted_status(
     user_id: int,
     lyrics_id: int,

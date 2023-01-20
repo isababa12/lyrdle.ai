@@ -30,8 +30,9 @@ class LyricsCreateOut(BaseModel):
     ai_prompt: str
     user_output: str
 
-class LyricsStatus(BaseModel):
-    posted:bool
+class LyricsUpdateOut(BaseModel):
+    id: int
+    posted: bool
 
 class Error(BaseModel):
     message: str
@@ -88,9 +89,9 @@ class LyricsQueries:
     def get_all(self, user_id: int = None) -> Union[List[LyricsOut], Error]:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as db:
+                with conn.cursor() as cur:
                     if user_id is None:
-                        result = db.execute(
+                        result = cur.execute(
                             """
                             SELECT id
                                 , user_id
@@ -107,7 +108,7 @@ class LyricsQueries:
                             """
                         )
                     else:
-                        result = db.execute(
+                        result = cur.execute(
                             """
                             SELECT id
                                 , user_id
@@ -138,8 +139,8 @@ class LyricsQueries:
     def get_one(self, lyrics_id: int) -> Optional[LyricsOut]:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as db:
-                    result = db.execute(
+                with conn.cursor() as cur:
+                    result = cur.execute(
                         """
                         SELECT id
                             , user_id
@@ -165,14 +166,14 @@ class LyricsQueries:
             return {"message": "Could not get that lyrics item"}
 
     # Change "posted" status for one lyrics
-    def update_status(self, lyrics_id: int, posted: bool) -> LyricsStatus:
+    def update_status(self, lyrics_id: int, posted: bool) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
                         """
                         UPDATE lyrics
-                        SET posted = %s
+                        SET posted = %s, posted_at = CURRENT_TIMESTAMP
                         WHERE id = %s
                         """,
                         [
@@ -180,10 +181,15 @@ class LyricsQueries:
                             lyrics_id
                         ]
                     )
-                return LyricsStatus(posted=posted)
+                    rows_updated = cur.rowcount
+                    print(rows_updated)
+                    if rows_updated > 0:
+                        return True
+                    else:
+                        return False
         except Exception as e:
             print(e)
-            return {"message": "Unable to post Lyrics"}
+            return False
 
 
     def record_to_lyrics_out(self, record):

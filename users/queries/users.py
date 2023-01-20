@@ -41,20 +41,21 @@ class UserQueries:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    cur.execute(
+                    result = cur.execute(
                         """
                         DELETE FROM users
                         WHERE id = %s
                         """,
                         [user_id]
                     )
-                    # old_data = user.dict()
-                    # return UserOutNoHashPass(id=user_id, **old_data)
-                    return True
-
+                    deleted_row_count = cur.rowcount
+                    if deleted_row_count > 0:
+                        return True
+                    else:
+                        return False
         except Exception as e:
             print(e)
-            return{"message": "Unable to delete User"}
+            return False
 
     def update(self, user_id: int, hashed_password: str, user: UserIn) -> Union[UserOut, Error]:
         try:
