@@ -1,20 +1,12 @@
-video {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-}
 
 .login-page {
-  position: fixed;
-  bottom: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(195, 192, 192, 0.7);
 }
 
 .login-container {
@@ -22,11 +14,6 @@ video {
   position:relative;
 }
 
-.login-video video {
-  width:100%;
-  height:100%;
-  border-radius: 25px;
-}
 
 
 .login-form {
@@ -52,19 +39,17 @@ video {
   font-weight: 600;
 }
 
-.login-input {
-  display: flex;
-  background-color: #eff4f8;
-  border-radius: 10px;
-}
+
 
 .login-input input {
   border-color: #767676;
   font-size: 16px;
   background-color: #f4f5f6;
-  margin-left: 16px;
-  border-radius: 10px;
+  margin-bottom: 32px;
+  padding: 32px;
+  border-radius: 80px;
   width: 320px;
+  height: 64px;
 }
 
 .login-input input:focus {
