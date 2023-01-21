@@ -1,9 +1,14 @@
 // import { useEffect, useState } from 'react';
 // import Construct from './Construct.js'
 // import ErrorNotification from './ErrorNotification';
-import './App.css';
-import Navbar from './components/Navbar.js';
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/Navbar.js";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Create from "./pages/Create";
@@ -31,17 +36,16 @@ function App() {
   //   getData();
   // }, [])
 
-
-   return (
+  return (
     <BrowserRouter>
       <Navbar />
-       <Routes>
-         <Route path="/" element={<Home />} />
-         <Route path="/create" element= {<Create />} />
-         <Route path="/profile" element= {<Profile />} />
-       </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </BrowserRouter>
-   );
+  );
 }
 
 export default App;
