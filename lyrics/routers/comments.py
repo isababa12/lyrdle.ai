@@ -1,9 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from queries.comments import (
-    CommentOut,
-    CommentQueries,
-    Error
-)
+from queries.comments import CommentOut, CommentQueries, Error
 from typing import List, Union
 from authenticator import authenticator
 
@@ -12,22 +8,25 @@ router = APIRouter(prefix="/api")
 
 
 # PUBLIC - GET ALL COMMENTS FOR A LYRICS POST
-@router.get("/lyrics/{lyrics_id}/comments", response_model=Union[Error, List[CommentOut]])
-def get_comments(
-    lyrics_id: int,
-    repo: CommentQueries = Depends()
-):
+@router.get(
+    "/lyrics/{lyrics_id}/comments",
+    response_model=Union[Error, List[CommentOut]],
+)
+def get_comments(lyrics_id: int, repo: CommentQueries = Depends()):
     return repo.get_all(lyrics_id)
 
 
 # LOGIN REQUIRED - ADD A COMMENT TO A LYRICS POST (CREATE)
-@router.post("/users/current/lyrics/{lyrics_id}/comments", response_model=Union[Error, CommentOut])
+@router.post(
+    "/users/current/lyrics/{lyrics_id}/comments",
+    response_model=Union[Error, CommentOut],
+)
 def create_comment(
     # user_id: int,
     lyrics_id: int,
     comment_content: str,
     account: dict = Depends(authenticator.try_get_current_account_data),
-    repo: CommentQueries = Depends()
+    repo: CommentQueries = Depends(),
 ):
     if account:
         user_id = account["id"]
@@ -37,7 +36,10 @@ def create_comment(
 
 
 # LOGIN REQUIRED - UPDATE COMMENT CONTENT
-@router.put("/users/current/lyrics/{lyrics_id}/comments/{comment_id}", response_model=bool)
+@router.put(
+    "/users/current/lyrics/{lyrics_id}/comments/{comment_id}",
+    response_model=bool,
+)
 def update_comment(
     # user_id: int,
     comment_id: int,
@@ -52,7 +54,10 @@ def update_comment(
 
 
 # LOGIN REQUIRED - DELETE A COMMENT
-@router.delete("/users/current/lyrics/{lyrics_id}/comments/{comment_id}", response_model=Union[Error, bool])
+@router.delete(
+    "/users/current/lyrics/{lyrics_id}/comments/{comment_id}",
+    response_model=Union[Error, bool],
+)
 def delete_comment(
     comment_id: int,
     account: dict = Depends(authenticator.try_get_current_account_data),

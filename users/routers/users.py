@@ -25,7 +25,7 @@ router = APIRouter()
 @router.get("/token", response_model=Union[AccountToken, None])
 async def get_token(
     request: Request,
-    user: dict = Depends(authenticator.try_get_current_account_data)
+    user: dict = Depends(authenticator.try_get_current_account_data),
 ) -> AccountToken | None:
     if user and authenticator.cookie_name in request.cookies:
         return {
@@ -35,7 +35,7 @@ async def get_token(
         }
 
 
-@router.post("/api/users",response_model=Union[AccountToken, HttpError])
+@router.post("/api/users", response_model=Union[AccountToken, HttpError])
 async def create_user(
     info: UserIn,
     request: Request,
@@ -49,10 +49,8 @@ async def create_user(
     return AccountToken(user=user, **token.dict())
 
 
-@router.get("/api/users",response_model=Union[List[UserOut], Error])
-def get_all_users(
-    repo: UserQueries = Depends()
-):
+@router.get("/api/users", response_model=Union[List[UserOut], Error])
+def get_all_users(repo: UserQueries = Depends()):
     return repo.get_all_users()
 
 
@@ -64,11 +62,9 @@ def get_user_by_info(
 
 
 @router.get("/api/users/{username}", response_model=UserOut)
-def get_user_by_username(
-    username: str,
-    queries: UserQueries = Depends()
-):
+def get_user_by_username(username: str, queries: UserQueries = Depends()):
     return queries.get_one_user_username(username)
+
 
 @router.put("/api/users/{user_id}", response_model=Union[UserOut, Error])
 def update_user(
@@ -78,6 +74,7 @@ def update_user(
 ) -> Union[UserOut, Error]:
     hashed_password = authenticator.hash_password(user.password)
     return repo.update(user_id, hashed_password, user)
+
 
 @router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(

@@ -10,24 +10,30 @@ class UserIn(BaseModel):
     username: str
     password: str
 
+
 class UserOut(BaseModel):
     id: int
     email: str
     username: str
     hashed_password: str
 
+
 class Error(BaseModel):
     message: str
 
+
 class HttpError(BaseModel):
     detail: str
+
 
 class UserForm(BaseModel):
     username: str
     password: str
 
+
 class AccountToken(Token):
     user: UserOut
+
 
 # class UserOutWithPassword(UserOut):
 #     hashed_password: str
@@ -35,8 +41,8 @@ class AccountToken(Token):
 # class DuplicateUserError(ValueError):
 #     pass
 
-class UserQueries:
 
+class UserQueries:
     def delete(self, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
@@ -46,7 +52,7 @@ class UserQueries:
                         DELETE FROM users
                         WHERE id = %s
                         """,
-                        [user_id]
+                        [user_id],
                     )
                     deleted_row_count = cur.rowcount
                     if deleted_row_count > 0:
@@ -57,7 +63,9 @@ class UserQueries:
             print(e)
             return False
 
-    def update(self, user_id: int, hashed_password: str, user: UserIn) -> Union[UserOut, Error]:
+    def update(
+        self, user_id: int, hashed_password: str, user: UserIn
+    ) -> Union[UserOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
@@ -75,8 +83,8 @@ class UserQueries:
                             user.username,
                             user.password,
                             hashed_password,
-                            user_id
-                        ]
+                            user_id,
+                        ],
                     )
                     # old_data = user.dict()
                     # return UserOutNoHashPass(id=user_id, **old_data)
@@ -84,13 +92,12 @@ class UserQueries:
                         id=user_id,
                         email=user.email,
                         username=user.username,
-                        hashed_password=hashed_password
-                        )
+                        hashed_password=hashed_password,
+                    )
 
         except Exception as e:
             print(e)
-            return{"message": "Unable to update User"}
-
+            return {"message": "Unable to update User"}
 
     def get_all_users(self) -> Union[List[UserOut], Error]:
         with pool.connection() as conn:
@@ -109,7 +116,6 @@ class UserQueries:
                         record[column.name] = row[i]
                     results.append(record)
                 return results
-
 
     def get_one_user_username(self, username: str) -> Union[UserOut, Error]:
         with pool.connection() as conn:
@@ -134,9 +140,8 @@ class UserQueries:
                     id=record[0],
                     email=record[1],
                     username=record[2],
-                    hashed_password=record[3]
+                    hashed_password=record[3],
                 )
-
 
     def create_user(self, user: UserIn, hashed_password: str) -> UserOut:
         try:
@@ -154,19 +159,19 @@ class UserQueries:
                             user.email,
                             user.username,
                             user.password,
-                            hashed_password
-                        ]
+                            hashed_password,
+                        ],
                     )
                     id = result.fetchone()[0]
                     return UserOut(
                         id=id,
                         email=user.email,
                         username=user.username,
-                        hashed_password=hashed_password
+                        hashed_password=hashed_password,
                     )
         except Exception:
-            return{"message": "create did not work"}
+            return {"message": "create did not work"}
 
-    def user_in_to_out(self,id: int, user:UserIn):
+    def user_in_to_out(self, id: int, user: UserIn):
         old_data = user.dict()
         return UserOut(id=id, **old_data)

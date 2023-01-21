@@ -8,7 +8,7 @@ from queries.lyrics import (
     LyricsIn,
     LyricsOut,
     LyricsCreateOut,
-    LyricsQueries
+    LyricsQueries,
 )
 
 
@@ -37,7 +37,9 @@ def get_one_lyrics(
 
 
 # LOGIN REQUIRED - CREATE LYRICS
-@router.post("/users/current/lyrics", response_model=Union[LyricsCreateOut, Error])
+@router.post(
+    "/users/current/lyrics", response_model=Union[LyricsCreateOut, Error]
+)
 def create_lyrics(
     # user_id: int,
     input: LyricsIn,
@@ -55,7 +57,12 @@ def create_lyrics(
         openai.api_key = os.environ["OPEN_AI_KEY"]
 
         # use openai.Completion.create method
-        response = openai.Completion.create(model="text-davinci-003", prompt=ai_prompt, max_tokens=300, temperature=0)
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=ai_prompt,
+            max_tokens=300,
+            temperature=0,
+        )
 
         # Extract generated text from API response and clean up
         generated_text = response["choices"][0]["text"]
@@ -72,7 +79,9 @@ def create_lyrics(
 
 
 # LOGIN REQUIRED - ALL USER'S LYRICS
-@router.get("/users/current/lyrics", response_model=Union[List[LyricsOut], Error])
+@router.get(
+    "/users/current/lyrics", response_model=Union[List[LyricsOut], Error]
+)
 def get_all_user_lyrics(
     # user_id: int,
     account: dict = Depends(authenticator.try_get_current_account_data),
@@ -101,7 +110,9 @@ def update_lyrics_posted_status(
 
 
 # LOGIN REQUIRED - DELETE LYRICS
-@router.delete("/users/current/lyrics/{lyrics_id}", response_model=Union[Error, bool])
+@router.delete(
+    "/users/current/lyrics/{lyrics_id}", response_model=Union[Error, bool]
+)
 def delete_lyrics(
     lyrics_id: int,
     account: dict = Depends(authenticator.try_get_current_account_data),
