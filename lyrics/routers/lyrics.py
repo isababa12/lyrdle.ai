@@ -51,7 +51,7 @@ def create_lyrics(
         user_id = account["id"]
 
         # Define the prompt for text-davinci-003 model
-        ai_prompt = f"Act as if you are the music artist '{input.artist_name}' and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}"
+        ai_prompt = f"Act as if you are the musician or band known as '{input.artist_name}' and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}"
 
         # Set up the OpenAI API client
         openai.api_key = os.environ["OPEN_AI_KEY"]
@@ -60,13 +60,13 @@ def create_lyrics(
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=ai_prompt,
-            max_tokens=300,
-            temperature=0,
+            max_tokens=500,
+            temperature=0.6,
         )
 
         # Extract generated text from API response and clean up
         generated_text = response["choices"][0]["text"]
-        print("GENERATED TEXT: ", generated_text)
+        # print("GENERATED TEXT: ", generated_text)
 
         # Use 3rd party API to generate the output
         user_output = generated_text
@@ -82,7 +82,7 @@ def create_lyrics(
 @router.get(
     "/users/current/lyrics", response_model=Union[List[LyricsOut], Error]
 )
-def get_all_user_lyrics(
+def get_current_user_lyrics(
     # user_id: int,
     account: dict = Depends(authenticator.try_get_current_account_data),
     repo: LyricsQueries = Depends(),

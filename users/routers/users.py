@@ -7,6 +7,7 @@ from fastapi import (
 from queries.users import (
     UserIn,
     UserOut,
+    UserOutWithPassword,
     UserQueries,
     Error,
     HttpError,
@@ -26,7 +27,7 @@ router = APIRouter()
 async def get_token(
     request: Request,
     user: dict = Depends(authenticator.try_get_current_account_data),
-) -> AccountToken | None:
+):
     if user and authenticator.cookie_name in request.cookies:
         return {
             "access_token": request.cookies[authenticator.cookie_name],
@@ -49,7 +50,7 @@ async def create_user(
     return AccountToken(user=user, **token.dict())
 
 
-@router.get("/api/users", response_model=Union[List[UserOut], Error])
+@router.get("/api/users", response_model=Union[List[UserOutWithPassword], Error])
 def get_all_users(repo: UserQueries = Depends()):
     return repo.get_all_users()
 
@@ -66,14 +67,29 @@ def get_user_by_username(username: str, queries: UserQueries = Depends()):
     return queries.get_one_user_username(username)
 
 
-@router.put("/api/users/{user_id}", response_model=Union[UserOut, Error])
+@router.put("/api/users/current", response_model=Union[UserOut, UserOutWithPassword, Error])
 def update_user(
-    user_id: int,
-    user: UserIn,
+    new_info: UserIn,
+    account: dict = Depends(authenticator.get_current_account_data),
     repo: UserQueries = Depends(),
-) -> Union[UserOut, Error]:
-    hashed_password = authenticator.hash_password(user.password)
-    return repo.update(user_id, hashed_password, user)
+):
+    user_id = account["id"]
+    if new_info.email == "":
+        email = account["email"]
+    else:
+        email = new_info.email
+    if new_info.username == "":
+        username = account["username"]
+    else:
+        username = new_info.username
+    if new_info.password == "":
+        password = ""
+        hashed_password = account["hashed_password"]
+    else:
+        password = new_info.password
+        hashed_password = authenticator.hash_password(new_info.password)
+    return repo.update(user_id, email, username, hashed_password, password)
+
 
 
 @router.delete("/api/users/{user_id}", response_model=bool)
