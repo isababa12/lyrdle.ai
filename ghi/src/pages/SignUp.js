@@ -6,11 +6,13 @@ import { useToken } from "../authApi";
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const signup = useToken()[3];
 
-  
-// Code from Isaiah
+  useEffect
+
+  // Code from Isaiah
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = {
@@ -20,7 +22,7 @@ function SignUp() {
     };
     const usersURL = "http://localhost:8000/api/users/current";
     const fetchConfig = {
-      method: "put",
+      method: "post",
       body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
@@ -34,16 +36,16 @@ function SignUp() {
         setUsername("");
         setPassword("");
         setSubmitted(true);
+        console.log(`Created new user: ${username}`);
       })
       .catch((e) => console.error("Error: ", e));
   };
-
 
   return (
     <div>
       <div className="reg-page">
         <div className="reg-head">Signup test</div>
-        <form action="submit" className="reg-form">
+        <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">
               <input

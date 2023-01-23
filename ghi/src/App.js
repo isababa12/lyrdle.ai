@@ -27,21 +27,14 @@ function GetToken() {
 //   const [token, setToken] = useState(null);
 
 function App() {
-
   return (
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
         <GetToken />
         <Routes>
-          <Route
-            path="/signup"
-            element={<SignUp  />}
-          ></Route>
-          <Route
-            path="/login"
-            element={<Login />}
-          ></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
