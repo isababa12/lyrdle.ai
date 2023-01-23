@@ -12,7 +12,7 @@ export const SidebarData = [
   },
   {
     title: "Create",
-    path: "/create",
+    path: "/signup",
     icon: <IoIcons.IoIosCreate />,
     cName: "nav-text",
   },
