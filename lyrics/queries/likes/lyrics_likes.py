@@ -10,12 +10,12 @@ class LyricsLikeOut(BaseModel):
     lyrics_id: int
     created_at: Optional[datetime]
 
+
 class Error(BaseModel):
     message: str
 
 
 class LyricsLikeQueries:
-
     def get_all(self, lyrics_id: int) -> Union[Error, List[LyricsLikeOut]]:
         try:
             with pool.connection() as conn:
@@ -30,7 +30,7 @@ class LyricsLikeQueries:
                         WHERE lyrics_id = %s
                         ORDER BY created_at DESC;
                         """,
-                        [lyrics_id]
+                        [lyrics_id],
                     )
                     return [
                         self.record_to_lyrics_like_out(record)
@@ -40,8 +40,9 @@ class LyricsLikeQueries:
             print(e)
             return Error(message="Could not get lyrics likes")
 
-
-    def create(self, user_id: int, lyrics_id: int) -> Union[Error, LyricsLikeOut]:
+    def create(
+        self, user_id: int, lyrics_id: int
+    ) -> Union[Error, LyricsLikeOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -56,14 +57,15 @@ class LyricsLikeQueries:
                         [
                             user_id,
                             lyrics_id,
-                        ]
+                        ],
                     )
                     id = result.fetchone()[0]
-                    return LyricsLikeOut(id=id, user_id=user_id, lyrics_id=lyrics_id)
+                    return LyricsLikeOut(
+                        id=id, user_id=user_id, lyrics_id=lyrics_id
+                    )
         except Exception as e:
             print(e)
             return Error(message="Could not create lyrics like")
-
 
     def delete(self, lyrics_like_id: int) -> Union[Error, bool]:
         try:
@@ -74,7 +76,7 @@ class LyricsLikeQueries:
                         DELETE FROM lyrics_likes
                         WHERE id = %s
                         """,
-                        [lyrics_like_id]
+                        [lyrics_like_id],
                     )
                     deleted_row_count = db.rowcount
                     if deleted_row_count > 0:
@@ -87,11 +89,10 @@ class LyricsLikeQueries:
             print(e)
             return Error(message="Could not delete lyrics like")
 
-
     def record_to_lyrics_like_out(self, record):
         return LyricsLikeOut(
-            id = record[0],
-            user_id = record[1],
-            lyrics_id = record[2],
-            created_at = record[3]
+            id=record[0],
+            user_id=record[1],
+            lyrics_id=record[2],
+            created_at=record[3],
         )

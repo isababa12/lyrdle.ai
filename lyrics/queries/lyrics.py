@@ -9,6 +9,7 @@ class LyricsIn(BaseModel):
     artist_name: str
     song_name: str
 
+
 class LyricsOut(BaseModel):
     id: int
     user_id: int
@@ -21,6 +22,7 @@ class LyricsOut(BaseModel):
     posted: Optional[bool]
     posted_at: Optional[datetime]
 
+
 class LyricsCreateOut(BaseModel):
     id: int
     user_id: int
@@ -30,9 +32,11 @@ class LyricsCreateOut(BaseModel):
     ai_prompt: str
     user_output: str
 
+
 class LyricsUpdateOut(BaseModel):
     id: int
     posted: bool
+
 
 class Error(BaseModel):
     message: str
@@ -41,7 +45,8 @@ class Error(BaseModel):
 class LyricsQueries:
 
     # Create new lyrics
-    def create(self,
+    def create(
+        self,
         input: LyricsIn,
         user_id: int,
         ai_prompt: str,
@@ -70,8 +75,8 @@ class LyricsQueries:
                             input.artist_name,
                             input.song_name,
                             ai_prompt,
-                            user_output
-                        ]
+                            user_output,
+                        ],
                     )
                     id = result.fetchone()[0]
                     old_data = input.dict()
@@ -124,16 +129,14 @@ class LyricsQueries:
                             WHERE user_id = %s
                             ORDER BY created_at DESC;
                             """,
-                            [user_id]
+                            [user_id],
                         )
                     return [
-                        self.record_to_lyrics_out(record)
-                        for record in result
+                        self.record_to_lyrics_out(record) for record in result
                     ]
         except Exception as e:
             print(e)
             return {"message": "Could not get all lyrics"}
-
 
     # Get one lyrics (by lyrics id)
     def get_one(self, lyrics_id: int) -> Optional[LyricsOut]:
@@ -155,7 +158,7 @@ class LyricsQueries:
                         FROM lyrics
                         WHERE id = %s
                         """,
-                        [lyrics_id]
+                        [lyrics_id],
                     )
                     record = result.fetchone()
                     if record is None:
@@ -178,10 +181,7 @@ class LyricsQueries:
                         SET posted = %s, posted_at = CURRENT_TIMESTAMP
                         WHERE id = %s
                         """,
-                        [
-                            posted,
-                            lyrics_id
-                        ]
+                        [posted, lyrics_id],
                     )
                     updated_row_count = cur.rowcount
                     if updated_row_count > 0:
@@ -194,7 +194,6 @@ class LyricsQueries:
             print(e)
             return False
 
-
     def delete(self, lyrics_id: int) -> Union[Error, bool]:
         try:
             with pool.connection() as conn:
@@ -204,7 +203,7 @@ class LyricsQueries:
                         DELETE FROM lyrics
                         WHERE id = %s
                         """,
-                        [lyrics_id]
+                        [lyrics_id],
                     )
                     deleted_row_count = db.rowcount
                     if deleted_row_count > 0:
@@ -216,7 +215,6 @@ class LyricsQueries:
         except Exception as e:
             print(e)
             return Error(message="Could not delete lyrics")
-
 
     def record_to_lyrics_out(self, record):
         # print("Record: ", record)
@@ -230,5 +228,5 @@ class LyricsQueries:
             user_output=record[6],
             created_at=record[7],
             posted=record[8],
-            posted_at=record[9]
+            posted_at=record[9],
         )
