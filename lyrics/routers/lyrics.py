@@ -20,6 +20,7 @@ router = APIRouter(prefix="/api")
 def get_all_lyrics(
     repo: LyricsQueries = Depends(),
 ):
+    print(repo.get_all())
     return repo.get_all()
 
 
