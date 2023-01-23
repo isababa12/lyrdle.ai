@@ -10,8 +10,6 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const signup = useToken()[3];
 
-  useEffect
-
   // Code from Isaiah
   const handleSubmit = (event) => {
     event.preventDefault();
