@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate, NavLink, useHistory } from "react-router-dom";
 import "./SignUp.css";
 import { useToken } from "../authApi";
 
