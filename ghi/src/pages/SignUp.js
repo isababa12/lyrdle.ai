@@ -41,6 +41,13 @@ function SignUp() {
 
   return (
     <div>
+      <video
+        className="background-video"
+        src="/login/login-vid.mp4"
+        autoPlay
+        muted
+        loop
+      />
       <div className="reg-page">
         <div className="reg-head">Welcome to Lyrdle Ai </div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
