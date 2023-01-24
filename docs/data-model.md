@@ -2,4 +2,4 @@
 
 ## MVP Data Diagram
 
-![MVP Data Model](LyrdleAI_DataDiagram_MVP.png)
+![MVP Data Model](data model image here)
