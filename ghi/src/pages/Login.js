@@ -20,14 +20,14 @@ function Login() {
           />
         </div>
     );
-    
+
   const loginPassword = (
     <div className="login-input login-password">
       <input
       onChange={(e) => setPassword(e.target.value)}
       value={password}
       placeholder="Password"
-      type="password"
+      type="text"
       required
       />
     </div>

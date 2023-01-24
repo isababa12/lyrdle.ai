@@ -10,10 +10,12 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import { AuthProvider, useToken } from "./authApi";
-
+import Create from "./pages/Create";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile"
 import Home from "./pages/Home";
+import Settings from "./pages/Settings";
 import Logout from "./pages/Logout";
 
 function GetToken() {
@@ -33,13 +35,19 @@ function App() {
         <Navbar />
         <GetToken />
         <Routes>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/create" element = {<Create />}/>
+          {/* <Route path="/" element = {<Home />}/> */}
+          <Route path="/profile" element = {<Profile />}/>
+          <Route path="/signup" element={<SignUp />}/>
+          <Route path="/login" element={<Login />}/>
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
 }
+
+
 
 export default App;

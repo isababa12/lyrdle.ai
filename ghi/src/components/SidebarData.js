@@ -12,7 +12,7 @@ export const SidebarData = [
   },
   {
     title: "Create",
-    path: "/signup",
+    path: "/Create",
     icon: <IoIcons.IoIosCreate />,
     cName: "nav-text",
   },
@@ -23,9 +23,15 @@ export const SidebarData = [
     cName: "nav-text",
   },
   {
-    title: "Setting",
-    path: "/setting",
+    title: "Settings",
+    path: "/settings",
     icon: <IoIcons.IoIosSettings />,
+    cName: "nav-text",
+  },
+  {
+    title: "Sign Up",
+    path: "/signup",
+    icon: <IoIcons.IoIosPersonAdd />,
     cName: "nav-text",
   },
   {
@@ -34,10 +40,10 @@ export const SidebarData = [
     icon: <IoIcons.IoIosLogIn />,
     cName: "nav-text",
   },
-//   {
-//     title: "logout",
-//     path: "/logout",
-//     icon: <IoIcons.IoIosLogOut />,
-//     cName: "nav-text",
-//   },
+  {
+    title: "logout",
+    path: "/logout",
+    icon: <IoIcons.IoIosLogOut />,
+    cName: "nav-text",
+  },
 ];

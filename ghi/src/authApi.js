@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 let internalToken = null;
 
 export function getToken() {
@@ -12,7 +12,7 @@ export async function getTokenInternal() {
     const response = await fetch(url, {
       credentials: "include",
     });
-    console.log(response);
+    // console.log(response);
     if (response.ok) {
       const data = await response.json();
       internalToken = data.access_token;
@@ -100,7 +100,7 @@ export function useToken() {
     if (response.ok) {
       const token = await getTokenInternal();
       setToken(token);
-      return;
+      return <Navigate to="/Profile" />;
     }
 
     let error = await response.json();
