@@ -42,7 +42,7 @@ function SignUp() {
   return (
     <div>
       <div className="reg-page">
-        <div className="reg-head">Signup test</div>
+        <div className="reg-head">Signup</div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">
