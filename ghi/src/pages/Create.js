@@ -9,7 +9,6 @@ function Create() {
   const[songName, setSongName] = useState('');
   const[submitted, setSubmitted] = useState(false)
   const[fetching, setFetching] = useState(false)
-  const[newLyrics, setNewLyrics] = useState('')
   const { token } = useAuthContext();
 
     const handlePromptChange = (event) => {
@@ -26,37 +25,34 @@ function Create() {
         const value = event.target.value
         setSongName(value)
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setFetching(true)
-        const promptData = {
-            "user_input": prompt,
-            "artist_name": artistName,
-            "song_name": songName,
-        }
-    const lyricsURL = 'http://localhost:8010/api/users/current/lyrics'
-    const fetchConfig = {
-        method: "POST",
-        body: JSON.stringify(promptData),
-        headers: {
-            Authorization: "Bearer " + token,
-            'Content-Type': 'application/json',
-        },
-    }
 
-        fetch(lyricsURL, fetchConfig)
-            .then(response => response.json())
-            .then(() => {
-                setSubmitted(true)
-            })
-            .catch(e => console.error('Error: ', e))
-
-    }
-    useEffect(() => {
-        if (token) {
-            handleSubmit();
+    const handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            setFetching(true);
+            const promptData = {
+            user_input: prompt,
+            artist_name: artistName,
+            song_name: songName,
+            };
+            const lyricsURL = 'http://localhost:8010/api/users/current/lyrics';
+            const fetchConfig = {
+                method: "POST",
+                body: JSON.stringify(promptData),
+                headers: {
+                    Authorization: "Bearer " + token,
+                    'Content-Type': 'application/json',
+                },
+            };
+            const response = await fetch(lyricsURL, fetchConfig);
+            if (!response.ok) {
+            throw new Error(response.statusText);
+            }
+            setSubmitted(true);
+        } catch (error) {
+            console.error("Error: ", error);
         }
-    }, []);
+    };
 
     let messages = "alert alert-success d-none mb-0"
 
