@@ -50,7 +50,9 @@ async def create_user(
     return AccountToken(user=user, **token.dict())
 
 
-@router.get("/api/users", response_model=Union[List[UserOutWithPassword], Error])
+@router.get(
+    "/api/users", response_model=Union[List[UserOutWithPassword], Error]
+)
 def get_all_users(repo: UserQueries = Depends()):
     return repo.get_all_users()
 
@@ -67,7 +69,10 @@ def get_user_by_username(username: str, queries: UserQueries = Depends()):
     return queries.get_one_user_username(username)
 
 
-@router.put("/api/users/current", response_model=Union[UserOut, UserOutWithPassword, Error])
+@router.put(
+    "/api/users/current",
+    response_model=Union[UserOut, UserOutWithPassword, Error],
+)
 def update_user(
     new_info: UserIn,
     account: dict = Depends(authenticator.get_current_account_data),
@@ -89,7 +94,6 @@ def update_user(
         password = new_info.password
         hashed_password = authenticator.hash_password(new_info.password)
     return repo.update(user_id, email, username, hashed_password, password)
-
 
 
 @router.delete("/api/users/{user_id}", response_model=bool)

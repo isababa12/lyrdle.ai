@@ -18,6 +18,9 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Logout from "./pages/Logout";
 
+const domain = /https:\/\/[^/]+/;
+const basename = process.env.PUBLIC_URL.replace(domain, '');
+
 function GetToken() {
   // Get token from JWT cookie (if already logged in)
   useToken();
@@ -31,7 +34,7 @@ function GetToken() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Navbar />
         <GetToken />
         <Routes>
