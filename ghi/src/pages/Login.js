@@ -91,27 +91,27 @@ function Login() {
 
   return (
     <>
-      <video src="/login/login-vid.mp4" autoPlay muted loop />
+      <video className ="background-video" src="/login/login-vid.mp4" autoPlay muted loop />
       <div className="login-page">
         <div className="login-form">
           <div className="login-head">
             <p className="login-slogan">Welcome to Lyrdle Ai</p>
-              <div className="login-body">
-                {loginInput}
-                {loginPassword}
-                <div>
-                    <button
-                      onClick={() => loginRedirect()}
-                      type="button"
-                      className="log-btn"
-                    >
-                      Log In
-                    </button>
-                  <NavLink to="/signup">
-                    <button>I don't have an account</button>
-                  </NavLink>
-                </div>
+            <div className="login-body">
+              {loginInput}
+              {loginPassword}
+              <div>
+                <button
+                  onClick={() => loginRedirect()}
+                  type="button"
+                  className="log-btn"
+                >
+                  Log In
+                </button>
+                <NavLink to="/signup">
+                  <button>I don't have an account</button>
+                </NavLink>
               </div>
+            </div>
           </div>
         </div>
       </div>
