@@ -22,7 +22,7 @@ const domain = /https:\/\/[^/]+/;
 const basename = process.env.PUBLIC_URL.replace(domain, '');
 
 function GetToken() {
-  // Get token from JWT cookie (if already logged in)
+
   useToken();
   return null;
 }
@@ -31,19 +31,21 @@ function GetToken() {
 //   const [error, setError] = useState(null);
 //   const [token, setToken] = useState(null);
 
+
 function App() {
+
   return (
     <AuthProvider>
       <BrowserRouter basename={basename}>
         <Navbar />
         <GetToken />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/create" element = {<Create />}/>
-          {/* <Route path="/" element = {<Home />}/> */}
-          <Route path="/profile" element = {<Profile />}/>
-          <Route path="/signup" element={<SignUp />}/>
-          <Route path="/login" element={<Login />}/>
+          <Route path="/create" element={<Create />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>

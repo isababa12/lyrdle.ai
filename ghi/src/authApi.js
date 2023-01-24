@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 let internalToken = null;
+let internalCookie = null;
 
 export function getToken() {
   return internalToken;
@@ -17,6 +18,22 @@ export async function getTokenInternal() {
       const data = await response.json();
       internalToken = data.access_token;
       return internalToken;
+    }
+  } catch (e) {}
+  return false;
+}
+
+export async function getCookie() {
+  const url = `${process.env.REACT_APP_USERS_API_HOST}/token`;
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+    });
+    console.log(response);
+    if (response.ok) {
+      const data = await response.json();
+      internalCookie = data
+      return internalCookie;
     }
   } catch (e) {}
   return false;
@@ -46,13 +63,16 @@ function handleErrorMessage(error) {
 export const AuthContext = createContext({
   token: null,
   setToken: () => null,
+  cookie: null,
+  setCookie: () => null,
 });
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
+  const [cookie, setCookie] = useState(null);
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, cookie, setCookie }}>
       {children}
     </AuthContext.Provider>
   );
@@ -61,13 +81,15 @@ export const AuthProvider = ({ children }) => {
 export const useAuthContext = () => useContext(AuthContext);
 
 export function useToken() {
-  const { token, setToken } = useAuthContext();
+  const { token, setToken, cookie, setCookie } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchToken() {
       const token = await getTokenInternal();
       setToken(token);
+      const cookie = await getCookie();
+      setCookie(cookie);
     }
     if (!token) {
       fetchToken();
@@ -80,6 +102,8 @@ export function useToken() {
       await fetch(url, { method: "delete", credentials: "include" });
       internalToken = null;
       setToken(null);
+      internalCookie = null;
+      setCookie(null);
       navigate("/");
     }
   }
@@ -100,11 +124,13 @@ export function useToken() {
     if (response.ok) {
       const token = await getTokenInternal();
       setToken(token);
-      return <Navigate to="/Profile" />;
+      const cookie = await getCookie();
+      setCookie(cookie);
+      return;
+    } else {
+      let error = await response.json();
+      return handleErrorMessage(error);
     }
-
-    let error = await response.json();
-    return handleErrorMessage(error);
   }
 
   async function signup(username, password, email) {
@@ -145,5 +171,5 @@ export function useToken() {
     return false;
   }
 
-  return [token, login, logout, signup, update];
+  return [token, login, logout, signup, update, cookie];
 }

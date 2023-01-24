@@ -42,7 +42,7 @@ function SignUp() {
   return (
     <div>
       <div className="reg-page">
-        <div className="reg-head">Signup</div>
+        <div className="reg-head">Welcome to Lyrdle Ai </div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">
@@ -73,7 +73,7 @@ function SignUp() {
               />
             </div>
             <NavLink to="/login">
-              <button onClick={(e) => signup(email, password, username)}>
+              <button onClick={(e) => signup(username, password, email)}>
                 Register
               </button>
             </NavLink>
