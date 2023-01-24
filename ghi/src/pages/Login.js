@@ -61,16 +61,6 @@ function Login() {
         </div>
     );
 
-      <input
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-        placeholder="Username"
-        type="text"
-        required
-      />
-    </div>
-  );
-
   const loginPassword = (
     <div className="login-input login-password">
       <input
