@@ -1,94 +1,122 @@
-import React, { useState } from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+// import * as FaIcons from "react-icons/fa";
+// import * as AiIcons from "react-icons/ai";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
 // import * as IoIcons from "react-icons/io";
-import { useAuthContext, useToken } from "../authApi";
-import {
-  IoIosSettings,
-  IoIosLogIn,
-  IoIosAlbums,
-  // AiFillHome,
-  IoIosAddCircle,
-  IoIosLogOut,
-} from "react-icons/io";
+import { useToken } from "../authApi";
+// import { useAuthContext, useToken } from "../authApi";
+
+// import {
+//   IoIosSettings,
+//   IoIosLogIn,
+//   IoIosAlbums,
+//   // AiFillHome,
+//   IoIosAddCircle,
+//   IoIosLogOut,
+// } from "react-icons/io";
 
 function Navbar() {
-  const [sidebar, setSidebar] = useState(false);
   const { token } = useToken();
-  // const [ token, login, logout]= useToken();
-  const { cookie } = useAuthContext();
   // const { cookie, isLoggedIn } = useAuthContext();
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const getUserInfo = useCallback(async() => {
+      // const userURL = `http://localhost:8000/api/users/current`;
+      const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
+      const fetchConfig = {
+          method: "get",
+          headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
+          },
+      };
+      const response = await fetch(userURL, fetchConfig);
+      if (response.ok) {
+          setLoggedIn(true);
+      }
+  }, [token])
+
+  useEffect(() => {
+      if (token){
+          getUserInfo();
+      }
+  }, [token, getUserInfo]);
+
+  useEffect(() => {
+    if (!token) {
+        setLoggedIn(false);
+    }
+  }, [token]);
+
+  const locationLogIn = useLocation();
+  if (locationLogIn.pathname === "/login" || locationLogIn.pathname === "/signup"){
+    return null;
+  }
+
+
+  let logInDependent = "nav-link d-none"
+  let logOutDependent = "nav-link"
+
+  if (loggedIn === true){
+    logInDependent = "nav-link "
+    logOutDependent = "nav-link d-none"
+  }
 
   return (
-    <>
-      <IconContext.Provider value={{ color: "#fff" }}>
-        <div className="navbar">
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
+  <>
+    <IconContext.Provider value={{ color: "#fff" }}>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div className="container">
+          <nav className="navbar-brand" href="#">
+          <Link to="/">
+            <img src="https://placeholder.pics/svg/150x50/888888/EEE/Logo" alt="..." height="36"/>
           </Link>
-        </div>
-        <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
-            <li className="navbar-toggle">
-              <Link to="#" className="menu-bars">
-                <AiIcons.AiOutlineClose />
-              </Link>
-            </li>
-
-                {token
-                  ?
-                    <>
-                      <li key="token" style={{color: "white"}} className="nav-text">
-                        Welcome, {cookie?.user.username}
-                      </li>
-                    </>
-                  :
-                  "" }
-            <li key="Home" className="nav-text">
-              <Link to="/">
-                <AiIcons.AiFillHome></AiIcons.AiFillHome>
-                Home
-              </Link>
-            </li>
-            <li key="Settings" className="nav-text">
-              <Link to="/settings">
-                <IoIosSettings></IoIosSettings>
-                Settings
-              </Link>
-            </li>
-            <li key="Profile" className="nav-text">
-              <Link to="/Profile">
-                <IoIosAlbums></IoIosAlbums>
-                Profile
-              </Link>
-            </li>
-            <li key="Sign Up" class="nav-text">
-              {!token && (
-                <NavLink to="/signup">
-                  <IoIosAddCircle></IoIosAddCircle>
-                  Sign Up
+          </nav>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item" key="login">
+                <NavLink to="/login" className={logOutDependent} aria-current="page" href="#">
+                <button type="button" className="btn btn-success" >
+                  Log In
+                </button>
                 </NavLink>
-              )}
-            </li>
-            <li key="Login" className="nav-text">
-              {!token && <NavLink to="/login">
-              <IoIosLogIn></IoIosLogIn>
-              Log In</NavLink>}
-            </li>
-            <li key="Logout" className="nav-text">
-              {token && <NavLink to="/logout">
-              <IoIosLogOut></IoIosLogOut>
-              Logout</NavLink>}
-            </li>
-          </ul>
-        </nav>
-      </IconContext.Provider>
-    </>
+              </li>
+              <li>
+                <NavLink to="/create" className={logInDependent} aria-current="page" href="#">
+                <button type="button" className="btn btn-success" >
+                  Create Lyrics!
+                </button>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/profile" className={logInDependent} aria-current="page" href="#">
+                <button type="button" className="btn btn-primary" >
+                  Profile
+                </button>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/settings" className={logInDependent} aria-current="page" href="#">
+                <button type="button" className="btn btn-primary" >
+                  Settings
+                </button>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/logout" className={logInDependent} aria-current="page" href="#">
+                <button type="button" className="btn btn-danger" >
+                  Log Out
+                </button>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </IconContext.Provider>
+  </>
   );
 }
 

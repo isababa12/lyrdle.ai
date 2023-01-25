@@ -29,7 +29,7 @@ export async function getCookie() {
     const response = await fetch(url, {
       credentials: "include",
     });
-    console.log(response);
+    // console.log(response);
     if (response.ok) {
       const data = await response.json();
       internalCookie = data

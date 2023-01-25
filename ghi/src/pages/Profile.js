@@ -1,164 +1,116 @@
-import { React, useEffect, useState } from "react";
-import axios from "axios";
-
-// const axios = require("axios").default;
-
-// const api = axios.create({
-//   baseURL: `http://localhost:8010`,
-// });
+import { React, useEffect, useState, useCallback } from "react";
+import { useAuthContext } from "../authApi";
 
 function Profile() {
-  const [postedLyrics, setPostedLyrics] = useState([]);
-  const [users, setUsers] = useState([]);
+  const { token } = useAuthContext();
+  const [userLyrics, setUserLyrics] = useState([]);
+  const [userInfo, setUserInfo] = useState('');
+  const [postedStatuses, setPostedStatuses] = useState('');
 
-  // const getLyrics = () => {
-  //   axios
-  //     .get(`http://localhost:8010/api/lyrics`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setPostedLyrics(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  useEffect(() => {
+
+    if (token) {
+      getUserInfo();
+      getLyrics();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+
+  const getUserInfo = useCallback(async() => {
+    try {
+      const userURL = `http://localhost:8000/api/users/current`;
+      const fetchConfig = {
+          method: "get",
+          headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
+          },
+      };
+      const response = await fetch(userURL, fetchConfig);
+      if (response.ok) {
+        const data = await response.json();
+        setUserInfo(data);
+      }
+    } catch (error) {
+      console.log("Error", error.response.data);
+    }
+  }, [token]);
+
 
   const getLyrics = async () => {
     try {
-      const response = await axios.get("http://localhost:8010/api/users/current");
-      setPostedLyrics(response.data);
-      console.log(response.data);
+      const lyricsUrl = `http://localhost:8010/api/users/current/lyrics`;
+      const fetchConfig = {
+          method: "get",
+          headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
+          },
+      };
+      const response = await fetch(lyricsUrl, fetchConfig);
+      if (response.ok) {
+        const data = await response.json();
+        setUserLyrics(data);
+        let statuses = {};
+        for (let i = 0; i < data.length; i++) {
+          let currLyrics = data[i];
+          let lyricsId = currLyrics["id"];
+          statuses[lyricsId] = currLyrics["posted"];
+        }
+        setPostedStatuses(statuses);
+        // console.log(statuses);
+      }
     } catch (error) {
-      console.log(error.response.data);
+      console.log("Error", error);
     }
   };
 
-  // async function GetLyrics() {
-  //   // const lyricsUrl = `http://localhost:8010/api/lyrics`;
-  //   try {
-  //     const response = await api.get(`api/lyrics`);
-  //     setPostedLyrics(response.data);
-  //     console.log(response);
-  //     console.log(`The data is: ${response.data.lyrics}`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // Uncomment this if you don't have enough posted lyrics to work with
-  // setPostedLyrics(data);
-
-  //   let postedData = [];
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (data[i].posted === true) {
-  //       postedData.push(data[i]);
-  //     }
-  //   }
-  //   setPostedLyrics(postedData);
-  // };
-
-  // const getLyrics = async () => {
-  //   const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/lyrics`;
-
-  //   // const response = await fetch(lyricsUrl)
-  //   // if (response.ok) {
-  //   //   const data = await response.json();
-  //   try {
-  //     const response = await Axios.get(lyricsUrl)
-  //     console.log(response.data)
-  //     console.log(response)
-  //     console.log(data)
-
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-
-  //     // Uncomment this if you don't have enough posted lyrics to work with
-  //     // setPostedLyrics(data);
-
-  //     let postedData = [];
-  //     for (let i = 0; i < data.length; i++) {
-  //       if (data[i].posted === true) {
-  //         postedData.push(data[i]);
-  //       }
-  //     }
-  //     setPostedLyrics(postedData);
-
-  //   }
-
-  // const getUsers = async () => {
-  //   const usersUrl = `${process.env.REACT_APP_USERS_API_HOST}/api/users`;
-
-  //   const response = await fetch(usersUrl);
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     let dataObj = {};
-  //     for (let i = 0; i < data.length; i++) {
-  //       let currUser = data[i];
-  //       let id = currUser.id;
-  //       let username = currUser.username;
-  //       dataObj[id] = username;
-  //     }
-  //     console.log("DataObj: ", dataObj);
-  //     setUsers(dataObj);
-  //   }
-  // };
-
-  const getUsers = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/users/current");
-      setUsers(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+  function postedChecker(lyricsId) {
+    if (postedStatuses[lyricsId] === false) {
+      return false;
+    } else {
+      return true;
     }
   };
 
-  // const getUsers = () => {
-  //   axios
-  //     .get(`http://localhost:8000/api/users`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setUsers(response.data.username);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  useEffect(() => {
-    getLyrics();
-    getUsers();
-  }, []);
 
   return (
     <>
+    <div id="homepage-container">
       <div id="heading">
-        <h1>Homepage</h1>
+        <h1>{userInfo.username} | My Lyrics | </h1>
       </div>
-      <h1>PROFILE</h1>
-
-      <div className="lyrics-container">
-        {postedLyrics.map((lyrics) => {
+      <div className="row row-cols-3">
+        {userLyrics.map((lyrics) => {
           return (
-            <div key={lyrics.id} className="card mb-3 shadow">
+            <div key={lyrics.id} className="card mb-3 shadow ">
               <div className="card-body">
-                <h5 className="card-title">
-                  Posted by {users[lyrics.user_id]}
-                </h5>
                 <h6 className="card-subtitle mb-2 text-muted">
-                  {new Date(lyrics.created_at).toLocaleDateString()}
+                  Created on {new Date(lyrics.created_at).toLocaleDateString()}
                 </h6>
-                <p className="card-text" style={{ whiteSpace: "pre-line" }}>
-                  {lyrics.user_output}
-                </p>
+                <h6 className="card-subtitle mb-2 text-muted">
+                  {lyrics.total_likes} Likes
+                </h6>
+                  <div id="module" className="card-text">
+                  <p className="collapse" id="collapseExample" aria-expanded="false" style={{ whiteSpace: "pre-line" }}>
+                    {lyrics.user_output}
+                  </p>
+                  <a role="button" className="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show </a>
+                </div>
               </div>
-              <div className="card-footer">total likes here</div>
+              <div className="card-footer">
+                {(postedChecker(lyrics.id)) ? <p>Posted to Homepage</p> : <p>Currently Hidden</p>}
+                {(postedChecker(lyrics.id)) ? <button type="submit" className="btn btn-secondary" id="lyrics-btn">Remove Post</button> : <button type="submit" id="lyrics-btn"   className="btn btn-primary">Post to Homepage</button>}
+                <button type="submit" className="btn btn-danger" id="lyrics-btn">Delete Lyrics</button>
+              </div>
             </div>
           );
         })}
       </div>
+    </div>
     </>
   );
 }
+
 export default Profile;

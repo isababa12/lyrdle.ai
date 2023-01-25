@@ -7,8 +7,8 @@ function Create() {
   const[prompt, setPrompt] = useState('');
   const[artistName, setArtistName] = useState('');
   const[songName, setSongName] = useState('');
-  const[submitted, setSubmitted] = useState(false)
-  const[fetching, setFetching] = useState(false)
+  const[submitted, setSubmitted] = useState(false);
+  const[fetching, setFetching] = useState(false);
   const { token } = useAuthContext();
 
     const handlePromptChange = (event) => {
@@ -35,7 +35,8 @@ function Create() {
             artist_name: artistName,
             song_name: songName,
             };
-            const lyricsURL = 'http://localhost:8010/api/users/current/lyrics';
+            // const lyricsURL = `http://localhost:8010/api/users/current/lyrics`;
+            const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
             const fetchConfig = {
                 method: "POST",
                 body: JSON.stringify(promptData),

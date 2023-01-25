@@ -11,6 +11,7 @@ function Home() {
   const [postedLyrics, setPostedLyrics] = useState([]);
   const [users, setUsers] = useState([]);
 
+
   // const getLyrics = () => {
   //   axios
   //     .get(`http://localhost:8010/api/lyrics`)
@@ -25,11 +26,10 @@ function Home() {
 
   const getLyrics = async () => {
     try {
-      const response = await axios.get("http://localhost:8010/api/lyrics");
+      // const response = await axios.get("http://localhost:8010/api/lyrics");
+      const response = await axios.get(`${process.env.REACT_APP_LYRICS_API_HOST}/api/lyrics`);
       setPostedLyrics(response.data);
-      console.log(response.data);
     } catch (error) {
-      console.log(error.response.data);
     }
   };
 
@@ -106,11 +106,10 @@ function Home() {
 
   const getUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/users");
+      // const response = await axios.get("http://localhost:8000/api/users");
+      const response = await axios.get(`${process.env.REACT_APP_USERS_API_HOST}/api/users`);
       setUsers(response.data);
-      console.log(response.data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -148,7 +147,7 @@ function Home() {
                 <h6 className="card-subtitle mb-2 text-muted">
                   {new Date(lyrics.created_at).toLocaleDateString()}
                 </h6>
-                <p className="card-text" style={{ whiteSpace: "pre-line" }}>
+                <p className="card-text lyrics-output-card" style={{ whiteSpace: "pre-line" }}>
                   {lyrics.user_output}
                 </p>
               </div>

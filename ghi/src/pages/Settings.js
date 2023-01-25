@@ -1,17 +1,20 @@
 import { useEffect, useState, useCallback } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../authApi";
 import React from 'react';
 
 function Settings() {
-    // const [userInfo, setUserInfo] = useState('');
     const { token } = useAuthContext();
     const [submitted, setSubmitted] = useState(false)
+    const [deleted, setDeleted] = useState(false)
+    const [deleteAttempt, setDeleteAttempt] = useState(false)
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const getUserInfo = useCallback(async() => {
-        const userURL = `http://localhost:8000/api/users/current`
+        // const userURL = `http://localhost:8000/api/users/current`
+        const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
         const fetchConfig = {
             method: "get",
             headers: {
@@ -22,7 +25,6 @@ function Settings() {
         const response = await fetch(userURL, fetchConfig);
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
             // setUserInfo(data);
             setEmail(data.email);
             setUsername(data.username);
@@ -35,7 +37,8 @@ function Settings() {
             getUserInfo();
         }
     }, [token, getUserInfo]);
-    // commenting so I can commit - delete later
+
+
 
     const handleNewEmailChange = (event) => {
         const value = event.target.value
@@ -60,25 +63,46 @@ function Settings() {
             "username": username,
             "password": password,
         }
-        const userURL = 'http://localhost:8000/api/users/current'
-        const fetchConfig = {
-            method: "put",
-            body: JSON.stringify(userData),
-            headers: {
-                Authorization: "Bearer " + token,
-                'Content-Type': 'application/json',
-            },
-        }
+    // const userURL = 'http://localhost:8000/api/users/current'
+    const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
+    const fetchConfig = {
+        method: "put",
+        body: JSON.stringify(userData),
+        headers: {
+            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+        },
+    }
         const response = await fetch(userURL, fetchConfig);
         if (response.ok) {
             const data = await response.json();
-            // console.log(data);
-            // setUserInfo(data);
+
             setEmail(data.email);
             setUsername(data.username);
             setPassword('');
-            // ADDED THIS
             setSubmitted(true);
+        }
+    }
+
+    const handleDeleteAttempt = async (event) => {
+        event.preventDefault();
+        setDeleteAttempt(true);
+    }
+
+    const handleDelete = async (event) => {
+        event.preventDefault();
+    // const userURL = 'http://localhost:8000/api/users/current'
+    const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
+    const fetchConfig = {
+        method: "delete",
+        headers: {
+            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+        },
+    }
+        const response = await fetch(userURL, fetchConfig);
+        if (response.ok) {
+            setDeleted(true);
         }
     }
 
@@ -87,6 +111,17 @@ function Settings() {
     if (submitted === true) {
         messages = "alert alert-success mb-0"
     }
+
+    let deleteButton = "btn btn-danger d-none"
+
+    if (deleteAttempt === true){
+        deleteButton = "btn btn-danger"
+    }
+
+    if (deleted === true){
+        return <Navigate to ="/logout"/>
+    }
+
     return (
         <div className="row">
             <div className="offset-3 col-6">
@@ -116,6 +151,12 @@ function Settings() {
                 </div>
                 <div className={messages} id="success-message">
                     Your account info has been updated.
+                </div>
+                <div>
+                    <button type="button" className="btn btn-danger" onClick={handleDeleteAttempt} id="delete-current-user">Delete Account</button>
+                </div>
+                <div>
+                    <button type="button" className={deleteButton} onClick={handleDelete} id="delete-current-user">Are you sure?</button>
                 </div>
             </div>
         </div>
