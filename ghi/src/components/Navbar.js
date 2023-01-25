@@ -4,21 +4,23 @@ import * as AiIcons from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
-import * as IoIcons from "react-icons/io";
+// import * as IoIcons from "react-icons/io";
 import { useAuthContext, useToken } from "../authApi";
 import {
   IoIosSettings,
   IoIosLogIn,
   IoIosAlbums,
-  AiFillHome,
+  // AiFillHome,
   IoIosAddCircle,
   IoIosLogOut,
 } from "react-icons/io";
 
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
-  const [ token, login, logout]= useToken();
-  const { cookie, isLoggedIn } = useAuthContext();
+  const { token } = useToken();
+  // const [ token, login, logout]= useToken();
+  const { cookie } = useAuthContext();
+  // const { cookie, isLoggedIn } = useAuthContext();
 
   const showSidebar = () => setSidebar(!sidebar);
 
@@ -48,15 +50,15 @@ function Navbar() {
                   :
                   "" }
             <li key="Home" className="nav-text">
-              <Link to="/Home">
+              <Link to="/">
                 <AiIcons.AiFillHome></AiIcons.AiFillHome>
                 Home
               </Link>
             </li>
-            <li key="Setting" className="nav-text">
-              <Link to="/setting">
+            <li key="Settings" className="nav-text">
+              <Link to="/settings">
                 <IoIosSettings></IoIosSettings>
-                Setting
+                Settings
               </Link>
             </li>
             <li key="Profile" className="nav-text">

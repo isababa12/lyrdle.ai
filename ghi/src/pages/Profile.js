@@ -1,12 +1,11 @@
 import { React, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // const axios = require("axios").default;
 
-const api = axios.create({
-  baseURL: `http://localhost:8010`,
-});
+// const api = axios.create({
+//   baseURL: `http://localhost:8010`,
+// });
 
 function Profile() {
   const [postedLyrics, setPostedLyrics] = useState([]);
@@ -145,7 +144,7 @@ function Profile() {
             <div key={lyrics.id} className="card mb-3 shadow">
               <div className="card-body">
                 <h5 className="card-title">
-                  Posted by (users[lyrics.user_id])
+                  Posted by {users[lyrics.user_id]}
                 </h5>
                 <h6 className="card-subtitle mb-2 text-muted">
                   {new Date(lyrics.created_at).toLocaleDateString()}

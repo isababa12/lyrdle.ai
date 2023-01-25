@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuthContext } from "../authApi";
 import React from 'react';
 
 function Settings() {
-    const [userInfo, setUserInfo] = useState('');
+    // const [userInfo, setUserInfo] = useState('');
     const { token } = useAuthContext();
     const [submitted, setSubmitted] = useState(false)
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const getUserInfo = async() => {
+    const getUserInfo = useCallback(async() => {
         const userURL = `http://localhost:8000/api/users/current`
         const fetchConfig = {
             method: "get",
@@ -22,18 +22,20 @@ function Settings() {
         const response = await fetch(userURL, fetchConfig);
         if (response.ok) {
             const data = await response.json();
-            setUserInfo(data);
+            console.log(data);
+            // setUserInfo(data);
             setEmail(data.email);
             setUsername(data.username);
-            setPassword(data.password);
+            setPassword('');
         }
-    }
+    }, [token])
 
     useEffect(() => {
         if (token){
             getUserInfo();
         }
-    }, []);
+    }, [token, getUserInfo]);
+    // commenting so I can commit - delete later
 
     const handleNewEmailChange = (event) => {
         const value = event.target.value
@@ -50,33 +52,34 @@ function Settings() {
         setPassword(value)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         getUserInfo();
-        console.log("User Info:", userInfo)
         const userData = {
             "email": email,
             "username": username,
             "password": password,
         }
-    const usersURL = 'http://localhost:8000/api/users/current'
-    const fetchConfig = {
-        method: "put",
-        body: JSON.stringify(userData),
-        headers: {
-            Authorization: "Bearer " + token,
-            'Content-Type': 'application/json',
-        },
-    }
-        fetch(usersURL, fetchConfig)
-            .then(response => response.json())
-            .then(() => {
-                setEmail(email)
-                setUsername(username)
-                setPassword(password)
-                setSubmitted(true)
-            })
-            .catch(e => console.error('Error: ', e))
+        const userURL = 'http://localhost:8000/api/users/current'
+        const fetchConfig = {
+            method: "put",
+            body: JSON.stringify(userData),
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            },
+        }
+        const response = await fetch(userURL, fetchConfig);
+        if (response.ok) {
+            const data = await response.json();
+            // console.log(data);
+            // setUserInfo(data);
+            setEmail(data.email);
+            setUsername(data.username);
+            setPassword('');
+            // ADDED THIS
+            setSubmitted(true);
+        }
     }
 
     let messages = "alert alert-success d-none mb-0"
@@ -93,18 +96,18 @@ function Settings() {
                         <div className="form-floating mb-3">
                             <input onChange={handleNewEmailChange} placeholder="New Email" required
                                 type="text" name="new-email" id="new-email"
-                                className="form-control" value={email}/>
+                                className="form-control" value={email} />
                             <label htmlFor="new-email">New Email</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input onChange={handleNewUsernameChange} placeholder="New Username" required
                                 type="text" name="new-username" id="new-username"
-                                className="form-control" value={username} />
+                                className="form-control" value={username}/>
                             <label htmlFor="new-username">New Username</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input onChange={handlePasswordChange} placeholder="New Password" required
-                                type="text" name="password" id="password"
+                                type="password" name="password" id="password"
                                 className="form-control" value={password}/>
                             <label htmlFor="new-password">New password</label>
                         </div>
@@ -119,4 +122,4 @@ function Settings() {
     );
 }
 
-export default Settings
+export default Settings;

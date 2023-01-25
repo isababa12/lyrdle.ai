@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useAuthContext, useToken } from "../authApi";
+import { useToken } from "../authApi";
 import "./Login.css";
 
 function Login() {
@@ -8,46 +8,9 @@ function Login() {
   const [password, setPassword] = useState("");
   // const [email, setEmail] = useState("")
   // const [submit, setSubmitted] = useState("")
-  const [token, login] = useToken();
-  const { isLoggedIn } = useAuthContext();
+  const [, login] = useToken();
+  // const { isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const userData = {
-  //     email: email,
-  //     username: username,
-  //     password: password,
-  //   };
-  //   const usersURL = "http://localhost:8000/api/users/current";
-  //   const fetchConfig = {
-  //     method: "put",
-  //     body: JSON.stringify(userData),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-
-  //   fetch(usersURL, fetchConfig)
-  //     .then((response) => response.json())
-  //     .then(() => {
-  //       setEmail("");
-  //       setUsername("");
-  //       setPassword("");
-  //       setSubmitted(true);
-  //     })
-  //     .catch((e) => console.error("Error: ", e));
-  // };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const error = await login(username, password);
-    if (error) {
-      isLoggedIn(false);
-    } else {
-      navigate('/');
-    }
-  };
 
   const loginInput = (
     <div className="login-input login-username">
