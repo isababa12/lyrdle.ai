@@ -1,12 +1,11 @@
 import { React, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // const axios = require("axios").default;
 
-const api = axios.create({
-  baseURL: `http://localhost:8010`,
-});
+// const api = axios.create({
+//   baseURL: `http://localhost:8010`,
+// });
 
 function Home() {
   const [postedLyrics, setPostedLyrics] = useState([]);

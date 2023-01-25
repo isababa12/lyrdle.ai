@@ -3,26 +3,24 @@ stages:
   - build
   - deploy
 
+# Create a PostgresSQL RDBMS for tests
+services:
+  - postgres:14.2-bullseye
+
+variables:
+  POSTGRES_PASSWORD: test
+  DATABASE_URL: postgresql://postgres:test@postgres:5432/postgres
+
+
 # Run flake8 to check for code quality
 lint-test-job:
   image: python:3-bullseye
   stage: test
   script:
     - pip install flake8
-    # - flake8 users
-    # - flake8 lyrics
+    - flake8 users
+    - flake8 lyrics
 
-
-# Run the unit tests
-# api-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd sample_service
-#     - pip install -r requirements.txt
-#     - python -m pytest
 
 # # Run the user unit tests
 # users-unit-test-job:
@@ -36,7 +34,7 @@ lint-test-job:
 #     - python -m pytest
 
 # # Run the lyrics unit tests
-# concerts-unit-test-job:
+# lyrics-unit-test-job:
 #   image: python:3-bullseye
 #   stage: test
 #   # needs:
@@ -89,7 +87,7 @@ build-lyrics-backend:
 
   script:
     - cd lyrics
-    - echo "Building..." 
+    - echo "Building..."
     - export CONTAINER_FULL_IMAGE_NAME_WITH_TAG=$IMAGE_NAME_WITH_REGISTRY_PREFIX/lyrics:$COMMIT_HASH
     - docker build -f ./Dockerfile --pull -t lyrics_img .
     - docker tag lyrics_img "$CONTAINER_FULL_IMAGE_NAME_WITH_TAG"
@@ -102,40 +100,40 @@ build-lyrics-backend:
 
 
 # Build the React/JavaScript front-end
-# build-front-end-job:
-#   stage: build
-#   image: node:lts-bullseye
-#   needs:
-#     - lint-test-job
-#   variables:
-#     # If either of these variables is defined in the GitLab
-#     # CI/CD variables, that value will override the value here.
-#     # You need to substitute in your real values for
-#     # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
-#     PUBLIC_URL: https://gitlab.com/lyrdle-ai/module3-project-gamma
-#     # REACT_APP_USERS_API_HOST: https://users.sept-pt-11.mod3projects.com/
-#     # REACT_APP_LYRICS_API_HOST: https://WEBSERVICE_NAME.onrender.com
-#   script:
-#     - cd ghi
-#     - npm install
-#     - npm run build
-#     - cp build/index.html build/404.html
-#   artifacts:
-#     paths:
-#       - ghi/build/
+build-front-end-job:
+  stage: build
+  image: node:lts-bullseye
+  needs:
+    - lint-test-job
+  variables:
+    # If either of these variables is defined in the GitLab
+    # CI/CD variables, that value will override the value here.
+    # You need to substitute in your real values for
+    # GROUP_NAME, PROJECT_NAME, & WEBSERVICE_NAME below.
+    PUBLIC_URL: https://lyrdle-ai.gitlab.io/module3-project-gamma
+    REACT_APP_USERS_API_HOST: https://users.sept-pt-11.mod3projects.com
+    REACT_APP_LYRICS_API_HOST: https://lyrics.sept-pt-11.mod3projects.com
+  script:
+    - cd ghi
+    - npm install
+    - npm run build
+    - cp build/index.html build/404.html
+  artifacts:
+    paths:
+      - ghi/build/
 
 
-# # Deploy the React/JavaScript front-end to GitLab pages
-# pages:
-#   stage: deploy
-#   rules:
-#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#   dependencies:
-#     - build-front-end-job
-#   needs:
-#     - build-front-end-job
-#   script:
-#     - mv ghi/build/ public
-#   artifacts:
-#     paths:
-#       - public
+# Deploy the React/JavaScript front-end to GitLab pages
+pages:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  dependencies:
+    - build-front-end-job
+  needs:
+    - build-front-end-job
+  script:
+    - mv ghi/build/ public
+  artifacts:
+    paths:
+      - public

@@ -23,7 +23,7 @@
 .reg-input {
   display: flex;
   flex-direction: column;
-  margin-bottom: 64px;
+  margin-bottom: 4px;
 }
 
 .reg-form input {

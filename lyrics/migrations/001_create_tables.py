@@ -18,7 +18,7 @@ steps = [
         # "Down" SQL statement - Lyrics Table
         """
         DROP TABLE lyrics;
-        """
+        """,
     ],
     [
         # "Up" SQL statement - Comments Table
@@ -35,7 +35,7 @@ steps = [
         # "Down" SQL statement - Comments Table
         """
         DROP TABLE comments;
-        """
+        """,
     ],
     [
         # "Up" SQL statement - Likes Table
@@ -50,7 +50,7 @@ steps = [
         # "Down" SQL statement - Likes Table
         """
         DROP TABLE likes;
-        """
+        """,
     ],
     [
         # "Up" SQL statement - Likes Table
@@ -65,6 +65,6 @@ steps = [
         # "Down" SQL statement - Likes Table
         """
         DROP TABLE likes;
-        """
-    ]
+        """,
+    ],
 ]

@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from datetime import datetime
-from typing import List, Optional, Union
+from typing import List, Union
 from jwtdown_fastapi.authentication import Token
 from queries.pool import pool
 
@@ -17,12 +16,14 @@ class UserOut(BaseModel):
     username: str
     hashed_password: str
 
+
 class UserOutWithPassword(BaseModel):
     id: int
     email: str
     username: str
     password: str
     hashed_password: str
+
 
 class Error(BaseModel):
     message: str
@@ -46,7 +47,6 @@ class AccountToken(Token):
 
 
 class UserQueries:
-
     def create_user(self, user: UserIn, hashed_password: str) -> UserOut:
         try:
             with pool.connection() as conn:
@@ -77,7 +77,6 @@ class UserQueries:
             print(e)
             return {"message": "create did not work"}
 
-
     def get_all_users(self) -> Union[List[UserOutWithPassword], Error]:
         try:
             with pool.connection() as conn:
@@ -103,7 +102,6 @@ class UserQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not get all users"}
-
 
     def get_one_user_username(self, username: str) -> Union[UserOut, Error]:
         with pool.connection() as conn:
@@ -131,9 +129,13 @@ class UserQueries:
                     hashed_password=record[3],
                 )
 
-
     def update(
-        self, user_id: int, email: str, username: str, hashed_password: str, password: str
+        self,
+        user_id: int,
+        email: str,
+        username: str,
+        hashed_password: str,
+        password: str,
     ) -> Union[UserOut, UserOutWithPassword, Error]:
         try:
             with pool.connection() as conn:
@@ -158,11 +160,11 @@ class UserQueries:
                         if updated_row_count > 0:
                             print("Updated rows: ", updated_row_count)
                             return UserOut(
-                            id=user_id,
-                            email=email,
-                            username=username,
-                            hashed_password=hashed_password,
-                        )
+                                id=user_id,
+                                email=email,
+                                username=username,
+                                hashed_password=hashed_password,
+                            )
                         else:
                             print("Nothing to update.")
                             return False
@@ -188,12 +190,12 @@ class UserQueries:
                         if updated_row_count > 0:
                             print("Updated rows: ", updated_row_count)
                             return UserOutWithPassword(
-                            id=user_id,
-                            email=email,
-                            username=username,
-                            password=password,
-                            hashed_password=hashed_password,
-                        )
+                                id=user_id,
+                                email=email,
+                                username=username,
+                                password=password,
+                                hashed_password=hashed_password,
+                            )
                         else:
                             print("Nothing to update.")
                             return False
@@ -201,12 +203,11 @@ class UserQueries:
             print(e)
             return {"message": "Unable to update User"}
 
-
     def delete(self, user_id: int) -> bool:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    result = cur.execute(
+                    cur.execute(
                         """
                         DELETE FROM users
                         WHERE id = %s
@@ -223,7 +224,6 @@ class UserQueries:
         except Exception as e:
             print(e)
             return False
-
 
     def user_in_to_out(self, id: int, user: UserIn):
         old_data = user.dict()

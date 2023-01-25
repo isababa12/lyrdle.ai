@@ -1,12 +1,12 @@
-import { React, useState, useEffect } from "react";
-import { Navigate, NavLink, useHistory } from "react-router-dom";
+import { React, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./SignUp.css";
 import { useToken } from "../authApi";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  // const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const signup = useToken()[3];
 
@@ -33,7 +33,7 @@ function SignUp() {
         setEmail("");
         setUsername("");
         setPassword("");
-        setSubmitted(true);
+        // setSubmitted(true);
         console.log(`Created new user: ${username}`);
       })
       .catch((e) => console.error("Error: ", e));
@@ -42,7 +42,7 @@ function SignUp() {
   return (
     <div>
       <div className="reg-page">
-        <div className="reg-head">Signup test</div>
+        <div className="reg-head">Welcome to Lyrdle Ai </div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">
@@ -73,7 +73,7 @@ function SignUp() {
               />
             </div>
             <NavLink to="/login">
-              <button onClick={(e) => signup(email, password, username)}>
+              <button onClick={(e) => signup(username, password, email)}>
                 Register
               </button>
             </NavLink>
