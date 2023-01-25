@@ -19,6 +19,7 @@ function SignUp() {
       password: password,
     };
     const usersURL = "http://localhost:8000/api/users/current";
+    // const usersURL = ${process.env.REACT_APP_USERS_API_HOST}/users/current`
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(userData),

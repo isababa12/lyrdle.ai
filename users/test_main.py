@@ -20,6 +20,4 @@ def test_get_all_user():
     response = client.get("/api/users")
     assert response.status_code == 200
     assert response.json() == [UserOut.dict()]
-
-
-
+    # assert True == True
