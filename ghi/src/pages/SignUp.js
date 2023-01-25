@@ -1,12 +1,12 @@
-import { React, useState, useEffect } from "react";
-import { Navigate, NavLink, useHistory } from "react-router-dom";
+import { React, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./SignUp.css";
 import { useToken } from "../authApi";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  // const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const signup = useToken()[3];
 
@@ -33,7 +33,7 @@ function SignUp() {
         setEmail("");
         setUsername("");
         setPassword("");
-        setSubmitted(true);
+        // setSubmitted(true);
         console.log(`Created new user: ${username}`);
       })
       .catch((e) => console.error("Error: ", e));
@@ -79,7 +79,7 @@ function SignUp() {
                 required
               />
             </div>
-            <NavLink to="/login">
+            <NavLink to="/Home">
               <button onClick={(e) => signup(username, password, email)}>
                 Register
               </button>

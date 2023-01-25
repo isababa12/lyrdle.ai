@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 let internalToken = null;
 let internalCookie = null;
 
@@ -94,7 +94,7 @@ export function useToken() {
     if (!token) {
       fetchToken();
     }
-  }, [setToken, token]);
+  }, [setToken, token, setCookie, cookie]);
 
   async function logout() {
     if (token) {

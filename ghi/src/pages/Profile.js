@@ -138,7 +138,6 @@ function Profile() {
         <h1>Homepage</h1>
       </div>
       <h1>PROFILE</h1>
-
       <div className="lyrics-container">
         {postedLyrics.map((lyrics) => {
           return (

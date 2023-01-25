@@ -60,7 +60,7 @@ function Navbar() {
               </Link>
             </li>
             <li key="Profile" className="nav-text">
-              <Link to="/Profile">
+              <Link to="/profile">
                 <IoIosAlbums></IoIosAlbums>
                 Profile
               </Link>
