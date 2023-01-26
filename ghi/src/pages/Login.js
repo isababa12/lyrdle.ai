@@ -65,23 +65,27 @@ function Login() {
       <div className="login-page">
         <div className="login-form">
           <div className="login-head">
-            <p className="login-slogan"><NavLink to="/">Welcome to Lyrdle Ai</NavLink></p>
-              <div className="login-body">
-                {loginInput}
-                {loginPassword}
-                <div>
-                    <button
-                      onClick={() => loginRedirect()}
-                      type="button"
-                      className="log-btn"
-                    >
-                      Log In
-                    </button>
-                  <NavLink to="/signup">
-                    <button>I don't have an account</button>
-                  </NavLink>
-                </div>
+            <p className="login-slogan">
+              <NavLink to="/">Welcome to Lyrdle Ai</NavLink>
+            </p>
+            <div className="login-body">
+              {loginInput}
+              {loginPassword}
+              <div>
+                <NavLink to="/">
+                  <button
+                    onClick={() => loginRedirect()}
+                    type="button"
+                    className="log-btn"
+                  >
+                    Log In
+                  </button>
+                </NavLink>
+                <NavLink to="/signup">
+                  <button>I don't have an account</button>
+                </NavLink>
               </div>
+            </div>
           </div>
         </div>
       </div>
