@@ -1,0 +1,120 @@
+/*
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+*{
+  margin: 0;
+  padding:0;
+  box-sizing: border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+header{
+  width: 100%;
+  height: 100vh;
+  background:#0d74f5;
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+@font-face {
+  font-family: "Replica Light";
+  src: url("../fonts/Replica/Replica\ Light.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Replica", sans-serif;
+}
+
+body {
+  background-color: #fefcfb;
+}
+
+#homepage-container {
+  margin: 3% 10%;
+}
+
+#push-up {
+  margin-top: 20%;
+}
+
+#home-layout {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 50%;
+}
+
+#logo-heading {
+  font-family: "Replica Light";
+  font-size: 13rem;
+  transform: skew(20deg);
+  rotate: -15deg;
+  display: table-caption;
+  text-align: left;
+  /* margin-left: 10%; */
+  line-height: 90%;
+  padding-top: 5%;
+}
+
+.row {
+  margin-left: auto;
+}
+
+.fixed-bottom {
+  background-color: #fefcfb;
+}
+
+#logo-container {
+  display: block;
+  padding-left: 8%;
+}
+
+#create-heading {
+  font-family: "Replica Light";
+  font-size: 10rem;
+  text-align: left;
+  margin: 0px 10%;
+}
+
+#create-heading a {
+  text-decoration: none;
+  /* color: var(--bs-body-color); */
+  /* color: #001f54; */
+}
+
+#create-heading a:hover {
+  color: var(--bs-body-color);
+}
+
+#featured-post #module .card {
+  /* padding: 4px; */
+  /* width: 10%; */
+}
+
+.home,
+.create,
+.profile {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}

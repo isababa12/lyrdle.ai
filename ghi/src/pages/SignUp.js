@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./SignUp.css";
+import "../styles/css/SignUp.css";
 import { useToken } from "../authApi";
 
 function SignUp() {
@@ -43,7 +43,9 @@ function SignUp() {
   return (
     <div>
       <div className="reg-page">
-        <div className="reg-head"><NavLink to= "/"> Welcome to Lyrdle Ai </NavLink></div>
+        <div className="reg-head">
+          <NavLink to="/"> Welcome to Lyrdle Ai </NavLink>
+        </div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">

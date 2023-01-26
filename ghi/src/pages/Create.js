@@ -35,8 +35,8 @@ function Create() {
             artist_name: artistName,
             song_name: songName,
             };
-            // const lyricsURL = `http://localhost:8010/api/users/current/lyrics`;
-            const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
+            const lyricsURL = `http://localhost:8010/api/users/current/lyrics`;
+            // const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
             const fetchConfig = {
                 method: "POST",
                 body: JSON.stringify(promptData),

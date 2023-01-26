@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,40 +6,57 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
+
+/* @font-face {
+  font-family: "Replica";
+  src: url("../fonts/Replica/Replica Light.otf");
+} */
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-body {
-  background: #1c8EF9;
+/* body {
+  background: #1c8ef9;
   font-weight: 400;
-  font-family: "Fira Sans",sans-serif;
+  font-family: "Fira Sans", sans-serif;
+  font-family: "Replica";
+} */
+
+h1 {
+  text-align: center;
 }
 
-h1{
-  text-align:center;
-}
-
-h2{
+h2 {
   text-align: auto;
 }
 
-h1,h2,h3,h4,h5,h6,label,span {
-  font-weight:500;
-  font-family: "Fira Sans",sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+span {
+  font-weight: 500;
+  font-family: "Replica Light.otf", sans-serif;
 }
 
-body, html, .App, #root, .auth-wrapper {
-  width:100%;
+body,
+html,
+.App,
+#root,
+.auth-wrapper {
+  width: 100%;
   height: 100%;
 }
 
 .lyrics-container {
   margin: auto;
-  width: calc(30% - 20px);;
+  width: calc(30% - 20px);
   display: table;
   justify-content: center;
 }
@@ -47,11 +64,11 @@ body, html, .App, #root, .auth-wrapper {
 .auth-wrapper {
   display: flex;
   justify-content: center;
-  flex-direction:column;
-  text-align:left;
+  flex-direction: column;
+  text-align: left;
 }
 
-.lyrics-output-card{
+.lyrics-output-card {
   text-align: center;
 }
 
@@ -60,8 +77,8 @@ body, html, .App, #root, .auth-wrapper {
   margin: auto;
   background: #ffffff;
   box-shadow: 0px 14px 80 px rgba(34, 35, 58, 0.2);
-  border-radius:15px;
-  transition: all .3s;
+  border-radius: 15px;
+  transition: all 0.3s;
 }
 
 .auth-wrapper .form-contral:focus {
@@ -70,25 +87,25 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .auth-wrapper h3 {
-  text-align:center;
+  text-align: center;
   margin: 0;
   line-height: 1;
   padding-bottom: 20px;
 }
 
 .custom-control-label {
-  font-weight:400;
+  font-weight: 400;
 }
 
 .forgot-password,
 .forgot-password a {
   text-align: right;
   font-size: 13px;
-  padding-top:10px;
-  color:#7f7d7d;
-  margin:0;
+  padding-top: 10px;
+  color: #7f7d7d;
+  margin: 0;
 }
 
 .forgot-password a {
-  color:#167bff
+  color: #167bff;
 }

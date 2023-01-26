@@ -1,14 +1,14 @@
 /* Collapsible cards */
 #module {
-  width: 1000px;
+  width: auto;
 }
 
 #module a.collapsed:after {
-  content: 'More';
+  content: "More";
 }
 
 #module a:not(.collapsed):after {
-  content: 'Less';
+  content: "Less";
 }
 
 #module #collapseExample.collapse:not(.show) {
@@ -24,16 +24,14 @@
 
 div .card {
   margin: 1rem;
-  padding: 4px;
+  /* padding: 4px; */
   width: 500px;
 }
-
 
 /* Toggle button styling */
 #lyrics-btn {
   margin-right: 1rem;
 }
-
 
 .card-body {
   padding-top: 0;
@@ -41,4 +39,8 @@ div .card {
 
 #profile-card-subtitle {
   padding-top: 1rem;
+}
+
+#home-grid {
+  margin-bottom: 10%;
 }

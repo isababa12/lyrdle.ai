@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, NavLink, Navigate } from "react-router-dom";
 import { useToken } from "../authApi";
 // import { useAuthContext, useToken } from "../authApi";
-import "./Login.css";
+import "../styles/css/Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -61,8 +61,9 @@ function Login() {
 
   return (
     <>
-      <video src="/login/login-vid.mp4" autoPlay muted loop />
-      <div className="login-page">
+      {/* <video src="/login/login-vid.mp4" autoPlay muted loop /> */}
+      <div className="login-container">
+      <div id="logo">Test</div>
         <div className="login-form">
           <div className="login-head">
             <p className="login-slogan"><NavLink to="/">Welcome to Lyrdle Ai</NavLink></p>
