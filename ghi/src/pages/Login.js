@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, NavLink, Navigate } from "react-router-dom";
 import { useToken } from "../authApi";
-// import { useAuthContext, useToken } from "../authApi";
 import "./Login.css";
 
 function Login() {
@@ -10,16 +9,6 @@ function Login() {
   const [, login] = useToken();
   const navigate = useNavigate();
 
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const error = await login(username, password);
-  //   if (error) {
-  //     isLoggedIn(false);
-  //   } else {
-  //     navigate('/');
-  //   }
-  // };
 
   const loginInput = (
     <div className="login-input login-username">

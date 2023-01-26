@@ -20,7 +20,6 @@ function Profile() {
 
   const getUserInfo = useCallback(async() => {
     try {
-      // const userURL = `http://localhost:8000/api/users/current`;
       const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
       const fetchConfig = {
           method: "get",
@@ -42,7 +41,6 @@ function Profile() {
 
   const getLyrics = async () => {
     try {
-      // const lyricsUrl = `http://localhost:8010/api/users/current/lyrics`;
       const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
 
       const fetchConfig = {
@@ -65,7 +63,6 @@ function Profile() {
   function handleSubmitStatus(event, lyricsId, status) {
     event.preventDefault();
     const newStatus = !status;
-    // const updateLyricsUrl = `http://localhost:8010/api/users/current/lyrics/${lyricsId}?posted=${newStatus}`;
     const updateLyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}?posted=${newStatus}`;
 
     const fetchConfig = {
@@ -81,7 +78,6 @@ function Profile() {
           console.log("Fetch error")
         } else {
           setStatusChanged(!statusChanged);
-          // console.log("status changed for lyrics id ", lyricsId);
         }
       })
       .catch(e => console.error('Update lyrics error: ', e))
@@ -119,26 +115,10 @@ function Profile() {
                   {(lyrics.posted)
                   ?
                   <form onSubmit={(event) => handleSubmitStatus(event, lyrics.id, lyrics.posted)} id="remove-like-form">
-                    {/* <div className="form-floating mb-3">
-                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
-                      <label htmlFor="lyrics_id">Lyrics Id</label>
-                    </div>
-                    <div className="form-floating mb-3">
-                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.posted} readOnly={true}/>
-                      <label htmlFor="lyrics_id">Posted Status</label>
-                    </div> */}
                     <button type="submit" className="btn btn-secondary" id="lyrics-btn">Make Private</button> {lyrics.total_likes} Likes
                   </form>
                   :
                   <form onSubmit={(event) => handleSubmitStatus(event, lyrics.id, lyrics.posted)} id="remove-like-form">
-                    {/* <div className="form-floating mb-3">
-                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
-                      <label htmlFor="lyrics_id">Lyrics Id</label>
-                    </div> */}
-                    {/* <div className="form-floating mb-3">
-                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.posted} readOnly={true}/>
-                      <label htmlFor="lyrics_id">Posted Status</label>
-                    </div> */}
                     <button type="submit" className="btn btn-primary" id="lyrics-btn">Share to Homepage</button> {lyrics.total_likes} Likes
                   </form>
                   }

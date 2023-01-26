@@ -6,11 +6,10 @@ import { useToken } from "../authApi";
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const signup = useToken()[3];
 
-  // Code from Isaiah
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = {
@@ -18,7 +17,6 @@ function SignUp() {
       username: username,
       password: password,
     };
-    // const usersURL = "http://localhost:8000/api/users/current";
     const usersURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
     const fetchConfig = {
       method: "post",
@@ -34,8 +32,6 @@ function SignUp() {
         setEmail("");
         setUsername("");
         setPassword("");
-        // setSubmitted(true);
-        console.log(`Created new user: ${username}`);
       })
       .catch((e) => console.error("Error: ", e));
   };
