@@ -12,9 +12,7 @@ from queries.users import (
     Error,
     HttpError,
     UserForm,
-    AccountToken,
-    # DuplicateUserError,
-    # UserOutWithPassword
+    AccountToken
 )
 from typing import Union, List
 from authenticator import authenticator

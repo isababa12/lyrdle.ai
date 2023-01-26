@@ -13,7 +13,6 @@ function Settings() {
     const [password, setPassword] = useState('')
 
     const getUserInfo = useCallback(async() => {
-        // const userURL = `http://localhost:8000/api/users/current`
         const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
         const fetchConfig = {
             method: "get",
@@ -25,7 +24,6 @@ function Settings() {
         const response = await fetch(userURL, fetchConfig);
         if (response.ok) {
             const data = await response.json();
-            // setUserInfo(data);
             setEmail(data.email);
             setUsername(data.username);
             setPassword('');
@@ -63,16 +61,15 @@ function Settings() {
             "username": username,
             "password": password,
         }
-    // const userURL = 'http://localhost:8000/api/users/current'
-    const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
-    const fetchConfig = {
-        method: "put",
-        body: JSON.stringify(userData),
-        headers: {
-            Authorization: "Bearer " + token,
-            'Content-Type': 'application/json',
-        },
-    }
+        const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
+        const fetchConfig = {
+            method: "put",
+            body: JSON.stringify(userData),
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            },
+        }
         const response = await fetch(userURL, fetchConfig);
         if (response.ok) {
             const data = await response.json();
@@ -91,18 +88,42 @@ function Settings() {
 
     const handleDelete = async (event) => {
         event.preventDefault();
-    // const userURL = 'http://localhost:8000/api/users/current'
-    const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
-    const fetchConfig = {
-        method: "delete",
-        headers: {
-            Authorization: "Bearer " + token,
-            'Content-Type': 'application/json',
-        },
-    }
-        const response = await fetch(userURL, fetchConfig);
-        if (response.ok) {
-            setDeleted(true);
+
+        const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`
+        const lyrcsFetchConfig = {
+            method: "delete",
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            },
+        }
+        const lyricsResponse = await fetch(lyricsURL, lyrcsFetchConfig);
+        if (lyricsResponse.ok) {
+
+            const likesURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics_likes`
+            const likesFetchConfig = {
+                method: "delete",
+                headers: {
+                    Authorization: "Bearer " + token,
+                    'Content-Type': 'application/json',
+                },
+            }
+            const likesResponse = await fetch(likesURL, likesFetchConfig);
+            if (likesResponse.ok) {
+
+                const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
+                const userFetchConfig = {
+                    method: "delete",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        'Content-Type': 'application/json',
+                    },
+                }
+                const userResponse = await fetch(userURL, userFetchConfig);
+                if (userResponse.ok) {
+                    setDeleted(true);
+                }
+            }
         }
     }
 
@@ -141,7 +162,7 @@ function Settings() {
                             <label htmlFor="new-username">New Username</label>
                         </div>
                         <div className="form-floating mb-3">
-                            <input onChange={handlePasswordChange} placeholder="New Password" required
+                            <input onChange={handlePasswordChange} placeholder="New Password"
                                 type="password" name="password" id="password"
                                 className="form-control" value={password}/>
                             <label htmlFor="new-password">New password</label>

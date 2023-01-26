@@ -13,7 +13,6 @@ export async function getTokenInternal() {
     const response = await fetch(url, {
       credentials: "include",
     });
-    // console.log(response);
     if (response.ok) {
       const data = await response.json();
       internalToken = data.access_token;
@@ -29,7 +28,6 @@ export async function getCookie() {
     const response = await fetch(url, {
       credentials: "include",
     });
-    // console.log(response);
     if (response.ok) {
       const data = await response.json();
       internalCookie = data
@@ -148,6 +146,8 @@ export function useToken() {
     });
     if (response.ok) {
       await login(username, password);
+    } else {
+      alert("That email or username already exists. Please try again.")
     }
     return false;
   }

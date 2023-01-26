@@ -42,10 +42,6 @@ class AccountToken(Token):
     user: UserOut
 
 
-# class DuplicateUserError(ValueError):
-#     pass
-
-
 class UserQueries:
     def create_user(self, user: UserIn, hashed_password: str) -> UserOut:
         try:

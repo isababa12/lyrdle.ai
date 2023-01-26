@@ -1,10 +1,6 @@
-// import { useEffect, useState } from "react";
-// import Construct from "./Construct.js";
-// import ErrorNotification from "./ErrorNotification";
 import "./App.css";
 import Navbar from "./components/Navbar.js";
 import {
-  // BrowserRouter as Router,
   Routes,
   Route,
   BrowserRouter,
@@ -22,14 +18,9 @@ const domain = /https:\/\/[^/]+/;
 const basename = process.env.PUBLIC_URL.replace(domain, '');
 
 function GetToken() {
-
   useToken();
   return null;
 }
-// function App() {
-//   const [launch_info, setLaunchInfo] = useState([]);
-//   const [error, setError] = useState(null);
-//   const [token, setToken] = useState(null);
 
 
 function App() {

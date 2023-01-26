@@ -1,29 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
-// import * as FaIcons from "react-icons/fa";
-// import * as AiIcons from "react-icons/ai";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
-// import * as IoIcons from "react-icons/io";
-import { useToken } from "../authApi";
-// import { useAuthContext, useToken } from "../authApi";
+import { useAuthContext } from "../authApi";
 
-// import {
-//   IoIosSettings,
-//   IoIosLogIn,
-//   IoIosAlbums,
-//   // AiFillHome,
-//   IoIosAddCircle,
-//   IoIosLogOut,
-// } from "react-icons/io";
 
 function Navbar() {
-  const { token } = useToken();
-  // const { cookie, isLoggedIn } = useAuthContext();
+  const { token } = useAuthContext();
   const [loggedIn, setLoggedIn] = useState(false);
 
   const getUserInfo = useCallback(async() => {
-      // const userURL = `http://localhost:8000/api/users/current`;
       const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
       const fetchConfig = {
           method: "get",
@@ -41,14 +27,11 @@ function Navbar() {
   useEffect(() => {
       if (token){
           getUserInfo();
-      }
-  }, [token, getUserInfo]);
-
-  useEffect(() => {
-    if (!token) {
+      } else {
         setLoggedIn(false);
-    }
-  }, [token]);
+      }
+  }, [token, getUserInfo, loggedIn]);
+
 
   const locationLogIn = useLocation();
   if (locationLogIn.pathname === "/login" || locationLogIn.pathname === "/signup"){
@@ -60,7 +43,7 @@ function Navbar() {
   let logOutDependent = "nav-link"
 
   if (loggedIn === true){
-    logInDependent = "nav-link "
+    logInDependent = "nav-link"
     logOutDependent = "nav-link d-none"
   }
 
@@ -94,13 +77,6 @@ function Navbar() {
                 <NavLink to="/profile" className={logInDependent} aria-current="page" href="#">
                 <button type="button" className="btn btn-primary" >
                   Profile
-                </button>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/settings" className={logInDependent} aria-current="page" href="#">
-                <button type="button" className="btn btn-primary" >
-                  Settings
                 </button>
                 </NavLink>
               </li>

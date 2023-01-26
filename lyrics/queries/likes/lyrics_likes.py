@@ -15,11 +15,6 @@ class Error(BaseModel):
     message: str
 
 
-# class LikesStatusOut(BaseModel):
-#     lyrics_id: int
-#     lyrics_likes_id: Optional[int]
-
-
 class LyricsLikeQueries:
     def get_all(self, lyrics_id: int = None) -> Union[Error, List[LyricsLikeOut]]:
         try:
@@ -129,6 +124,28 @@ class LyricsLikeQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not delete lyrics like"}
+
+    def delete_all_user_lyrics_likes(self, user_id: int) -> Union[bool, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM lyrics_likes
+                        WHERE lyrics_likes.user_id = %s;
+                        """,
+                        [user_id],
+                    )
+                    deleted_row_count = db.rowcount
+                    if deleted_row_count > 0:
+                        print("Deleted Rows: ", deleted_row_count)
+                        return True
+                    else:
+                        print("Nothing to delete.")
+                        return False
+        except Exception as e:
+            print(e)
+            return {"message": "Could not delete user's lyrics or likes"}
 
     def record_to_lyrics_like_out(self, record):
         return LyricsLikeOut(

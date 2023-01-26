@@ -7,7 +7,6 @@ from authenticator import authenticator
 router = APIRouter(prefix="/api")
 
 
-# PUBLIC - GET ALL COMMENTS FOR A LYRICS POST
 @router.get(
     "/lyrics/{lyrics_id}/comments",
     response_model=Union[Error, List[CommentOut]],
@@ -16,13 +15,11 @@ def get_comments(lyrics_id: int, repo: CommentQueries = Depends()):
     return repo.get_all(lyrics_id)
 
 
-# LOGIN REQUIRED - ADD A COMMENT TO A LYRICS POST (CREATE)
 @router.post(
     "/users/current/lyrics/{lyrics_id}/comments",
     response_model=Union[Error, CommentOut],
 )
 def create_comment(
-    # user_id: int,
     lyrics_id: int,
     comment_content: str,
     account: dict = Depends(authenticator.try_get_current_account_data),
@@ -35,13 +32,11 @@ def create_comment(
         raise HTTPException(status_code=401, detail="Invalid Token")
 
 
-# LOGIN REQUIRED - UPDATE COMMENT CONTENT
 @router.put(
     "/users/current/lyrics/{lyrics_id}/comments/{comment_id}",
     response_model=bool,
 )
 def update_comment(
-    # user_id: int,
     comment_id: int,
     new_content: str,
     account: dict = Depends(authenticator.try_get_current_account_data),
@@ -53,7 +48,6 @@ def update_comment(
         raise HTTPException(status_code=401, detail="Invalid Token")
 
 
-# LOGIN REQUIRED - DELETE A COMMENT
 @router.delete(
     "/users/current/lyrics/{lyrics_id}/comments/{comment_id}",
     response_model=Union[Error, bool],
