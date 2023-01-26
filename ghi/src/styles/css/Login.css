@@ -1,101 +1,71 @@
-
 .login-container {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  background: #ecd6cb;
   justify-content: center;
-  background: #fefcfb;
+  padding: 10%;
 }
-/*
+
+img {
+  width: 50%;
+}
 
 .login-form {
-  position:absolute;
-  top: 0;
-  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px;
-  border-radius: 25px;
+  justify-content: center;
+  text-align: center;
 }
 
-.login-head {
-  margin-top: 64px;
-  text-align: center;
-  color:#eff4f8;
+.login-input input {
+  border-color: black;
+  background-color: white;
+  margin-bottom: 5%;
+  padding: 3%;
+  border-radius: 80px;
+  border-width: 3px;
+  width: 40%;
+  height: 40%;
+  min-width: 200px;
+  /* min-height: 100px; */
 }
 
 .login-slogan {
-  margin-bottom: 96px;
-  font-size: 64px;
-  font-weight: 600;
+  font-family: "Replica Pro Regular";
+  font-size: 4rem;
+  font-weight: 200;
+  display: flex;
+  justify-content: right;
+  flex-direction: row-reverse;
 }
 
+/* New button */
 
+.fancy-button {
+  background: #fbca1f;
+  font-family: inherit;
+  padding: 0.6em 1.3em;
+  font-weight: 900;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.1em 0.1em;
+  margin-bottom: 3%;
+}
 
-.login-input input {
-  border-color: #767676;
-  font-size: 16px;
-  background-color: #f4f5f6;
-  margin-bottom: 32px;
-  padding: 32px;
-  border-radius: 80px;
-  width: 320px;
-  height: 64px;
+.fancy-button:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em;
+}
+
+.fancy-button:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
 }
 
 .login-input input:focus {
   outline: 0;
 }
-
-.login-input img {
-  height: 50px;
-  border-radius: 10px;
-  padding: 8px;
-  background-color: #d4d6d8;
-}
-
-.login-username {
-  margin-bottom: 36px;
-}
-
-.login-password {
-  margin-bottom: 96px;
-}
-
-.login-btn {
-  display: flex;
-  flex-direction: column;
-}
-
-button {
-  padding: 20px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor:pointer;
-}
-
-.log-btn {
-  background-color: #767676;
-  margin-bottom: 32px;
-  color: aliceblue;
-} */
-
-/* .reg-btn {
-  background-color: aliceblue;
-  color: #767676;
-} */
-
-
-/* .log-btn:hover {
-  background-color: #9b9797;
-} */
-
-/* .reg-btn:hover {
-  border: 2px solid #896a6a;
-  overflow: hidden;
-  margin: -2px;
-} */

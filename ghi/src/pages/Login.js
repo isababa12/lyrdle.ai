@@ -10,7 +10,6 @@ function Login() {
   const [, login] = useToken();
   const navigate = useNavigate();
 
-
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   const error = await login(username, password);
@@ -23,15 +22,15 @@ function Login() {
 
   const loginInput = (
     <div className="login-input login-username">
-          <input
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
-            placeholder="Username"
-            type="text"
-            required
-          />
-        </div>
-    );
+      <input
+        onChange={(e) => setUsername(e.target.value)}
+        value={username}
+        placeholder="Username"
+        type="text"
+        required
+      />
+    </div>
+  );
 
   const loginPassword = (
     <div className="login-input login-password">
@@ -49,11 +48,11 @@ function Login() {
     try {
       const login_response = await login(username, password);
       if (!login_response) {
-        navigate('/');
-      } else{
-        alert("Invalid username and/or password")
+        navigate("/");
+      } else {
+        alert("Invalid username and/or password");
       }
-      return <Navigate to ="/"/>
+      return <Navigate to="/" />;
     } catch (err) {
       console.error(err);
     }
@@ -63,26 +62,24 @@ function Login() {
     <>
       {/* <video src="/login/login-vid.mp4" autoPlay muted loop /> */}
       <div className="login-container">
-      <div id="logo">Test</div>
+        <img src={require("../images/logo-down.png")} />
         <div className="login-form">
           <div className="login-head">
-            <p className="login-slogan"><NavLink to="/">Welcome to Lyrdle Ai</NavLink></p>
-              <div className="login-body">
-                {loginInput}
-                {loginPassword}
-                <div>
-                    <button
-                      onClick={() => loginRedirect()}
-                      type="button"
-                      className="log-btn"
-                    >
-                      Log In
-                    </button>
-                  <NavLink to="/signup">
-                    <button>I don't have an account</button>
-                  </NavLink>
-                </div>
+            <p className="login-slogan">Log in to Lyrdle AI</p>
+            <div className="login-body">
+              {loginInput}
+              {loginPassword}
+              <div>
+                <button
+                  onClick={() => loginRedirect()}
+                  type="button"
+                  className="fancy-button"
+                >
+                  Log In
+                </button>
               </div>
+              Don't have an account? <NavLink to="/signup">Sign up!</NavLink>
+            </div>
           </div>
         </div>
       </div>

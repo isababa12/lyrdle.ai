@@ -180,10 +180,9 @@ function Home() {
         </div>
         <div className="fixed-bottom bd-highlight">
           <h2 id="create-heading">
-            <a href="/signup"> create.</a>
+            <a href="/login"> create.</a>
           </h2>
         </div>
-
         <div className="d-flex flex-wrap justify-content-start flex-2-column bd-highlight">
           {remainingLyrics.map((lyrics) => {
             return buildLyricsCard(lyrics);
