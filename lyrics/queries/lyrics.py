@@ -21,6 +21,7 @@ class LyricsOut(BaseModel):
     created_at: Optional[datetime]
     posted: Optional[bool]
     posted_at: Optional[datetime]
+    total_likes: Optional[int]
 
 
 class LyricsCreateOut(BaseModel):
@@ -31,6 +32,18 @@ class LyricsCreateOut(BaseModel):
     song_name: str
     ai_prompt: str
     user_output: str
+
+
+class LyricsPostedOut(BaseModel):
+    id: int
+    user_id: int
+    artist_name: str
+    song_name: str
+    user_output: str
+    created_at: Optional[datetime]
+    posted: bool
+    total_likes: Optional[int]
+    posted_at: Optional[datetime]
 
 
 class LyricsUpdateOut(BaseModel):
@@ -98,35 +111,43 @@ class LyricsQueries:
                     if user_id is None:
                         result = cur.execute(
                             """
-                            SELECT id
-                                , user_id
-                                , user_input
-                                , artist_name
-                                , song_name
-                                , ai_prompt
-                                , user_output
-                                , created_at
-                                , posted
-                                , posted_at
+                            SELECT lyrics.id
+                                , lyrics.user_id
+                                , lyrics.user_input
+                                , lyrics.artist_name
+                                , lyrics.song_name
+                                , lyrics.ai_prompt
+                                , lyrics.user_output
+                                , lyrics.created_at
+                                , lyrics.posted
+                                , lyrics.posted_at
+                                , COUNT(lyrics_likes) AS total_likes
                             FROM lyrics
+                            LEFT OUTER JOIN lyrics_likes
+                            ON (lyrics.id = lyrics_likes.lyrics_id)
+                            GROUP BY lyrics.id
                             ORDER BY created_at DESC;
                             """
                         )
                     else:
                         result = cur.execute(
                             """
-                            SELECT id
-                                , user_id
-                                , user_input
-                                , artist_name
-                                , song_name
-                                , ai_prompt
-                                , user_output
-                                , created_at
-                                , posted
-                                , posted_at
+                            SELECT lyrics.id
+                                , lyrics.user_id
+                                , lyrics.user_input
+                                , lyrics.artist_name
+                                , lyrics.song_name
+                                , lyrics.ai_prompt
+                                , lyrics.user_output
+                                , lyrics.created_at
+                                , lyrics.posted
+                                , lyrics.posted_at
+                                , COUNT(lyrics_likes) AS total_likes
                             FROM lyrics
-                            WHERE user_id = %s
+                            LEFT OUTER JOIN lyrics_likes
+                            ON (lyrics.id = lyrics_likes.lyrics_id)
+                            WHERE lyrics.user_id = %s
+                            GROUP BY lyrics.id
                             ORDER BY created_at DESC;
                             """,
                             [user_id],
@@ -137,6 +158,37 @@ class LyricsQueries:
         except Exception as e:
             print(e)
             return {"message": "Could not get all lyrics"}
+
+    def get_all_posted(self) -> Union[Error, List[LyricsPostedOut]]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT lyrics.id
+                        , lyrics.user_id
+                        , lyrics.created_at
+                        , lyrics.posted
+                        , lyrics.artist_name
+                        , lyrics.song_name
+                        , lyrics.user_output
+                        , COUNT(lyrics_likes) AS total_likes
+                        , lyrics.posted_at
+                        FROM lyrics
+                        LEFT OUTER JOIN lyrics_likes
+                        ON (lyrics.id = lyrics_likes.lyrics_id)
+                        WHERE lyrics.posted = true
+                        GROUP BY lyrics.id
+                        ORDER BY posted_at DESC;
+                        """
+                    )
+                    return [
+                        self.record_to_lyrics_posted_out(record)
+                        for record in result
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get posted lyrics"}
 
     # Get one lyrics (by lyrics id)
     def get_one(self, lyrics_id: int) -> Optional[LyricsOut]:
@@ -229,4 +281,18 @@ class LyricsQueries:
             created_at=record[7],
             posted=record[8],
             posted_at=record[9],
+            total_likes=record[10]
+        )
+
+    def record_to_lyrics_posted_out(self, record):
+        return LyricsPostedOut(
+            id=record[0],
+            user_id=record[1],
+            created_at=record[2],
+            posted=record[3],
+            artist_name=record[4],
+            song_name=record[5],
+            user_output=record[6],
+            total_likes=record[7],
+            posted_at=record[8]
         )

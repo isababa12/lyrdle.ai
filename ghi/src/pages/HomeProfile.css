@@ -1,0 +1,44 @@
+/* Collapsible cards */
+#module {
+  width: 1000px;
+}
+
+#module a.collapsed:after {
+  content: 'More';
+}
+
+#module a:not(.collapsed):after {
+  content: 'Less';
+}
+
+#module #collapseExample.collapse:not(.show) {
+  display: block;
+  /* height = lineheight * no of lines to display */
+  height: 15em;
+  overflow: hidden;
+}
+
+#module #collapseExample.collapsing {
+  height: 4.5em;
+}
+
+div .card {
+  margin: 1rem;
+  padding: 4px;
+  width: 500px;
+}
+
+
+/* Toggle button styling */
+#lyrics-btn {
+  margin-right: 1rem;
+}
+
+
+.card-body {
+  padding-top: 0;
+}
+
+#profile-card-subtitle {
+  padding-top: 1rem;
+}

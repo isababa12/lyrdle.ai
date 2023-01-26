@@ -15,8 +15,49 @@ class Error(BaseModel):
     message: str
 
 
+# class LikesStatusOut(BaseModel):
+#     lyrics_id: int
+#     lyrics_likes_id: Optional[int]
+
+
 class LyricsLikeQueries:
-    def get_all(self, lyrics_id: int) -> Union[Error, List[LyricsLikeOut]]:
+    def get_all(self, lyrics_id: int = None) -> Union[Error, List[LyricsLikeOut]]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    if lyrics_id is not None:
+                        result = db.execute(
+                            """
+                            SELECT id
+                                , user_id
+                                , lyrics_id
+                                , created_at
+                            FROM lyrics_likes
+                            WHERE lyrics_id = %s
+                            ORDER BY created_at DESC;
+                            """,
+                            [lyrics_id],
+                        )
+                    else:
+                        result = db.execute(
+                            """
+                            SELECT id
+                                , user_id
+                                , lyrics_id
+                                , created_at
+                            FROM lyrics_likes
+                            ORDER BY created_at DESC;
+                            """
+                        )
+                    return [
+                        self.record_to_lyrics_like_out(record)
+                        for record in result
+                    ]
+        except Exception as e:
+            print(e)
+            return {"message": "Could not get lyrics likes"}
+
+    def get_all_user(self, user_id: int) -> Union[Error, List[LyricsLikeOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -27,10 +68,10 @@ class LyricsLikeQueries:
                             , lyrics_id
                             , created_at
                         FROM lyrics_likes
-                        WHERE lyrics_id = %s
+                        WHERE user_id = %s
                         ORDER BY created_at DESC;
                         """,
-                        [lyrics_id],
+                        [user_id],
                     )
                     return [
                         self.record_to_lyrics_like_out(record)
@@ -38,7 +79,7 @@ class LyricsLikeQueries:
                     ]
         except Exception as e:
             print(e)
-            return Error(message="Could not get lyrics likes")
+            return {"message": "Could not get lyrics likes"}
 
     def create(
         self, user_id: int, lyrics_id: int
@@ -65,7 +106,7 @@ class LyricsLikeQueries:
                     )
         except Exception as e:
             print(e)
-            return Error(message="Could not create lyrics like")
+            return {"message": "Could not create lyrics like"}
 
     def delete(self, lyrics_like_id: int) -> Union[Error, bool]:
         try:
@@ -87,7 +128,7 @@ class LyricsLikeQueries:
                         return False
         except Exception as e:
             print(e)
-            return Error(message="Could not delete lyrics like")
+            return {"message": "Could not delete lyrics like"}
 
     def record_to_lyrics_like_out(self, record):
         return LyricsLikeOut(

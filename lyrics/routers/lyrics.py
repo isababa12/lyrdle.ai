@@ -7,6 +7,7 @@ from queries.lyrics import (
     Error,
     LyricsIn,
     LyricsOut,
+    LyricsPostedOut,
     LyricsCreateOut,
     LyricsQueries,
 )
@@ -21,6 +22,14 @@ def get_all_lyrics(
     repo: LyricsQueries = Depends(),
 ):
     return repo.get_all()
+
+
+# PUBLIC - ALL POSTED LYRICS (WITH LIKE COUNTS)
+@router.get("/lyrics/posted", response_model=Union[List[LyricsPostedOut], Error])
+def get_all_posted_lyrics(
+    repo: LyricsQueries = Depends(),
+):
+    return repo.get_all_posted()
 
 
 # PUBLIC - ONE LYRIC
@@ -51,7 +60,7 @@ def create_lyrics(
         user_id = account["id"]
 
         # Define the prompt for text-davinci-003 model
-        ai_prompt = f"Act as if you are the musician or band known as '{input.artist_name}' and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}"
+        ai_prompt = f"Act as if you are the musician or band known as '{input.artist_name}' and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}. Please also include a song name at the top."
 
         # Set up the OpenAI API client
         openai.api_key = os.environ["OPEN_AI_KEY"]
@@ -61,7 +70,7 @@ def create_lyrics(
             model="text-davinci-003",
             prompt=ai_prompt,
             max_tokens=500,
-            temperature=0.6,
+            temperature=0.9,
         )
 
         # Extract generated text from API response and clean up
