@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Navigate } from "react-router-dom";
 import { useToken } from "../authApi";
+// import { useAuthContext, useToken } from "../authApi";
 import "./Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("")
-  // const [submit, setSubmitted] = useState("")
   const [, login] = useToken();
-  // const { isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const error = await login(username, password);
+  //   if (error) {
+  //     isLoggedIn(false);
+  //   } else {
+  //     navigate('/');
+  //   }
+  // };
 
   const loginInput = (
     <div className="login-input login-username">
@@ -41,12 +50,10 @@ function Login() {
       const login_response = await login(username, password);
       if (!login_response) {
         navigate('/');
-      } else {
-        // SET A STATE
-        alert("Please Sign Up")
+      } else{
+        alert("Invalid username and/or password")
       }
-      // navigate('/');
-      // console.log(login_response);
+      return <Navigate to ="/"/>
     } catch (err) {
       console.error(err);
     }
@@ -58,7 +65,7 @@ function Login() {
       <div className="login-page">
         <div className="login-form">
           <div className="login-head">
-            <p className="login-slogan">Welcome to Lyrdle Ai</p>
+            <p className="login-slogan"><NavLink to="/">Welcome to Lyrdle Ai</NavLink></p>
               <div className="login-body">
                 {loginInput}
                 {loginPassword}

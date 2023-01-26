@@ -19,6 +19,14 @@ body {
   font-family: "Fira Sans",sans-serif;
 }
 
+h1{
+  text-align:center;
+}
+
+h2{
+  text-align: auto;
+}
+
 h1,h2,h3,h4,h5,h6,label,span {
   font-weight:500;
   font-family: "Fira Sans",sans-serif;
@@ -29,11 +37,22 @@ body, html, .App, #root, .auth-wrapper {
   height: 100%;
 }
 
+.lyrics-container {
+  margin: auto;
+  width: calc(30% - 20px);;
+  display: table;
+  justify-content: center;
+}
+
 .auth-wrapper {
   display: flex;
   justify-content: center;
   flex-direction:column;
   text-align:left;
+}
+
+.lyrics-output-card{
+  text-align: center;
 }
 
 .auth-inner {

@@ -18,7 +18,8 @@ function SignUp() {
       username: username,
       password: password,
     };
-    const usersURL = "http://localhost:8000/api/users/current";
+    // const usersURL = "http://localhost:8000/api/users/current";
+    const usersURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(userData),
@@ -42,7 +43,7 @@ function SignUp() {
   return (
     <div>
       <div className="reg-page">
-        <div className="reg-head">Welcome to Lyrdle Ai </div>
+        <div className="reg-head"><NavLink to= "/"> Welcome to Lyrdle Ai </NavLink></div>
         <form onSubmit={handleSubmit} action="submit" className="reg-form">
           <div>
             <div className="reg-input">
@@ -72,7 +73,7 @@ function SignUp() {
                 required
               />
             </div>
-            <NavLink to="/login">
+            <NavLink to="/">
               <button onClick={(e) => signup(username, password, email)}>
                 Register
               </button>

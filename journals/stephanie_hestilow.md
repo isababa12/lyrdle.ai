@@ -1,5 +1,13 @@
 # Journal Entries - Stephanie Hestilow
 
+
+# Jan 23, 2021
+Today, I worked on:
+* More homepage frontend work.  Created functions to get total likes for each lyrics post, and map usernames to lyrics. Still need to implement "like" functionality, which will need the user's token
+* Helped Isaiah debug settings and create lyrics form
+* Need to do more work on frontend deployment - likely once all frontend pages are fully functional
+
+
 # Jan 22, 2021
 Today, I worked on:
 * Tried playing around with Caprover and the Postgres DB configs // trying to mirror how it's set up in our docker-compose yaml file, but still no luck - will need to look into this more on Monday

@@ -1,162 +1,204 @@
 import { React, useEffect, useState } from "react";
-import axios from "axios";
-
-// const axios = require("axios").default;
-
-// const api = axios.create({
-//   baseURL: `http://localhost:8010`,
-// });
+import { useAuthContext } from "../authApi";
+import "./HomeProfile.css";
 
 function Home() {
+  const { token } = useAuthContext();
   const [postedLyrics, setPostedLyrics] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [usernames, setUsernames] = useState('');
+  const [userLikes, setUserLikes] = useState('');
+  const [likeChanged, setLikeChanged] = useState(false);
 
-  // const getLyrics = () => {
-  //   axios
-  //     .get(`http://localhost:8010/api/lyrics`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setPostedLyrics(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  useEffect(() => {
+    getUsers();
+    getPostedLyrics();
+    if (token) {
+      getUserLikes();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, likeChanged]);
 
-  const getLyrics = async () => {
+  const getPostedLyrics = async () => {
     try {
-      const response = await axios.get("http://localhost:8010/api/lyrics");
-      setPostedLyrics(response.data);
-      console.log(response.data);
+      // const lyricsUrl = `http://localhost:8010/api/lyrics/posted`;
+      const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/lyrics/posted`;
+      const response = await fetch(lyricsUrl);
+      if (response.ok) {
+        const data = await response.json();
+        setPostedLyrics(data);
+
+      }
     } catch (error) {
-      console.log(error.response.data);
+      console.log("Error", error);
     }
   };
-
-  // async function GetLyrics() {
-  //   // const lyricsUrl = `http://localhost:8010/api/lyrics`;
-  //   try {
-  //     const response = await api.get(`api/lyrics`);
-  //     setPostedLyrics(response.data);
-  //     console.log(response);
-  //     console.log(`The data is: ${response.data.lyrics}`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // Uncomment this if you don't have enough posted lyrics to work with
-  // setPostedLyrics(data);
-
-  //   let postedData = [];
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (data[i].posted === true) {
-  //       postedData.push(data[i]);
-  //     }
-  //   }
-  //   setPostedLyrics(postedData);
-  // };
-
-  // const getLyrics = async () => {
-  //   const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/lyrics`;
-
-  //   // const response = await fetch(lyricsUrl)
-  //   // if (response.ok) {
-  //   //   const data = await response.json();
-  //   try {
-  //     const response = await Axios.get(lyricsUrl)
-  //     console.log(response.data)
-  //     console.log(response)
-  //     console.log(data)
-
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-
-  //     // Uncomment this if you don't have enough posted lyrics to work with
-  //     // setPostedLyrics(data);
-
-  //     let postedData = [];
-  //     for (let i = 0; i < data.length; i++) {
-  //       if (data[i].posted === true) {
-  //         postedData.push(data[i]);
-  //       }
-  //     }
-  //     setPostedLyrics(postedData);
-
-  //   }
-
-  // const getUsers = async () => {
-  //   const usersUrl = `${process.env.REACT_APP_USERS_API_HOST}/api/users`;
-
-  //   const response = await fetch(usersUrl);
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     let dataObj = {};
-  //     for (let i = 0; i < data.length; i++) {
-  //       let currUser = data[i];
-  //       let id = currUser.id;
-  //       let username = currUser.username;
-  //       dataObj[id] = username;
-  //     }
-  //     console.log("DataObj: ", dataObj);
-  //     setUsers(dataObj);
-  //   }
-  // };
 
   const getUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/users");
-      setUsers(response.data);
-      console.log(response.data);
+      // const usersUrl = 'http://localhost:8000/api/users';
+      const usersUrl = `${process.env.REACT_APP_USERS_API_HOST}/api/users`;
+      const response = await fetch(usersUrl);
+      if (response.ok) {
+        const data = await response.json();
+
+        let usersDict = getUsernames(data);
+        setUsernames(usersDict);
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error: ", error);
     }
   };
 
-  // const getUsers = () => {
-  //   axios
-  //     .get(`http://localhost:8000/api/users`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setUsers(response.data.username);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  function getUsernames(users) {
+    let usernames = {};
+    for (let i = 0; i < users.length; i++) {
+      let currUser = users[i];
+      let id = currUser.id;
+      let username = currUser.username;
+      usernames[id] = username;
+    };
+    return usernames;
+  };
 
-  useEffect(() => {
-    getLyrics();
-    getUsers();
-  }, []);
+  const getUserLikes = async () => {
+    try {
+      // const userLikesURL = `http://localhost:8010/api/users/current/lyrics_likes`;
+      const userLikesURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics_likes`;
+      const fetchConfig = {
+          method: "get",
+          headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
+          },
+      };
+      const response = await fetch(userLikesURL, fetchConfig);
+      if (response.ok) {
+        const data = await response.json();
+        let lyricsLiked = {};
+        for (let i = 0; i < data.length; i++) {
+          let currLike = data[i];
+          let lyricsId = currLike["lyrics_id"];
+          let likeId = currLike["id"];
+          lyricsLiked[lyricsId] = likeId;
+        }
+        setUserLikes(lyricsLiked);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
+  function likeChecker(lyricsId) {
+    if (userLikes[lyricsId] === undefined) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+
+  function handleSubmitAddLike(event, lyricsId) {
+    event.preventDefault();
+    // const createLikeUrl = `http://localhost:8010/api/users/current/lyrics/${lyricsId}/lyrics_likes`;
+    const createLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes`;
+
+    const fetchConfig = {
+      method: "post",
+      headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+      },
+    };
+    fetch(createLikeUrl, fetchConfig)
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Fetch error")
+        } else {
+          setLikeChanged(!likeChanged);
+          // console.log("Like Created for lyrics id ", lyricsId);
+        }
+      })
+      .catch(e => console.error('Create Like Error: ', e))
+  }
+
+
+  function handleSubmitRemoveLike(event, lyricsId, likeId) {
+    event.preventDefault();
+    // const deleteLikeUrl = `http://localhost:8010/api/users/current/lyrics/${lyricsId}/lyrics_likes/${likeId}`;
+    const deleteLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes/${likeId}`;
+
+    const fetchConfig = {
+      method: "delete",
+      headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+      },
+    };
+    fetch(deleteLikeUrl, fetchConfig)
+      .then((response) => {
+        if (!response.ok) {
+          console.log("Fetch error")
+        } else {
+          setLikeChanged(!likeChanged);
+          // console.log("Like Deleted for lyrics id ", lyricsId);
+        }
+      })
+      .catch(e => console.error('Delete Like Error: ', e))
+  }
 
   return (
     <>
+    <div id="homepage-container">
       <div id="heading">
         <h1>Homepage</h1>
       </div>
-
-      <div className="lyrics-container">
+      <div className="row row-cols-3">
         {postedLyrics.map((lyrics) => {
           return (
-            <div key={lyrics.id} className="card mb-3 shadow">
-              <div className="card-body">
-                <h5 className="card-title">
-                  Posted by (users[lyrics.user_id])
-                </h5>
+            <div key={lyrics.id} className="card mb-3 shadow ">
+              <div className="card-header">
+                <h5>{usernames[lyrics.user_id]}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">
-                  {new Date(lyrics.created_at).toLocaleDateString()}
+                  posted on {new Date(lyrics.posted_at).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}
                 </h6>
-                <p className="card-text" style={{ whiteSpace: "pre-line" }}>
-                  {lyrics.user_output}
-                </p>
               </div>
-              <div className="card-footer">total likes here</div>
+              <div className="card-body">
+                  <div id="module" className="card-text">
+                  <p className="collapse" id="collapseExample" aria-expanded="false" style={{ whiteSpace: "pre-line" }}>
+                    {lyrics.user_output}
+                  </p>
+                  <a role="button" className="collapsed" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show </a>
+                </div>
+              </div>
+              <div className="card-footer">
+                  {(likeChecker(lyrics.id))
+                  ?
+                  <form onSubmit={(event) => handleSubmitRemoveLike(event, lyrics.id, userLikes[lyrics.id])} id="remove-like-form">
+                    {/* <div className="form-floating mb-3">
+                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
+                      <label htmlFor="lyrics_id">Lyrics Id</label>
+                    </div>
+                    <div className="form-floating mb-3">
+                      <input type="text" className="form-control" name="lyrics_id" value={userLikes[lyrics.id]} readOnly={true}/>
+                      <label htmlFor="lyrics_id">Like Id</label>
+                    </div> */}
+                    <button type="submit" className="btn btn-secondary" id="lyrics-btn">Unlike</button> {lyrics.total_likes} Likes
+                  </form>
+                  :
+                  <form onSubmit={(event) => handleSubmitAddLike(event, lyrics.id)} id="create-like-form">
+                    {/* <div className="form-floating mb-3">
+                      <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
+                      <label htmlFor="lyrics_id">Lyrics Id</label>
+                    </div> */}
+                    <button type="submit" id="lyrics-btn" className="btn btn-success">Like</button> {lyrics.total_likes} Likes
+                  </form>
+                  }
+              </div>
             </div>
           );
         })}
       </div>
+    </div>
     </>
   );
 }

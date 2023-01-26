@@ -21,10 +21,11 @@
   position: fixed;
   top: 0;
   left: -100%;
-  transition: 850ms;
+  transition: 500ms;
 }
 
 .nav-menu.active {
+  z-index: 2;
   left: 0;
   transition: 350ms;
 }
@@ -69,4 +70,12 @@
 
 span {
   margin-left: 16px;
+}
+
+.navbar-nav .ms-auto{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
 }
