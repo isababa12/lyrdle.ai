@@ -74,7 +74,6 @@ class CommentQueries:
             print(e)
             return Error(message="Could not create comment")
 
-    # Update comment content
     def update(self, comment_id: int, new_content: str) -> bool:
         try:
             with pool.connection() as conn:

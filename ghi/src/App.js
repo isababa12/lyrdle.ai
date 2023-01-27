@@ -1,10 +1,7 @@
-// import { useEffect, useState } from "react";
-// import Construct from "./Construct.js";
-// import ErrorNotification from "./ErrorNotification";
+
 import "./styles/css/App.css";
 import Navbar from "./components/Navbar.js";
 import {
-  // BrowserRouter as Router,
   Routes,
   Route,
   BrowserRouter,
@@ -25,10 +22,7 @@ function GetToken() {
   useToken();
   return null;
 }
-// function App() {
-//   const [launch_info, setLaunchInfo] = useState([]);
-//   const [error, setError] = useState(null);
-//   const [token, setToken] = useState(null);
+
 
 function App() {
   return (

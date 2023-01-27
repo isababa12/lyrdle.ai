@@ -21,8 +21,7 @@ function Home() {
 
   const getPostedLyrics = async () => {
     try {
-      const lyricsUrl = `http://localhost:8010/api/lyrics/posted`;
-      // const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/lyrics/posted`;
+      const lyricsUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/lyrics/posted`;
       const response = await fetch(lyricsUrl);
       if (response.ok) {
         const data = await response.json();
@@ -35,7 +34,6 @@ function Home() {
 
   const getUsers = async () => {
     try {
-      // const usersUrl = 'http://localhost:8000/api/users';
       const usersUrl = `${process.env.REACT_APP_USERS_API_HOST}/api/users`;
       const response = await fetch(usersUrl);
       if (response.ok) {
@@ -62,8 +60,7 @@ function Home() {
 
   const getUserLikes = async () => {
     try {
-      const userLikesURL = `http://localhost:8010/api/users/current/lyrics_likes`;
-      // const userLikesURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics_likes`;
+      const userLikesURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics_likes`;
       const fetchConfig = {
         method: "get",
         headers: {
@@ -98,8 +95,7 @@ function Home() {
 
   function handleSubmitAddLike(event, lyricsId) {
     event.preventDefault();
-    const createLikeUrl = `http://localhost:8010/api/users/current/lyrics/${lyricsId}/lyrics_likes`;
-    // const createLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes`;
+    const createLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes`;
 
     const fetchConfig = {
       method: "post",
@@ -114,7 +110,6 @@ function Home() {
           console.log("Fetch error");
         } else {
           setLikeChanged(!likeChanged);
-          // console.log("Like Created for lyrics id ", lyricsId);
         }
       })
       .catch((e) => console.error("Create Like Error: ", e));
@@ -122,8 +117,7 @@ function Home() {
 
   function handleSubmitRemoveLike(event, lyricsId, likeId) {
     event.preventDefault();
-    const deleteLikeUrl = `http://localhost:8010/api/users/current/lyrics/${lyricsId}/lyrics_likes/${likeId}`;
-    // const deleteLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes/${likeId}`;
+    const deleteLikeUrl = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics/${lyricsId}/lyrics_likes/${likeId}`;
 
     const fetchConfig = {
       method: "delete",
@@ -138,7 +132,6 @@ function Home() {
           console.log("Fetch error");
         } else {
           setLikeChanged(!likeChanged);
-          // console.log("Like Deleted for lyrics id ", lyricsId);
         }
       })
       .catch((e) => console.error("Delete Like Error: ", e));
@@ -165,6 +158,14 @@ function Home() {
       return obj1.total_likes > obj2.total_likes ? obj1 : obj2;
     });
     remainingLyrics = postedLyrics.filter((value) => featuredLyric !== value);
+  }
+
+  let logInDependent = "btn btn-success d-none"
+  // let logOutDependent = "btn btn-success"
+
+  if (token){
+    logInDependent = "btn btn-success"
+    // logOutDependent = "btn btn-success d-none"
   }
 
   return (

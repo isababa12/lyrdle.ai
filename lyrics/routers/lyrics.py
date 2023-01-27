@@ -16,7 +16,6 @@ from queries.lyrics import (
 router = APIRouter(prefix="/api")
 
 
-# PUBLIC - ALL LYRICS
 @router.get("/lyrics", response_model=Union[List[LyricsOut], Error])
 def get_all_lyrics(
     repo: LyricsQueries = Depends(),
@@ -24,7 +23,6 @@ def get_all_lyrics(
     return repo.get_all()
 
 
-# PUBLIC - ALL POSTED LYRICS (WITH LIKE COUNTS)
 @router.get("/lyrics/posted", response_model=Union[List[LyricsPostedOut], Error])
 def get_all_posted_lyrics(
     repo: LyricsQueries = Depends(),
@@ -32,7 +30,6 @@ def get_all_posted_lyrics(
     return repo.get_all_posted()
 
 
-# PUBLIC - ONE LYRIC
 @router.get("/lyrics/{lyrics_id}", response_model=Optional[LyricsOut])
 def get_one_lyrics(
     lyrics_id: int,
@@ -45,12 +42,10 @@ def get_one_lyrics(
     return lyrics
 
 
-# LOGIN REQUIRED - CREATE LYRICS
 @router.post(
     "/users/current/lyrics", response_model=Union[LyricsCreateOut, Error]
 )
 def create_lyrics(
-    # user_id: int,
     input: LyricsIn,
     account: dict = Depends(authenticator.get_current_account_data),
     repo: LyricsQueries = Depends(),
@@ -60,7 +55,7 @@ def create_lyrics(
         user_id = account["id"]
 
         # Define the prompt for text-davinci-003 model
-        ai_prompt = f"Act as if you are the musician or band known as '{input.artist_name}' and write a new song in a style similar to '{input.song_name}', based on the following story: {input.user_input}. Please also include a song name at the top."
+        ai_prompt = f"Act as if you are the musician or band known as '{input.artist_name}' and write a new song in a style similar to the song '{input.song_name}', based on the following story: {input.user_input}. Please also include a song name at the top."
 
         # Set up the OpenAI API client
         openai.api_key = os.environ["OPEN_AI_KEY"]
@@ -75,7 +70,6 @@ def create_lyrics(
 
         # Extract generated text from API response and clean up
         generated_text = response["choices"][0]["text"]
-        # print("GENERATED TEXT: ", generated_text)
 
         # Use 3rd party API to generate the output
         user_output = generated_text
@@ -87,12 +81,10 @@ def create_lyrics(
         raise HTTPException(status_code=401, detail="Invalid Token")
 
 
-# LOGIN REQUIRED - ALL USER'S LYRICS
 @router.get(
     "/users/current/lyrics", response_model=Union[List[LyricsOut], Error]
 )
 def get_current_user_lyrics(
-    # user_id: int,
     account: dict = Depends(authenticator.try_get_current_account_data),
     repo: LyricsQueries = Depends(),
 ):
@@ -103,10 +95,8 @@ def get_current_user_lyrics(
         raise HTTPException(status_code=401, detail="Invalid Token")
 
 
-# LOGIN REQUIRED - UPDATE LYRICS POSTED STATUS
 @router.put("/users/current/lyrics/{lyrics_id}", response_model=bool)
 def update_lyrics_posted_status(
-    # user_id: int,
     lyrics_id: int,
     posted: bool,
     account: dict = Depends(authenticator.try_get_current_account_data),
@@ -118,7 +108,6 @@ def update_lyrics_posted_status(
         raise HTTPException(status_code=401, detail="Invalid Token")
 
 
-# LOGIN REQUIRED - DELETE LYRICS
 @router.delete(
     "/users/current/lyrics/{lyrics_id}", response_model=Union[Error, bool]
 )
@@ -129,3 +118,19 @@ def delete_lyrics(
 ) -> bool:
     if account:
         return repo.delete(lyrics_id)
+    else:
+        raise HTTPException(status_code=401, detail="Invalid Token")
+
+
+@router.delete(
+    "/users/current/lyrics", response_model=Union[Error, bool]
+)
+def delete_all_user_lyrics(
+    account: dict = Depends(authenticator.try_get_current_account_data),
+    repo: LyricsQueries = Depends(),
+):
+    if account:
+        user_id = account["id"]
+        return repo.delete_all_user_lyrics(user_id)
+    else:
+        raise HTTPException(status_code=401, detail="Invalid Token")

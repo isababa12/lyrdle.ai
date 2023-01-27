@@ -56,8 +56,6 @@ class Error(BaseModel):
 
 
 class LyricsQueries:
-
-    # Create new lyrics
     def create(
         self,
         input: LyricsIn,
@@ -103,7 +101,6 @@ class LyricsQueries:
         except Exception:
             return {"message": "create did not work"}
 
-    # Get all lyrics
     def get_all(self, user_id: int = None) -> Union[List[LyricsOut], Error]:
         try:
             with pool.connection() as conn:
@@ -190,7 +187,6 @@ class LyricsQueries:
             print(e)
             return {"message": "Could not get posted lyrics"}
 
-    # Get one lyrics (by lyrics id)
     def get_one(self, lyrics_id: int) -> Optional[LyricsOut]:
         try:
             with pool.connection() as conn:
@@ -222,7 +218,6 @@ class LyricsQueries:
             print(e)
             return {"message": "Could not get that lyrics item"}
 
-    # Change "posted" status for one lyrics
     def update_status(self, lyrics_id: int, posted: bool) -> bool:
         try:
             with pool.connection() as conn:
@@ -268,8 +263,29 @@ class LyricsQueries:
             print(e)
             return Error(message="Could not delete lyrics")
 
+    def delete_all_user_lyrics(self, user_id: int) -> Union[bool, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        DELETE FROM lyrics
+                        WHERE lyrics.user_id = %s;
+                        """,
+                        [user_id],
+                    )
+                    deleted_row_count = db.rowcount
+                    if deleted_row_count > 0:
+                        print("Deleted Rows: ", deleted_row_count)
+                        return True
+                    else:
+                        print("Nothing to delete.")
+                        return False
+        except Exception as e:
+            print(e)
+            return {"message": "Could not delete user's lyrics or likes"}
+
     def record_to_lyrics_out(self, record):
-        # print("Record: ", record)
         return LyricsOut(
             id=record[0],
             user_id=record[1],

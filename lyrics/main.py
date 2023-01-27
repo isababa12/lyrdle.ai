@@ -18,17 +18,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-# @app.get("/api/launch-details")
-# def launch_details():
-#     return {
-#         "launch_details": {
-#             "year": 2023,
-#             "month": -2,
-#             "day": "11",
-#             "hour": 19,
-#             "min": 0,
-#             "tz:": "PST"
-#         }
-#     }

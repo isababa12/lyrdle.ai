@@ -35,8 +35,7 @@ function Create() {
             artist_name: artistName,
             song_name: songName,
             };
-            const lyricsURL = `http://localhost:8010/api/users/current/lyrics`;
-            // const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
+            const lyricsURL = `${process.env.REACT_APP_LYRICS_API_HOST}/api/users/current/lyrics`;
             const fetchConfig = {
                 method: "POST",
                 body: JSON.stringify(promptData),
@@ -47,7 +46,7 @@ function Create() {
             };
             const response = await fetch(lyricsURL, fetchConfig);
             if (!response.ok) {
-            throw new Error(response.statusText);
+                throw new Error(response.statusText);
             }
             setSubmitted(true);
         } catch (error) {
@@ -69,7 +68,7 @@ function Create() {
     if (submitted === true) {
         messages = "alert alert-success mb-0";
         spinner = "spinner-border d-none";
-        return <Navigate to ="/Profile"/>
+        return <Navigate to ="/profile"/>
     }
 
   return (
