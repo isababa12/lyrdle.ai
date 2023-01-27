@@ -5,10 +5,9 @@
   flex-direction: row-reverse;
   align-items: center;
   justify-content: center;
-  background: #ecd6cb;
+  background: var(--main-bg-color);
   padding: 5%;
 }
-
 
 img {
   width: 50%;

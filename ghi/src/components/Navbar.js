@@ -50,15 +50,11 @@ function Navbar() {
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <nav className="navbar navbar-expand-lg static-top">
           <div className="container">
             <nav className="navbar-brand" href="#">
               <Link to="/">
-                <img
-                  src="https://placeholder.pics/svg/150x50/888888/EEE/Logo"
-                  alt="..."
-                  height="36"
-                />
+                Home
               </Link>
             </nav>
             <div
