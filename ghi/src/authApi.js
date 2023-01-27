@@ -97,12 +97,14 @@ export function useToken() {
   async function logout() {
     if (token) {
       const url = `${process.env.REACT_APP_USERS_API_HOST}/token`;
-      await fetch(url, { method: "delete", credentials: "include" });
-      internalToken = null;
-      setToken(null);
-      internalCookie = null;
-      setCookie(null);
-      navigate("/");
+      const response = await fetch(url, { method: "delete", credentials: "include" });
+      if (response.ok) {
+        internalToken = null;
+        setToken(null);
+        internalCookie = null;
+        setCookie(null);
+        navigate("/");
+      }
     }
   }
 
@@ -118,13 +120,12 @@ export function useToken() {
       credentials: "include",
       body: form,
     });
-
     if (response.ok) {
       const token = await getTokenInternal();
       setToken(token);
       const cookie = await getCookie();
       setCookie(cookie);
-      return;
+      navigate("/");
     } else {
       let error = await response.json();
       return handleErrorMessage(error);
@@ -147,10 +148,10 @@ export function useToken() {
     if (response.ok) {
       await login(username, password);
     } else {
-      alert("That email or username already exists. Please try again.")
+      let error = await response.json();
+      return handleErrorMessage(error);
     }
-    return false;
-  }
+  };
 
   async function update(username, password, email) {
     const url = `${process.env.REACT_APP_USERS_API_HOST}/api/users/{user_id}`;

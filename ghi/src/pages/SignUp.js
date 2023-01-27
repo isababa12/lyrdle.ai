@@ -7,34 +7,29 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState(null);
   const signup = useToken()[3];
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const userData = {
-      email: email,
-      username: username,
-      password: password,
-    };
-    const usersURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    fetch(usersURL, fetchConfig)
-      .then((response) => response.json())
-      .then(() => {
-        setEmail("");
-        setUsername("");
-        setPassword("");
-      })
-      .catch((e) => console.error("Error: ", e));
+    setFetching(true);
+    const signupError = await signup(username, password, email);
+    if (signupError) {
+      setError("Email or username already taken");
+      setFetching(false);
+    }
+    return;
   };
+
+  let spinner = "spinner-border d-none"
+  let button = "fancy-button"
+
+  if (fetching === true) {
+    button = "fancy-button d-none"
+    spinner = "spinner-border"
+  }
 
   return (
     <div>
@@ -70,21 +65,23 @@ function SignUp() {
                 required
               />
             </div>
-            <NavLink to="/">
-              <button
-                className="fancy-button"
-                onClick={(e) => signup(username, password, email)}
+            <button
+                className={button}
+                type="submit"
               >
                 Register
               </button>
-            </NavLink>
+              <div className={spinner} role="status">
+              </div>
             <div>
               Already have an account?{" "}
               <NavLink to="/login">Sign in here</NavLink>
             </div>
           </div>
         </form>
+        {error && <div className="alert alert-warning">{error}</div>}
       </div>
+
     </div>
   );
 }
