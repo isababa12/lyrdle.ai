@@ -47,7 +47,7 @@ def get_one_lyrics(
 )
 def create_lyrics(
     input: LyricsIn,
-    account: dict = Depends(authenticator.try_get_current_account_data),
+    account: dict = Depends(authenticator.get_current_account_data),
     repo: LyricsQueries = Depends(),
 ):
     if account:

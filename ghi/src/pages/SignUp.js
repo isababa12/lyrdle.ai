@@ -1,48 +1,43 @@
 import { React, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./SignUp.css";
+import "../styles/css/SignUp.css";
 import { useToken } from "../authApi";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState(null);
   const signup = useToken()[3];
 
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const userData = {
-      email: email,
-      username: username,
-      password: password,
-    };
-    const usersURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
-    const fetchConfig = {
-      method: "post",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    fetch(usersURL, fetchConfig)
-      .then((response) => response.json())
-      .then(() => {
-        setEmail("");
-        setUsername("");
-        setPassword("");
-      })
-      .catch((e) => console.error("Error: ", e));
+    setFetching(true);
+    const signupError = await signup(username, password, email);
+    if (signupError) {
+      setError("Email or username already taken");
+      setFetching(false);
+    }
+    return;
   };
+
+  let spinner = "spinner-border d-none";
+  let button = "fancy-button";
+
+  if (fetching === true) {
+    button = "fancy-button d-none";
+    spinner = "spinner-border";
+  }
 
   return (
     <div>
-      <div className="reg-page">
-        <div className="reg-head"><NavLink to= "/"> Welcome to Lyrdle Ai </NavLink></div>
-        <form onSubmit={handleSubmit} action="submit" className="reg-form">
+      <div className="su-container">
+        <img src={require("../images/logo-right.png")} alt="Lyrdle AI logo" />
+        <form onSubmit={handleSubmit} action="submit" className="su-form">
+          <div className="su-title">Sign Up</div>
           <div>
-            <div className="reg-input">
+            <div className="login-input login-username su-input">
               <input
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
@@ -51,7 +46,7 @@ function SignUp() {
                 required
               />
             </div>
-            <div className="reg-input">
+            <div className="login-input login-username">
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -60,7 +55,7 @@ function SignUp() {
                 required
               />
             </div>
-            <div className="reg-input">
+            <div className="login-input login-username">
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -69,16 +64,17 @@ function SignUp() {
                 required
               />
             </div>
-            <NavLink to="/">
-              <button onClick={(e) => signup(username, password, email)}>
-                Register
-              </button>
-            </NavLink>
-            <NavLink to="/login">
-              <button>I already have an account</button>
-            </NavLink>
+            <button className={button} type="submit">
+              Register
+            </button>
+            <div className={spinner} role="status"></div>
+            <div>
+              Already have an account?{" "}
+              <NavLink to="/login">Sign in here</NavLink>
+            </div>
           </div>
         </form>
+        {error && <div className="alert alert-warning">{error}</div>}
       </div>
     </div>
   );

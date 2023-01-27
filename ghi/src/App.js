@@ -1,4 +1,5 @@
-import "./App.css";
+
+import "./styles/css/App.css";
 import Navbar from "./components/Navbar.js";
 import {
   Routes,
@@ -9,13 +10,13 @@ import { AuthProvider, useToken } from "./authApi";
 import Create from "./pages/Create";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Profile from "./pages/Profile"
+import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Logout from "./pages/Logout";
 
 const domain = /https:\/\/[^/]+/;
-const basename = process.env.PUBLIC_URL.replace(domain, '');
+const basename = process.env.PUBLIC_URL.replace(domain, "");
 
 function GetToken() {
   useToken();
@@ -24,7 +25,6 @@ function GetToken() {
 
 
 function App() {
-
   return (
     <AuthProvider>
       <BrowserRouter basename={basename}>
@@ -43,7 +43,5 @@ function App() {
     </AuthProvider>
   );
 }
-
-
 
 export default App;
