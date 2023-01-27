@@ -42,13 +42,12 @@ function SignUp() {
 
   return (
     <div>
-      <div className="reg-page">
-        <div className="reg-head">
-          <NavLink to="/"> Welcome to Lyrdle Ai </NavLink>
-        </div>
-        <form onSubmit={handleSubmit} action="submit" className="reg-form">
+      <div className="su-container">
+        <img src={require("../images/logo-right.png")} />
+        <form onSubmit={handleSubmit} action="submit" className="su-form">
+          <div className="su-title">Sign Up</div>
           <div>
-            <div className="reg-input">
+            <div className="login-input login-username su-input">
               <input
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
@@ -57,7 +56,7 @@ function SignUp() {
                 required
               />
             </div>
-            <div className="reg-input">
+            <div className="login-input login-username">
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -66,7 +65,7 @@ function SignUp() {
                 required
               />
             </div>
-            <div className="reg-input">
+            <div className="login-input login-username">
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -76,13 +75,17 @@ function SignUp() {
               />
             </div>
             <NavLink to="/">
-              <button onClick={(e) => signup(username, password, email)}>
+              <button
+                className="fancy-button"
+                onClick={(e) => signup(username, password, email)}
+              >
                 Register
               </button>
             </NavLink>
-            <NavLink to="/login">
-              <button>I already have an account</button>
-            </NavLink>
+            <div>
+              Already have an account?{" "}
+              <NavLink to="/login">Sign in here</NavLink>
+            </div>
           </div>
         </form>
       </div>

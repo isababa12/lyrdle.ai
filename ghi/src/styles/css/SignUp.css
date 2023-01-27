@@ -1,32 +1,64 @@
-.reg-page {
-  height: 100vh;
-  width: 100vw;
+.su-container {
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
   justify-content: center;
-  background: rgba(195, 192, 192, 0.7);
+  background: #ecd6cb;
+  padding: 5%;
 }
 
-.reg-head {
+
+img {
+  width: 50%;
+  offset: 40px 10px;
+}
+
+.su-title {
+  font-family: "Replica Pro Regular";
+  font-size: 4rem;
+  font-weight: 200;
+  /* display: flex; */
+  justify-content: right;
+}
+
+.su-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
-  font-size: 80px;
-  color:#3b3b3b;
-  margin-bottom: 128px;
+  transform: skew(10deg);
+  rotate: -20deg;
+  margin-right: 5%;
+  margin-top: 10%;
 }
 
-.reg-form {
-  display: flex;
-  flex-direction: column;
-}
+/* .login-input input {
+  border-color: black;
+  background-color: white;
+  margin-bottom: 5%;
+  padding: 3%;
+  border-radius: 80px;
+  border-width: 3px;
+  width: 40%;
+  height: 40%;
+  min-width: 200px;
+} */
 
-.reg-input {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 4px;
-}
+/* .su-input {
+  border-color: black;
+  margin-bottom: 5%;
+  padding: 3%;
+  border-radius: 80px;
+  border-width: 3px;
+  width: 40%;
+  height: 40%;
+  min-width: 200px;
+} */
 
-.reg-form input {
+/* .su-form input {
   border-color: #767676;
   font-size: 16px;
   background-color: #f4f5f6;
@@ -35,27 +67,36 @@
   border-radius: 80px;
   width: 320px;
   height: 64px;
-}
+} */
 
-.reg-form input:focus {
+.su-form input:focus {
   outline: 0;
 }
 
-button {
-  padding: 20px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor:pointer;
+/* Button handling */
+
+.fancy-button {
+  background: #fbca1f;
+  font-family: inherit;
+  padding: 0.6em 1.3em;
+  font-weight: 900;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.1em 0.1em;
+  margin-bottom: 4%;
 }
 
-.reg-btn {
-  background-color: aliceblue;
-  color: #434343;
+.fancy-button:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em;
 }
 
-.reg-btn:hover {
-  border: 2px solid #896a6a;
-  overflow: hidden;
-  margin: -2px;
+.fancy-button:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
+}
+
+.login-input input:focus {
+  outline: 0;
 }

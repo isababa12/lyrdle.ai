@@ -60,7 +60,6 @@ function Login() {
 
   return (
     <>
-      {/* <video src="/login/login-vid.mp4" autoPlay muted loop /> */}
       <div className="login-container">
         <img src={require("../images/logo-down.png")} />
         <div className="login-form">

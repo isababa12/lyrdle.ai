@@ -18,6 +18,7 @@ img {
   display: flex;
   justify-content: center;
   text-align: center;
+
 }
 
 .login-input input {
@@ -42,7 +43,7 @@ img {
   flex-direction: row-reverse;
 }
 
-/* New button */
+/* Button handling */
 
 .fancy-button {
   background: #fbca1f;
@@ -53,7 +54,7 @@ img {
   border: 3px solid black;
   border-radius: 0.4em;
   box-shadow: 0.1em 0.1em;
-  margin-bottom: 3%;
+  margin-bottom: 4%;
 }
 
 .fancy-button:hover {

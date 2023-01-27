@@ -69,16 +69,16 @@ function Navbar() {
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <nav className="navbar sticky-top navbar-light">
           <div className="container">
             <nav className="navbar-brand" href="#">
-              <Link to="/">
+              {/* <Link to="/">
                 <img
                   src="https://placeholder.pics/svg/150x50/888888/EEE/Logo"
                   alt="..."
                   height="36"
                 />
-              </Link>
+              </Link> */}
             </nav>
             <div
               className="collapse navbar-collapse"
