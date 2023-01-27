@@ -1,4 +1,14 @@
 Journal Entries - Harry Zeng
+Jan 25, 2023
+Today, I worked on:
+Finish all remaining MVP frontend needs
+Do final “big” merge prior to testing / debugging our app
+
+Jan 24, 2023
+Today, I worked on:
+Worked on the unit tests, navigation bar
+Some access of sidebar
+
 Jan 23, 2021
 Today, I worked on:
 Give access token for the navbar, Any user can login without account, but now it need to login to homepage with username

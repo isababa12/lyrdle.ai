@@ -35,16 +35,11 @@ class MockLyricsRepo:
         return [lyrics_out]
 
     def get_one(self, lyrics_id):
-        if lyrics_id:
-            print("lyrics id===", lyrics_id)
-            return lyrics_out
-        else:
-            print("lyrics not id")
-            return [lyrics_out]
+        return lyrics_out
 
 
 class MockLyricsLikesRepo:
-    def get_all(self, lyrics_id):
+    def get_all(self, lyrics_id=None):
         return [lyrics_likes_out]
 
 
@@ -57,14 +52,20 @@ def test_get_all_lyrics():
 
 def test_get_a_lyric():
     app.dependency_overrides[LyricsQueries] = MockLyricsRepo
-    print("Hello : )")
     lyric_id = 1
     response = client.get(f"/api/lyrics/{lyric_id}")
     assert response.status_code == 200
     assert response.json() == lyrics_out.dict()
 
 
-def test_lyric_likes():
+def test_get_all_lyrics_likes():
+    app.dependency_overrides[LyricsLikeQueries] = MockLyricsLikesRepo
+    response = client.get("/api/lyrics_likes")
+    assert response.status_code == 200
+    assert response.json() == [lyrics_likes_out.dict()]
+
+
+def test_get_current_lyric_lyrics_likes():
     app.dependency_overrides[LyricsLikeQueries] = MockLyricsLikesRepo
     lyrics_id = 1
     response = client.get(f"/api/lyrics/{lyrics_id}/lyrics_likes")

@@ -22,27 +22,31 @@ lint-test-job:
     - flake8 lyrics
 
 
-# # Run the user unit tests
-# users-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd users
-#     - pip install -r requirements.txt
-#     - python -m pytest
+# Run the user unit tests
+users-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  variables:
+    SIGNING_KEY: randomstring
+  script:
+    - cd users
+    - pip install -r requirements.txt
+    - python -m pytest
 
-# # Run the lyrics unit tests
-# lyrics-unit-test-job:
-#   image: python:3-bullseye
-#   stage: test
-#   needs:
-#     - lint-test-job
-#   script:
-#     - cd lyrics
-#     - pip install -r requirements.txt
-#     - python -m pytest
+# Run the lyrics unit tests
+lyrics-unit-test-job:
+  image: python:3-bullseye
+  stage: test
+  needs:
+    - lint-test-job
+  variables:
+    SIGNING_KEY: randomstring
+  script:
+    - cd lyrics
+    - pip install -r requirements.txt
+    - python -m pytest
 
 
 build-users-backend:

@@ -1,10 +1,31 @@
 # Journal Entries - Stephanie Hestilow
 
+# Jan 26, 2021
+Today, I worked on:
+* Worked with the team to fix a few bugs we noticed on our deployed frontend app
+* Added two new endpoints to our lyrics api backend to delete all lyrics / likes for a user when they decided to delete their account
+* Fixed unit test and updated requirements.txt to pass pipeline
+* Tested, re-tested, and re-re-tested our deployed app (it's working!!!!) - now just need to get it to look nice :)  Jerry has been laboring away all week on refactoring and styling so excited to see what he comes up with
+* Assuming this next merge goes through and unit test pipeline passes, will probably try to make one more unit test for practice
+
+
+# Jan 25, 2021
+Today, I worked on:
+* Yet more homepage frontend work. Finalized the "Profile" page which shows a user's own lyrics, as well as functionality to "share to homepage" or "make private" - which updates the lyrics "posted" status on the backend.  All functionality working.
+* Did final group "merge" and began testing our deployed frontend - made notes of a few bugs that we'll be tackling tomorrow
+
+
+# Jan 24, 2021
+Today, I worked on:
+* Continued plugging away on Home / Profile pages on the frontend. Modified the LyricsOut base model so that is returns the posted_at value, which we'll use to arrange the Lyrics featured on the homepage
+* Got 'like' functionality to work (!!!!) on homepage so users can click a button to "like / unlike", which connects to our backend to create / delete likes accordingly.  That took forever!!!! Yay!
+
 
 # Jan 23, 2021
 Today, I worked on:
 * More homepage frontend work.  Created functions to get total likes for each lyrics post, and map usernames to lyrics. Still need to implement "like" functionality, which will need the user's token
 * Helped Isaiah debug settings and create lyrics form
+* Updated ports for our microservices in Caprover - appears to be working!
 * Need to do more work on frontend deployment - likely once all frontend pages are fully functional
 
 
@@ -31,10 +52,14 @@ Today, I worked on:
 
 # Jan 18, 2021
 Today, I worked on:
+* More backend work - finalized integration of our OpenAI api which will generate lyrics using a user input, Artist and Song.  Played around with the temperature and hardcoded prompt a bit until the output was close to what we wanted.
+* Implemented auth into lyrics service and protected almost all endpoints except "get all lyrics" - otherwise users will have to be logged in
 
 
 # Jan 17, 2021
 Today, I worked on:
+* Continued working Lyrics microservice backend endpoints
+* Looked into OpenAI api documentation to learn about their GPT-3 models which can understand and generate natural language.  Selected the text-davinci-003 model and played around with it in a test project to understand how it works
 
 
 # Jan 16, 2021
