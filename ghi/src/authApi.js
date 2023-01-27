@@ -146,6 +146,8 @@ export function useToken() {
     });
     if (response.ok) {
       await login(username, password);
+    }else{
+      alert("You account is already signup")
     }
     return false;
   }
