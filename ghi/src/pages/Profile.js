@@ -84,18 +84,13 @@ function Profile() {
   return (
     <>
       <div id="profile-page-container">
-        <div id="heading" style={{ display: "flex", alignItems: "center" }}>
-          <h1>Your Lyrdle.AI collection, {userInfo.username}</h1>
-          <Link to="/settings">
-            <button
-              id="settings-btn"
-              className="btn btn-dark"
-              style={{ marginLeft: "2rem" }}
-            >
-              Account Settings
-            </button>
+        <div id="profile-title">
+          <h1 id="profile-heading">Your Collection</h1>
+          <Link to="/settings" id="profile-settings-link">
+            <a id="hell">account settings</a>
           </Link>
         </div>
+        <div id="profile-grid"></div>
         <div className="row row-cols-3">
           {userLyrics.map((lyrics) => {
             return (

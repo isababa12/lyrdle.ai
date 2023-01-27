@@ -178,6 +178,9 @@ function Home() {
             {featuredLyric && buildLyricsCard(featuredLyric)}
           </div>
         </div>
+        <div id="arrow">
+          <img alt="arrow" src={require("../images/custom-arrow.png")} />
+        </div>
         <div className="fixed-bottom bd-highlight">
           <h2 id="create-heading">
             <a href="/login"> create.</a>
