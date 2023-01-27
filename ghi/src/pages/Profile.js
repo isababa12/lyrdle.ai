@@ -6,36 +6,36 @@ import "../styles/css/HomeProfile.css";
 function Profile() {
   const { token } = useAuthContext();
   const [userLyrics, setUserLyrics] = useState([]);
-  const [userInfo, setUserInfo] = useState("");
+  // const [userInfo, setUserInfo] = useState("");
   const [statusChanged, setStatusChanged] = useState(false);
 
   useEffect(() => {
     if (token) {
-      getUserInfo();
+      // getUserInfo();
       getLyrics();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, statusChanged]);
 
-  const getUserInfo = useCallback(async () => {
-    try {
-      const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
-      const fetchConfig = {
-        method: "get",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(userURL, fetchConfig);
-      if (response.ok) {
-        const data = await response.json();
-        setUserInfo(data);
-      }
-    } catch (error) {
-      console.log("Error", error.response.data);
-    }
-  }, [token]);
+  // const getUserInfo = useCallback(async () => {
+  //   try {
+  //     const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`;
+  //     const fetchConfig = {
+  //       method: "get",
+  //       headers: {
+  //         Authorization: "Bearer " + token,
+  //         "Content-Type": "application/json",
+  //       },
+  //     };
+  //     const response = await fetch(userURL, fetchConfig);
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setUserInfo(data);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error", error.response.data);
+  //   }
+  // }, [token]);
 
   const getLyrics = async () => {
     try {
@@ -118,7 +118,7 @@ function Profile() {
                     >
                       {lyrics.user_output}
                     </p>
-                    <button
+                    <a
                       role="button"
                       className="collapsed"
                       data-toggle="collapse"
@@ -127,7 +127,7 @@ function Profile() {
                       aria-controls="collapseExample"
                     >
                       Show{" "}
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div className="card-footer">
@@ -169,6 +169,7 @@ function Profile() {
             );
           })}
         </div>
+      <div id="push-up">Bump</div>
       </div>
     </>
   );

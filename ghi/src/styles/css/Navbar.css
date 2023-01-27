@@ -108,10 +108,10 @@ span {
   margin-bottom: 0;
 }
 
-.nav-top-bar {
-  display: !important flex;
-  flex-direction: !important row;
-  justify-content: stretch;
+#nav-top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   list-style-type: none;
 }
 

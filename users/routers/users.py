@@ -99,9 +99,18 @@ def update_user(
 
 
 @router.delete("/api/users/current", response_model=bool)
-def delete_user(
+def delete_current_user(
     account: dict = Depends(authenticator.get_current_account_data),
     repo: UserQueries = Depends(),
 ) -> bool:
     user_id = account['id']
+    return repo.delete(user_id)
+
+
+@router.delete("/api/users/{user_id}", response_model=bool)
+def delete_user_id(
+    user_id: int,
+    account: dict = Depends(authenticator.get_current_account_data),
+    repo: UserQueries = Depends(),
+) -> bool:
     return repo.delete(user_id)

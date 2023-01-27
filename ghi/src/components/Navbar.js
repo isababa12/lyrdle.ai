@@ -53,7 +53,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg static-top">
           <div className="container">
             <nav className="navbar-container" href="#">
-              <ul className="nav-top-bar">
+              <ul className="nav-top-bar" id="nav-top-bar">
                 <Link to="/">
                   <li id="nav-home">Home</li>
                 </Link>
