@@ -87,7 +87,7 @@ function Profile() {
         <div id="profile-title">
           <h1 id="profile-heading">Your Collection</h1>
           <Link to="/settings" id="profile-settings-link">
-            <a id="hell">account settings</a>
+            <p id="hell">account settings</p>
           </Link>
         </div>
         <div id="profile-grid"></div>
@@ -118,7 +118,7 @@ function Profile() {
                     >
                       {lyrics.user_output}
                     </p>
-                    <a
+                    <button
                       role="button"
                       className="collapsed"
                       data-toggle="collapse"
@@ -127,7 +127,7 @@ function Profile() {
                       aria-controls="collapseExample"
                     >
                       Show{" "}
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div className="card-footer">
