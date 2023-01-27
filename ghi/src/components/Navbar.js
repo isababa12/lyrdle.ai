@@ -52,64 +52,54 @@ function Navbar() {
       <IconContext.Provider value={{ color: "#fff" }}>
         <nav className="navbar navbar-expand-lg static-top">
           <div className="container">
-            <nav className="navbar-brand" href="#">
-              <Link to="/">
-                <button type="button" className="btn btn-dark">
-                  Home
-                </button>
-              </Link>
-            </nav>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item" key="login">
-                  <NavLink
-                    to="/login"
-                    className={logOutDependent}
-                    aria-current="page"
-                    href="#"
-                  >
-                    <button type="button" className="btn btn-dark">
-                      Log In
-                    </button>
-                  </NavLink>
-                </li>
-                {/* <li>
-                  <NavLink
-                    to="/create"
-                    className={logInDependent}
-                    aria-current="page"
-                    href="#"
-                  >
-                    <button type="button" className="btn btn-dark">
-                      Create Lyrics!
-                    </button>
-                  </NavLink>
-                </li> */}
+            <nav className="navbar-container" href="#">
+              <ul className="nav-top-bar">
+                <Link to="/">
+                  <li id="nav-home">Home</li>
+                </Link>
                 <li>
                   <NavLink
                     to="/profile"
-                    className={logInDependent}
+                    className={`${logInDependent} nav-profile`}
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-dark">
-                      Profile
-                    </button>
+                    Profile
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
                     to="/logout"
-                    className={logInDependent}
+                    className={`${logInDependent} nav-logout`}
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-dark">
-                      Log Out
-                    </button>
+                    Log Out
+                  </NavLink>
+                </li>
+              </ul>
+            </nav>
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="fixed-bottom bd-highlight">
+                <li className="nav-item" key="login">
+                  <NavLink
+                    to="/create"
+                    className={`${logInDependent} bottom-nav`}
+                    aria-current="page"
+                    href="#"
+                  >
+                    create.
+                  </NavLink>
+                  <NavLink
+                    to="/login"
+                    className={`${logOutDependent} bottom-nav`}
+                    aria-current="page"
+                    href="#"
+                  >
+                    log in.
                   </NavLink>
                 </li>
               </ul>

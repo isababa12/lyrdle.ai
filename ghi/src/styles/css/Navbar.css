@@ -79,3 +79,71 @@ span {
   overflow: hidden;
   background-color: #333333;
 } */
+
+/* .container {
+  margin: 3% 10%;
+} */
+
+.bottom-nav {
+  font-family: "Replica Light";
+  font-size: 10rem;
+  text-align: left;
+  /* margin: 0px 10%; */
+  text-decoration: none;
+  /* color: var(--bs-body-color); */
+  /* color: #001f54;
+  color: rgb(28, 133, 208); */
+}
+
+.bottom-nav:hover {
+  /* color: var(--bs-body-color); */
+  color: black;
+}
+
+.fixed-bottom {
+  background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.nav-top-bar {
+  display: !important flex;
+  flex-direction: !important row;
+  justify-content: stretch;
+  list-style-type: none;
+}
+
+#nav-home {
+  font-family: "Replica Light";
+  transform: skew(40deg);
+  transform: skewX(-15deg);
+  font-size: 5rem;
+  border: 0.5rem solid black;
+  text-align: center;
+  margin: 0% 10%;
+  padding: 5%;
+  text-decoration: none;
+}
+
+#nav-profile {
+  font-family: "Replica Light";
+  font-size: 15rem;
+  transform: skew(30deg);
+  transform: skewY(10deg);
+  rotate: -20deg;
+  display: table-caption;
+  text-align: left;
+  /* margin-left: 10%; */
+  line-height: 90%;
+  padding-top: 5%;
+  z-index: auto;
+}
+
+#nav-logout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 25%;
+}

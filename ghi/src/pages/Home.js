@@ -162,11 +162,11 @@ function Home() {
   }
 
   let likeButton = "btn btn-success d-none";
-  let createLink = "/login"
+  let createLink = "/login";
 
   if (token) {
     likeButton = "btn btn-success";
-    createLink = "/create"
+    createLink = "/create";
   }
 
   return (
@@ -180,20 +180,15 @@ function Home() {
             {featuredLyric && buildLyricsCard(featuredLyric)}
           </div>
         </div>
-        <div id="arrow">
+        <div className="arrow">
           <img alt="arrow" src={require("../images/custom-arrow.png")} />
-        </div>
-        <div className="fixed-bottom bd-highlight">
-          <h2 id="create-heading">
-            <a href={createLink}> create.</a>
-          </h2>
         </div>
         <div className="d-flex flex-wrap justify-content-start flex-2-column bd-highlight">
           {remainingLyrics.map((lyrics) => {
             return buildLyricsCard(lyrics);
           })}
         </div>
-        <div id="push-up">Test</div>
+        <div id="push-up">Bump</div>
       </div>
     </>
   );
