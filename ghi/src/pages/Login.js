@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate, NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useToken } from "../authApi";
-// import { useAuthContext, useToken } from "../authApi";
 import "../styles/css/Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const [, login] = useToken();
-  const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const error = await login(username, password);
-  //   if (error) {
-  //     isLoggedIn(false);
-  //   } else {
-  //     navigate('/');
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const loginError = await login(username, password);
+    if (loginError) {
+      setError("Incorrect username or password")
+    }
+    return;
+  };
 
   const loginInput = (
     <div className="login-input login-username">
@@ -44,44 +42,31 @@ function Login() {
     </div>
   );
 
-  const loginRedirect = async () => {
-    try {
-      const login_response = await login(username, password);
-      if (!login_response) {
-        navigate("/");
-      } else {
-        alert("Invalid username and/or password");
-      }
-      return <Navigate to="/" />;
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <>
       <div className="login-container">
-        <img src={require("../images/logo-down.png")} />
-        <div className="login-form">
+        <img alt="logo" src={require("../images/logo-down.png")} />
+        <form onSubmit={handleSubmit} action="submit" className="login-form">
           <div className="login-head">
-            <p className="login-slogan">Log in to Lyrdle AI</p>
+          <p className="login-slogan">Log in to Lyrdle AI</p>
             <div className="login-body">
               {loginInput}
               {loginPassword}
               <div>
                 <button
-                  onClick={() => loginRedirect()}
-                  type="button"
-                  className="fancy-button"
-                >
-                  Log In
-                </button>
+                className="fancy-button"
+                type="submit"
+              >
+                Log In
+              </button>
               </div>
               Don't have an account? <NavLink to="/signup">Sign up!</NavLink>
             </div>
           </div>
+          </form>
+          {error && <div className="alert alert-warning">{error}</div>}
         </div>
-      </div>
     </>
   );
 }

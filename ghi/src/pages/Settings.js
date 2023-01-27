@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../authApi";
 import React from 'react';
@@ -12,7 +12,7 @@ function Settings() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const getUserInfo = useCallback(async() => {
+    const getUserInfo = async() => {
         const userURL = `${process.env.REACT_APP_USERS_API_HOST}/api/users/current`
         const fetchConfig = {
             method: "get",
@@ -28,14 +28,13 @@ function Settings() {
             setUsername(data.username);
             setPassword('');
         }
-    }, [token])
+    };
 
     useEffect(() => {
         if (token){
             getUserInfo();
         }
-    }, [token, getUserInfo]);
-
+    }, [token]);
 
 
     const handleNewEmailChange = (event) => {
@@ -173,6 +172,7 @@ function Settings() {
                 <div className={messages} id="success-message">
                     Your account info has been updated.
                 </div>
+                <br/>
                 <div>
                     <button type="button" className="btn btn-danger" onClick={handleDeleteAttempt} id="delete-current-user">Delete Account</button>
                 </div>

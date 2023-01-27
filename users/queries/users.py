@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Union
+from typing import List, Union, Optional
 from jwtdown_fastapi.authentication import Token
 from queries.pool import pool
 
@@ -14,7 +14,7 @@ class UserOut(BaseModel):
     id: int
     email: str
     username: str
-    hashed_password: str
+    hashed_password: Optional[str]
 
 
 class UserOutWithPassword(BaseModel):
@@ -125,30 +125,21 @@ class UserQueries:
                     hashed_password=record[3],
                 )
 
-    def update(
-        self,
-        user_id: int,
-        email: str,
-        username: str,
-        hashed_password: str,
-        password: str,
-    ) -> Union[UserOut, UserOutWithPassword, Error]:
+    def update(self, user_id: int, email: str, username: str, hashed_password: str, password: str) -> Union[UserOut, UserOutWithPassword, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as cur:
-                    if password == "":
+                    if password is None:
                         cur.execute(
                             """
                             UPDATE users
                             SET email = %s
                             , username = %s
-                            , hashed_password = %s
                             WHERE id = %s
                             """,
                             [
                                 email,
                                 username,
-                                hashed_password,
                                 user_id,
                             ],
                         )

@@ -55,9 +55,7 @@ function Create() {
     };
 
     let messages = "alert alert-success d-none mb-0"
-
     let button = "btn btn-primary"
-
     let spinner = "spinner-border d-none"
 
     if (fetching === true) {

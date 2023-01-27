@@ -77,20 +77,24 @@ def update_user(
     repo: UserQueries = Depends(),
 ):
     user_id = account["id"]
+
     if new_info.email == "":
         email = account["email"]
     else:
         email = new_info.email
+
     if new_info.username == "":
         username = account["username"]
     else:
         username = new_info.username
+
     if new_info.password == "":
-        password = ""
-        hashed_password = account["hashed_password"]
+        password = None
+        hashed_password = None
     else:
         password = new_info.password
         hashed_password = authenticator.hash_password(new_info.password)
+
     return repo.update(user_id, email, username, hashed_password, password)
 
 
