@@ -54,7 +54,9 @@ function Navbar() {
           <div className="container">
             <nav className="navbar-brand" href="#">
               <Link to="/">
-                Home
+                <button type="button" className="btn btn-dark">
+                  Home
+                </button>
               </Link>
             </nav>
             <div
@@ -69,23 +71,23 @@ function Navbar() {
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-success">
+                    <button type="button" className="btn btn-dark">
                       Log In
                     </button>
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink
                     to="/create"
                     className={logInDependent}
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-success">
+                    <button type="button" className="btn btn-dark">
                       Create Lyrics!
                     </button>
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink
                     to="/profile"
@@ -93,7 +95,7 @@ function Navbar() {
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-primary">
+                    <button type="button" className="btn btn-dark">
                       Profile
                     </button>
                   </NavLink>
@@ -105,7 +107,7 @@ function Navbar() {
                     aria-current="page"
                     href="#"
                   >
-                    <button type="button" className="btn btn-danger">
+                    <button type="button" className="btn btn-dark">
                       Log Out
                     </button>
                   </NavLink>

@@ -83,7 +83,7 @@ function Profile() {
 
   return (
     <>
-      <div id="profile-page-container">
+      <div id="profile-container">
         <div id="heading" style={{ display: "flex", alignItems: "center" }}>
           <h1>Your Lyrdle.AI collection, {userInfo.username}</h1>
           <Link to="/settings">

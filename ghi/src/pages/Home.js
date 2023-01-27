@@ -142,12 +142,12 @@ function Home() {
       <LyricsCard
         key={lyrics.id}
         lyrics={lyrics}
-        username={usernames[lyrics.id]}
+        username={usernames[lyrics.user_id]}
         handleSubmitAddLike={handleSubmitAddLike}
         handleSubmitRemoveLike={handleSubmitRemoveLike}
         likeChecker={likeChecker}
         userLikes={userLikes[lyrics.id]}
-        logInDependent={logInDependent}
+        likeButton={likeButton}
       />
     );
   }
@@ -161,10 +161,12 @@ function Home() {
     remainingLyrics = postedLyrics.filter((value) => featuredLyric !== value);
   }
 
-  let logInDependent = "btn btn-success d-none";
+  let likeButton = "btn btn-success d-none";
+  let createLink = "/login"
 
   if (token) {
-    logInDependent = "btn btn-success";
+    likeButton = "btn btn-success";
+    createLink = "/create"
   }
 
   return (
@@ -180,7 +182,7 @@ function Home() {
         </div>
         <div className="fixed-bottom bd-highlight">
           <h2 id="create-heading">
-            <a href="/login"> create.</a>
+            <a href={createLink}> create.</a>
           </h2>
         </div>
         <div className="d-flex flex-wrap justify-content-start flex-2-column bd-highlight">
