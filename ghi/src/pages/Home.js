@@ -147,6 +147,7 @@ function Home() {
         handleSubmitRemoveLike={handleSubmitRemoveLike}
         likeChecker={likeChecker}
         userLikes={userLikes[lyrics.id]}
+        logInDependent={logInDependent}
       />
     );
   }
@@ -160,12 +161,10 @@ function Home() {
     remainingLyrics = postedLyrics.filter((value) => featuredLyric !== value);
   }
 
-  let logInDependent = "btn btn-success d-none"
-  // let logOutDependent = "btn btn-success"
+  let logInDependent = "btn btn-success d-none";
 
-  if (token){
-    logInDependent = "btn btn-success"
-    // logOutDependent = "btn btn-success d-none"
+  if (token) {
+    logInDependent = "btn btn-success";
   }
 
   return (

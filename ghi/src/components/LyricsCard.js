@@ -1,6 +1,3 @@
-// import heart from "../styles/icons";
-// import heartFill from "../styles/icons";
-
 function LyricsCard(props) {
   const lyrics = props.lyrics;
   const username = props.username;
@@ -8,6 +5,7 @@ function LyricsCard(props) {
   const handleSubmitRemoveLike = props.handleSubmitRemoveLike;
   const likeChecker = props.likeChecker;
   const userLikes = props.userLikes;
+  const logInDependent = props.logInDependent;
   // const heart = require("../styles/icons/heart.svg");
   // const heartFill = require("../styles/icons/heartFill.svg");
 
@@ -54,14 +52,6 @@ function LyricsCard(props) {
             }
             id="remove-like-form"
           >
-            {/* <div className="form-floating mb-3">
-                        <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
-                        <label htmlFor="lyrics_id">Lyrics Id</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                        <input type="text" className="form-control" name="lyrics_id" value={userLikes[lyrics.id]} readOnly={true}/>
-                        <label htmlFor="lyrics_id">Like Id</label>
-                        </div> */}
             <button type="submit" className="btn btn-secondary" id="lyrics-btn">
               Unlike
             </button>{" "}
@@ -72,11 +62,7 @@ function LyricsCard(props) {
             onSubmit={(event) => handleSubmitAddLike(event, lyrics.id)}
             id="create-like-form"
           >
-            {/* <div className="form-floating mb-3">
-                        <input type="text" className="form-control" name="lyrics_id" value={lyrics.id} readOnly={true}/>
-                        <label htmlFor="lyrics_id">Lyrics Id</label>
-                        </div> */}
-            <button type="submit" id="lyrics-btn" className="btn btn-success">
+            <button type="submit" id="lyrics-btn" className={logInDependent}>
               Like
             </button>{" "}
             {lyrics.total_likes} Likes

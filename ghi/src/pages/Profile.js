@@ -135,18 +135,41 @@ function Profile() {
                     </a>
                   </div>
                 </div>
-              </div>
-              <div className="card-footer">
-                  {(lyrics.posted)
-                  ?
-                  <form onSubmit={(event) => handleSubmitStatus(event, lyrics.id, lyrics.posted)} id="remove-like-form">
-                    <button type="submit" className="btn btn-secondary" id="lyrics-btn">Make Private</button> {lyrics.total_likes} Likes
-                  </form>
-                  :
-                  <form onSubmit={(event) => handleSubmitStatus(event, lyrics.id, lyrics.posted)} id="remove-like-form">
-                    <button type="submit" className="btn btn-primary" id="lyrics-btn">Share to Homepage</button> {lyrics.total_likes} Likes
-                  </form>
-                  }
+                <div className="card-footer">
+                  {lyrics.posted ? (
+                    <form
+                      onSubmit={(event) =>
+                        handleSubmitStatus(event, lyrics.id, lyrics.posted)
+                      }
+                      id="remove-like-form"
+                    >
+                      <button
+                        type="submit"
+                        className="btn btn-secondary"
+                        id="lyrics-btn"
+                      >
+                        Make Private
+                      </button>{" "}
+                      {lyrics.total_likes} Likes
+                    </form>
+                  ) : (
+                    <form
+                      onSubmit={(event) =>
+                        handleSubmitStatus(event, lyrics.id, lyrics.posted)
+                      }
+                      id="remove-like-form"
+                    >
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        id="lyrics-btn"
+                      >
+                        Share to Homepage
+                      </button>{" "}
+                      {lyrics.total_likes} Likes
+                    </form>
+                  )}
+                </div>
               </div>
             );
           })}
