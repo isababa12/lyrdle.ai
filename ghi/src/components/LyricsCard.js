@@ -5,7 +5,7 @@ function LyricsCard(props) {
   const handleSubmitRemoveLike = props.handleSubmitRemoveLike;
   const likeChecker = props.likeChecker;
   const userLikes = props.userLikes;
-  const logInDependent = props.logInDependent;
+  const likeButton = props.likeButton;
   // const heart = require("../styles/icons/heart.svg");
   // const heartFill = require("../styles/icons/heartFill.svg");
 
@@ -13,14 +13,14 @@ function LyricsCard(props) {
     <div key={lyrics.id} className="card mb-3">
       <div className="card-header">
         <h5>{username}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">
-          posted on{" "}
+        <h6>Inspired by "{lyrics.song_name}" - {lyrics.artist_name}</h6>
+        <p className="card-subtitle mb-2 text-muted"> posted on{" "}
           {new Date(lyrics.posted_at).toLocaleDateString("en-US", {
             month: "long",
             day: "numeric",
             year: "numeric",
           })}
-        </h6>
+        </p>
       </div>
       <div className="card-body">
         <div id="module" className="card-text">
@@ -62,7 +62,7 @@ function LyricsCard(props) {
             onSubmit={(event) => handleSubmitAddLike(event, lyrics.id)}
             id="create-like-form"
           >
-            <button type="submit" id="lyrics-btn" className={logInDependent}>
+            <button type="submit" id="lyrics-btn" className={likeButton}>
               Like
             </button>{" "}
             {lyrics.total_likes} Likes

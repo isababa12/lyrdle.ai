@@ -171,6 +171,13 @@ div .card {
   width: 500px;
 }
 
+
+#featured-post {
+  margin: 1rem;
+  /* padding: 4px; */
+  width: 500px;
+}
+
 /* Toggle button styling */
 #lyrics-btn {
   margin-right: 1rem;
