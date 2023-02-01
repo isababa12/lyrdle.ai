@@ -10,11 +10,11 @@ function LyricsCard(props) {
   const userLikes = props.userLikes;
   const token = props.token;
 
-  let likeButton = "btn btn-success d-none";
+  // let likeButton = "btn btn-success d-none";
 
-  if (token) {
-    likeButton = "btn btn-success";
-  }
+  // if (token) {
+  //   likeButton = "btn btn-success";
+  // }
 
   return (
     <div key={lyrics.id} className="card mb-3">
