@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuthContext } from "../authApi";
 import { Navigate } from "react-router-dom";
 import React from "react";
+import "../styles/css/Create.css"
 
 function Create() {
   const [prompt, setPrompt] = useState("");
@@ -55,12 +56,14 @@ function Create() {
   };
 
     let messages = "alert alert-success d-none mb-0"
-    let button = "btn btn-primary"
+    let createButton = "create."
     let spinner = "spinner-border d-none"
+    let button = "btn btn-primary"
 
   if (fetching === true) {
-    button = "btn btn-primary d-none";
+    createButton = "creating";
     spinner = "spinner-border";
+    let button = "spinner"
   }
 
   if (submitted === true) {
@@ -70,22 +73,20 @@ function Create() {
   }
 
   return (
+    <>
+    <h1 id="create-header">What should AI sing about today?</h1>
     <div className="row">
       <div className="offset-3 col-6">
-        <div className="shadow p-4 mt-4">
-          <h3>What should AI sing about today?</h3>
           <form onSubmit={handleSubmit} id="create-lyrics-form">
             <div className="form-floating mb-3">
-              <input
+              <textarea
                 onChange={handlePromptChange}
-                placeholder="Prompt"
+                placeholder="Please write a prompt..."
                 required
-                type="text"
                 name="prompt"
                 id="prompt"
-                className="form-control"
-              />
-              <label htmlFor="prompt">Your Prompt</label>
+                className="form-control-plaintext"
+              ></textarea>
             </div>
             <div className="form-floating mb-3">
               <input
@@ -95,33 +96,38 @@ function Create() {
                 type="text"
                 name="artist-name"
                 id="artist-name"
-                className="form-control"
+                className="form-control-plaintext"
               />
-              <label htmlFor="artist-name">Artist Name</label>
             </div>
             <div className="form-floating mb-3">
               <input
                 onChange={handleSongNameChange}
                 placeholder="Song Name"
                 required
-                type="song-name"
+                type="text"
                 name="song-name"
                 id="song-name"
-                className="form-control"
+                className="form-control-plaintext"
               />
-              <label htmlFor="song-name">Song Name</label>
             </div>
-            <button type="submit" className={button}>
-              Send Prompt
+            <div>
+              <button className={button} type="submit"> Create </button>
+              {/* Add button here! */}
+            </div>
+              <ul className="fixed-bottom bd-highlight">
+                <li className="nav-item" key="login">
+            <button type="submit" className={`bottom-nav btn btn-link`}>
+              {createButton} <div className={spinner} role="status"/>
             </button>
-            <div className={spinner} role="status"></div>
+            </li>
+          </ul>
           </form>
         </div>
         <div className={messages} id="success-message">
           Your prompt has been sent.
         </div>
       </div>
-    </div>
+      </>
   );
 }
 

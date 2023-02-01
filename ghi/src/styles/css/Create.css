@@ -1,0 +1,32 @@
+textarea:focus#prompt {
+    outline: none;
+    box-shadow: none;
+}
+
+input:focus#song-name, #artist-name {
+    outline: none;
+    box-shadow: none;
+}
+
+textarea#prompt {
+    font-size: 2em;
+    text-align: center;
+    height: 35vh;
+    resize: none;
+    font-weight: 200;
+    font-weight: bold;
+    font-family: "Replica Light";
+}
+
+h1#create-header {
+  font-size: 5em;
+  font-weight: bold;
+  font-family: "Replica Light";
+}
+
+input#song-name, #artist-name {
+    font-size: 2em;
+    text-align: center;
+    font-family: "Replica Light";
+    font-weight: bold;
+}
