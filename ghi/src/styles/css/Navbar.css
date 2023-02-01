@@ -117,15 +117,16 @@ span {
 
 #nav-home {
   font-family: "Replica Light";
-  transform: skew(40deg);
-  transform: skewX(-15deg);
-  font-size: 5rem;
-  border: 0.5rem solid black;
-  text-align: center;
-  margin: 0% 10%;
-  padding: 5%;
+  background-color: rgb(10, 235, 201);
+  border: none;
+  color: rgb(18, 14, 14);
+  padding: 12px 16px;
+  font-size: 30px;
+  cursor: pointer;
   text-decoration: none;
 }
+
+
 
 #nav-profile {
   font-family: "Replica Light";
@@ -135,7 +136,7 @@ span {
   rotate: -20deg;
   display: table-caption;
   text-align: left;
-  /* margin-left: 10%; */
+  margin-left: 10%;
   line-height: 90%;
   padding-top: 5%;
   z-index: auto;

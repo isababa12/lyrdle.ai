@@ -77,6 +77,7 @@ function Navbar() {
                     Log Out
                   </NavLink>
                 </li>
+
               </ul>
             </nav>
             <div
