@@ -86,6 +86,11 @@ function Settings() {
         setDeleteAttempt(true);
     }
 
+    const handleCancelDelete = async (event) => {
+        event.preventDefault();
+        setDeleteAttempt(false);
+    }
+
     const handleDelete = async (event) => {
         event.preventDefault();
 
@@ -128,15 +133,15 @@ function Settings() {
     }
 
     let messages = "alert alert-success d-none mb-0"
-
     if (submitted === true) {
         messages = "alert alert-success mb-0"
     }
 
-    let deleteButton = "btn btn-danger d-none"
-
+    let visibility = "visible"
+    let deleteButtonGroup = "btn-group d-none"
     if (deleteAttempt === true){
-        deleteButton = "btn btn-danger"
+        deleteButtonGroup = "btn-group"
+        visibility = "d-none"
     }
 
     if (deleted === true){
@@ -167,7 +172,7 @@ function Settings() {
                                 className="form-control" value={password}/>
                             <label htmlFor="new-password">New password</label>
                         </div>
-                        <button type="submit" className="btn btn-primary">Apply Changes</button>
+                        <button type="submit" className="fancy-button">Apply Changes</button>
                     </form>
                 </div>
                 <div className={messages} id="success-message">
@@ -175,10 +180,12 @@ function Settings() {
                 </div>
                 <br/>
                 <div>
-                    <button type="button" className="btn btn-danger" onClick={handleDeleteAttempt} id="delete-current-user">Delete Account</button>
+                    <button type="button" className={visibility} onClick={handleDeleteAttempt} id="delete-account-btn">Delete Account</button>
                 </div>
-                <div>
-                    <button type="button" className={deleteButton} onClick={handleDelete} id="delete-current-user">Are you sure?</button>
+                <div className={deleteButtonGroup}>
+                    <button type="button" id="are-you-sure-btn">Are you sure about that?</button>
+                    <button type="button" onClick={handleDelete} id="confirm-delete-user">Yes, sadly... :(</button>
+                    <button type="button" onClick={handleCancelDelete} id="cancel-delete-user">Nevermind!</button>
                 </div>
             </div>
         </div>

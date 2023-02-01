@@ -213,3 +213,15 @@ div .card {
 #profile-card-subtitle {
   padding-top: 1rem;
 }
+
+#likes-btn {
+  border: none;
+  width: 50px;
+  background-color: transparent;
+}
+
+#share-btn {
+  border: none;
+  width: 50px;
+  background-color: transparent;
+}

@@ -55,11 +55,11 @@ function Create() {
   };
 
     let messages = "alert alert-success d-none mb-0"
-    let button = "btn btn-primary"
+    let button = "fancy-button"
     let spinner = "spinner-border d-none"
 
   if (fetching === true) {
-    button = "btn btn-primary d-none";
+    button = "fancy-button d-none";
     spinner = "spinner-border";
   }
 

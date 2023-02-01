@@ -1,6 +1,8 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../authApi";
+import hide from '../styles/icons/bxs-hide-grey.png'
+import show from '../styles/icons/bxs-show.png'
 import "../styles/css/HomeProfile.css";
 
 function Profile() {
@@ -72,19 +74,21 @@ function Profile() {
         <div className="row row-cols-3">
           {userLyrics.map((lyrics) => {
             return (
-              <div key={lyrics.id} className="card mb-3 shadow ">
+              <div key={lyrics.id} className="card mb-3 ">
                 <div className="card-header">
-                  <h6
+                  <br/>
+                  <h6>Inspired by "{lyrics.song_name}" - {lyrics.artist_name}</h6>
+                  <p
                     id="profile-card-subtitle"
                     className="card-subtitle mb-2 text-muted"
                   >
-                    Created on{" "}
+                    created on{" "}
                     {new Date(lyrics.created_at).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
                       year: "numeric",
                     })}
-                  </h6>
+                  </p>
                 </div>
                 <div className="card-body">
                   <div id="module" className="card-text">
@@ -118,10 +122,9 @@ function Profile() {
                     >
                       <button
                         type="submit"
-                        className="btn btn-secondary"
-                        id="lyrics-btn"
+                        id="share-btn"
                       >
-                        Make Private
+                        <img src={show} alt="show"/>
                       </button>{" "}
                       {lyrics.total_likes} Likes
                     </form>
@@ -134,10 +137,9 @@ function Profile() {
                     >
                       <button
                         type="submit"
-                        className="btn btn-primary"
-                        id="lyrics-btn"
+                        id="share-btn"
                       >
-                        Share to Homepage
+                        <img src={hide} alt="hide"/>
                       </button>{" "}
                       {lyrics.total_likes} Likes
                     </form>

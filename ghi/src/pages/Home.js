@@ -147,7 +147,7 @@ function Home() {
         handleSubmitRemoveLike={handleSubmitRemoveLike}
         likeChecker={likeChecker}
         userLikes={userLikes[lyrics.id]}
-        likeButton={likeButton}
+        token={token}
       />
     );
   }
@@ -159,12 +159,6 @@ function Home() {
       return obj1.total_likes > obj2.total_likes ? obj1 : obj2;
     });
     remainingLyrics = postedLyrics.filter((value) => featuredLyric !== value);
-  }
-
-  let likeButton = "btn btn-success d-none";
-
-  if (token) {
-    likeButton = "btn btn-success";
   }
 
   return (

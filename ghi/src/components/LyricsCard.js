@@ -1,3 +1,6 @@
+import heartFill from '../styles/icons/heart-filled.png'
+import heart from '../styles/icons/heart.png'
+
 function LyricsCard(props) {
   const lyrics = props.lyrics;
   const username = props.username;
@@ -5,9 +8,13 @@ function LyricsCard(props) {
   const handleSubmitRemoveLike = props.handleSubmitRemoveLike;
   const likeChecker = props.likeChecker;
   const userLikes = props.userLikes;
-  const likeButton = props.likeButton;
-  // const heart = require("../styles/icons/heart.svg");
-  // const heartFill = require("../styles/icons/heartFill.svg");
+  const token = props.token;
+
+  let likeButton = "btn btn-success d-none";
+
+  if (token) {
+    likeButton = "btn btn-success";
+  }
 
   return (
     <div key={lyrics.id} className="card mb-3">
@@ -52,8 +59,12 @@ function LyricsCard(props) {
             }
             id="remove-like-form"
           >
-            <button type="submit" className="btn btn-secondary" id="lyrics-btn">
-              Unlike
+            <button
+              type="submit"
+              id="likes-btn"
+              className={`${token ? "" : "d-none"}`}
+            >
+              <img src={heartFill} alt="like"/>
             </button>{" "}
             {lyrics.total_likes} Likes
           </form>
@@ -62,8 +73,12 @@ function LyricsCard(props) {
             onSubmit={(event) => handleSubmitAddLike(event, lyrics.id)}
             id="create-like-form"
           >
-            <button type="submit" id="lyrics-btn" className={likeButton}>
-              Like
+            <button
+              type="submit"
+              id="likes-btn"
+              className={`${token ? "" : "d-none"}`}
+            >
+              <img src={heart} alt="like"/>
             </button>{" "}
             {lyrics.total_likes} Likes
           </form>

@@ -128,3 +128,56 @@ html,
 .forgot-password a {
   color: #167bff;
 }
+
+.login-input input:focus {
+  outline: 0;
+}
+
+
+/* Button handling */
+
+.fancy-button:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em;
+}
+
+.fancy-button:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
+}
+
+.fancy-button,
+#delete-account-btn,
+#confirm-delete-user,
+#cancel-delete-user {
+  background: #fbca1f;
+  font-family: inherit;
+  padding: 0.6em 1.3em;
+  font-weight: 900;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 0.4em;
+  box-shadow: 0.1em 0.1em;
+  margin-bottom: 4%;
+}
+
+#delete-account-btn {
+  background: lightgrey;
+}
+
+#confirm-delete-user {
+  background: rgb(238, 134, 134);
+  margin-right: 1rem;
+}
+
+#cancel-delete-user {
+  background: rgb(173, 196, 240);
+}
+
+
+#are-you-sure-btn {
+  background: transparent;
+  border: transparent;
+  margin-right: 1rem;
+  pointer-events: none;
+}
