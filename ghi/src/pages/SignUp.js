@@ -14,12 +14,19 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setFetching(true);
-    const signupError = await signup(username, password, email);
-    if (signupError) {
+    try {
+      const signupError = await signup(username, password, email);
+      console.log("signup error: ", signupError)
+      if (signupError) {
+        setError("Email or username already taken");
+        setFetching(false);
+      }
+      return;
+    } catch (e) {
       setError("Email or username already taken");
       setFetching(false);
+      return false;
     }
-    return;
   };
 
   let spinner = "spinner-border d-none";

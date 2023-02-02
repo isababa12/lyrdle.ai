@@ -67,7 +67,7 @@ function Profile() {
         <div id="profile-title">
           <h1 id="profile-heading">Your Collection</h1>
           <Link to="/settings" id="profile-settings-link">
-            <p id="hell">account settings</p>
+            <p id="settings-link-text">account settings</p>
           </Link>
         </div>
         <div id="profile-grid"></div>

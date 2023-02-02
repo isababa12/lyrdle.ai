@@ -47,11 +47,13 @@ function Create() {
       };
       const response = await fetch(lyricsURL, fetchConfig);
       if (!response.ok) {
+        setFetching(false);
         throw new Error(response.statusText);
       }
       setSubmitted(true);
     } catch (error) {
       console.error("Error: ", error);
+      setFetching(false);
     }
   };
 
