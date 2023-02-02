@@ -77,6 +77,10 @@
   text-decoration: none;
 }
 
+#settings-link-text {
+  margin-top: 1rem;
+}
+
 #profile-settings-link a {
   text-decoration: none;
   text-decoration: none;
