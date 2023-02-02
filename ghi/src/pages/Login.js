@@ -58,7 +58,7 @@ function Login() {
                 className="fancy-button"
                 type="submit"
               >
-                Log In
+                log in
               </button>
               </div>
               Don't have an account? <NavLink to="/signup">Sign up!</NavLink>

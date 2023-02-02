@@ -86,6 +86,11 @@ function Settings() {
         setDeleteAttempt(true);
     }
 
+    const handleCancelDelete = async (event) => {
+        event.preventDefault();
+        setDeleteAttempt(false);
+    }
+
     const handleDelete = async (event) => {
         event.preventDefault();
 
@@ -128,15 +133,15 @@ function Settings() {
     }
 
     let messages = "alert alert-success d-none mb-0"
-
     if (submitted === true) {
         messages = "alert alert-success mb-0"
     }
 
-    let deleteButton = "btn btn-danger d-none"
-
+    let visibility = "visible"
+    let deleteButtonGroup = "btn-group d-none"
     if (deleteAttempt === true){
-        deleteButton = "btn btn-danger"
+        deleteButtonGroup = "btn-group"
+        visibility = "d-none"
     }
 
     if (deleted === true){
@@ -147,27 +152,27 @@ function Settings() {
         <div className="row">
             <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
-                    <h1>Hello, {username}</h1>
+                    <h1>hello, {username}</h1>
                     <form onSubmit={handleSubmit} id="update-user-info-form">
                         <div className="form-floating mb-3">
                             <input onChange={handleNewEmailChange} placeholder="New Email" required
                                 type="text" name="new-email" id="new-email"
                                 className="form-control" value={email} />
-                            <label htmlFor="new-email">New Email</label>
+                            <label htmlFor="new-email">new email</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input onChange={handleNewUsernameChange} placeholder="New Username" required
                                 type="text" name="new-username" id="new-username"
                                 className="form-control" value={username}/>
-                            <label htmlFor="new-username">New Username</label>
+                            <label htmlFor="new-username">new username</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input onChange={handlePasswordChange} placeholder="New Password"
                                 type="password" name="password" id="password"
                                 className="form-control" value={password}/>
-                            <label htmlFor="new-password">New password</label>
+                            <label htmlFor="new-password">new password</label>
                         </div>
-                        <button type="submit" className="btn btn-primary">Apply Changes</button>
+                        <button type="submit" className="fancy-button">apply changes</button>
                     </form>
                 </div>
                 <div className={messages} id="success-message">
@@ -175,10 +180,12 @@ function Settings() {
                 </div>
                 <br/>
                 <div>
-                    <button type="button" className="btn btn-danger" onClick={handleDeleteAttempt} id="delete-current-user">Delete Account</button>
+                    <button type="button" className={visibility} onClick={handleDeleteAttempt} id="delete-account-btn">delete account</button>
                 </div>
-                <div>
-                    <button type="button" className={deleteButton} onClick={handleDelete} id="delete-current-user">Are you sure?</button>
+                <div className={deleteButtonGroup}>
+                    <button type="button" id="are-you-sure-btn">Are you sure about that?</button>
+                    <button type="button" onClick={handleDelete} id="confirm-delete-user">yes, sadly... :(</button>
+                    <button type="button" onClick={handleCancelDelete} id="cancel-delete-user">nevermind!</button>
                 </div>
             </div>
         </div>

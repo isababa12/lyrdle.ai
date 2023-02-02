@@ -147,7 +147,7 @@ function Home() {
         handleSubmitRemoveLike={handleSubmitRemoveLike}
         likeChecker={likeChecker}
         userLikes={userLikes[lyrics.id]}
-        likeButton={likeButton}
+        token={token}
       />
     );
   }
@@ -161,12 +161,6 @@ function Home() {
     remainingLyrics = postedLyrics.filter((value) => featuredLyric !== value);
   }
 
-  let likeButton = "btn btn-success d-none";
-
-  if (token) {
-    likeButton = "btn btn-success";
-  }
-
   return (
     <>
       <div id="homepage-container">
@@ -177,9 +171,10 @@ function Home() {
           <div id="featured-post">
             {featuredLyric && buildLyricsCard(featuredLyric)}
           </div>
-        </div>
-        <div className="arrow">
-          <img alt="arrow" src={require("../images/custom-arrow.png")} />
+          <div className="arrow">
+            <h2 id="featured-text">featured post!</h2>
+            <img alt="arrow" src={require("../images/custom-arrow.png")} />
+          </div>
         </div>
         <div className="d-flex flex-wrap justify-content-start flex-2-column bd-highlight">
           {remainingLyrics.map((lyrics) => {

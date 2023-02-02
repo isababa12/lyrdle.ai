@@ -1,0 +1,77 @@
+form#create-lyrics-form {
+  display: block;
+}
+
+textarea:focus#prompt {
+  outline: none;
+  box-shadow: none;
+}
+
+input:focus#song-name,
+#artist-name {
+  outline: none;
+  box-shadow: none;
+}
+
+textarea#prompt {
+  font-size: 2em;
+  text-align: center;
+  margin-top: 4rem;
+  font-weight: bold;
+  font-family: "Replica Light";
+}
+
+h1#create-header {
+  margin-top: 2rem;
+  font-size: 3.5em;
+  font-weight: bold;
+  font-family: "Replica Light";
+}
+
+h2#create-header {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 3vw;
+  font-weight: bold;
+  font-family: "Replica Light";
+}
+
+input#song-name,
+#artist-name {
+  font-size: 2em;
+  text-align: center;
+  font-family: "Replica Light";
+  font-weight: bold;
+}
+
+#send-prompt-btn-container {
+  display: flex;
+  margin-top: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+#push-up {
+  color: #ecd6cb;
+}
+
+#create-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 2%;
+}
+
+#create-title {
+  font-family: "Replica Light";
+  font-size: 5vw;
+  transform: skew(-20deg);
+  rotate: -10deg;
+  display: table-caption;
+  text-align: center;
+  margin-bottom: 5%;
+  line-height: 90%;
+  min-width: 500px;
+  padding-top: 5%;
+  /* max-width: max-content; */
+}
