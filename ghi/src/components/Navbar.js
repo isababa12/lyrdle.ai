@@ -31,7 +31,12 @@ function Navbar() {
     }
   }, [token, getUserInfo, loggedIn]);
 
+
+  let logInDependent = "nav-link d-none";
+  let logOutDependent = "nav-link";
+  let createFooter = "nav-link";
   const locationLogIn = useLocation();
+  
   if (
     locationLogIn.pathname === "/login" ||
     locationLogIn.pathname === "/signup"
@@ -39,12 +44,16 @@ function Navbar() {
     return null;
   }
 
-  let logInDependent = "nav-link d-none";
-  let logOutDependent = "nav-link";
-
   if (loggedIn === true) {
     logInDependent = "nav-link";
     logOutDependent = "nav-link d-none";
+  }
+
+  if (
+    locationLogIn.pathname === "/create" ||
+    loggedIn === false
+  ) {
+    createFooter = "nav-link d-none";
   }
 
   return (
@@ -87,7 +96,7 @@ function Navbar() {
                 <li className="nav-item" key="login">
                   <NavLink
                     to="/create"
-                    className={`${logInDependent} bottom-nav`}
+                    className={`${createFooter} bottom-nav`}
                     aria-current="page"
                     href="#"
                   >

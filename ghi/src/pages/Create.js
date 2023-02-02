@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuthContext } from "../authApi";
 import { Navigate } from "react-router-dom";
 import React from "react";
+import "../styles/css/Create.css";
 
 function Create() {
   const [prompt, setPrompt] = useState("");
@@ -57,71 +58,80 @@ function Create() {
     let messages = "alert alert-success d-none mb-0"
     let button = "fancy-button"
     let spinner = "spinner-border d-none"
+    let visibility = "d-none";
 
   if (fetching === true) {
     button = "fancy-button d-none";
     spinner = "spinner-border";
+    visibility = "visible";
   }
 
   if (submitted === true) {
     messages = "alert alert-success mb-0";
     spinner = "spinner-border d-none";
+    visibility = "d-none";
     return <Navigate to="/profile" />;
   }
 
   return (
-    <div className="row">
-      <div className="offset-3 col-6">
-        <div className="shadow p-4 mt-4">
-          <h3>What should AI sing about today?</h3>
-          <form onSubmit={handleSubmit} id="create-lyrics-form">
-            <div className="form-floating mb-3">
-              <input
-                onChange={handlePromptChange}
-                placeholder="Prompt"
-                required
-                type="text"
-                name="prompt"
-                id="prompt"
-                className="form-control"
-              />
-              <label htmlFor="prompt">Your Prompt</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                onChange={handleArtistNameChange}
-                placeholder="Artist Name"
-                required
-                type="text"
-                name="artist-name"
-                id="artist-name"
-                className="form-control"
-              />
-              <label htmlFor="artist-name">Artist Name</label>
-            </div>
-            <div className="form-floating mb-3">
-              <input
-                onChange={handleSongNameChange}
-                placeholder="Song Name"
-                required
-                type="song-name"
-                name="song-name"
-                id="song-name"
-                className="form-control"
-              />
-              <label htmlFor="song-name">Song Name</label>
-            </div>
-            <button type="submit" className={button}>
-              Send Prompt
-            </button>
-            <div className={spinner} role="status"></div>
-          </form>
-        </div>
-        <div className={messages} id="success-message">
-          Your prompt has been sent.
-        </div>
+    <>
+    <h1 id="create-header">
+      what should AI sing about today?
+    </h1>
+    <form onSubmit={handleSubmit} id="create-lyrics-form">
+      <div className="form-floating mb-3">
+        <textarea
+          onChange={handlePromptChange}
+          placeholder="please write a prompt..."
+          required
+          name="prompt"
+          id="prompt"
+          className="form-control-plaintext"
+        ></textarea>
       </div>
+      <br/>
+      <div className="form-floating mb-3">
+        <input
+          onChange={handleArtistNameChange}
+          placeholder="artist name"
+          required
+          type="text"
+          name="artist-name"
+          id="artist-name"
+          className="form-control-plaintext"
+        />
+      </div>
+      <div className="form-floating mb-3">
+        <input
+          onChange={handleSongNameChange}
+          placeholder="song name"
+          required
+          type="text"
+          name="song-name"
+          id="song-name"
+          className="form-control-plaintext"
+        />
+      </div>
+      <div id="send-prompt-btn-container">
+        <button type="submit" id="send-prompt-btn" className={button}>
+          send to AI
+        </button>
+      </div>
+    </form>
+    <ul className="fixed-bottom bd-highlight">
+      <li key="login"
+          className={`nav-link ${visibility} bottom-nav`}
+          id={`bottom-nav btn btn-link`}
+        >
+          creating
+          <div className={spinner} role="status"/>
+      </li>
+    </ul>
+    <div id="push-up">bump</div>
+    <div className={messages} id="success-message">
+      Your prompt has been sent.
     </div>
+    </>
   );
 }
 

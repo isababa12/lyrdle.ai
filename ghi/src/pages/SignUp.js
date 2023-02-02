@@ -65,7 +65,7 @@ function SignUp() {
               />
             </div>
             <button className={button} type="submit">
-              Register
+              register
             </button>
             <div className={spinner} role="status"></div>
             <div>
